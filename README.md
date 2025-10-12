@@ -32,10 +32,10 @@ UniFind turns passive item posting into active collaboration with location accur
 | Feature | Status | Description |
 |----------|---------|-------------|
 | Lost Item Registration | Ready | Upload images and descriptions; automatic keyword-based classification. |
-| Map-Based Tagging | 🔧 In Progress | Pin items via Leaflet map or search by address (OpenStreetMap API). |
-| Admin Approval Dashboard | 🔧 In Progress | Admins can review, approve, or delete submitted reports. |
-| Real-Time Chat | 🔜 Planned | WebSocket chat between users and admins for quick coordination. |
-| Local Storage + Backup | 🔜 Planned | Store reports locally and export/import JSON backups. |
+| Map-Based Tagging | In Progress | Pin items via Leaflet map or search by address (OpenStreetMap API). |
+| Admin Approval Dashboard | In Progress | Admins can review, approve, or delete submitted reports. |
+| Real-Time Chat | Planned | WebSocket chat between users and admins for quick coordination. |
+| Local Storage + Backup | Planned | Store reports locally and export/import JSON backups. |
 
 ---
 
