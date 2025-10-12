@@ -58,7 +58,7 @@ UniFind turns passive item posting into active collaboration with location accur
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/unifind/unifind.git
+git clone https://github.com/jin040907/UniLost.git
 cd unifind
 
 # 2. Install dependencies
