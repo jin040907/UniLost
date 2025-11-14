@@ -327,9 +327,31 @@ io.on('connection', (socket) => {
 // --- 서버 시작 ---
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0'; // 모든 네트워크 인터페이스에서 접속 가능
+
+// 에러 핸들링
+server.on('error', (err) => {
+  console.error('❌ 서버 에러:', err);
+  if (err.code === 'EADDRINUSE') {
+    console.error(`포트 ${PORT}가 이미 사용 중입니다.`);
+  }
+  process.exit(1);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('❌ 처리되지 않은 예외:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('❌ 처리되지 않은 Promise 거부:', reason);
+  process.exit(1);
+});
+
 server.listen(PORT, HOST, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
   console.log(`🌐 다른 컴퓨터에서 접속: http://[서버IP주소]:${PORT}`);
   console.log(`   예: http://192.168.0.100:${PORT}`);
   console.log(`💾 데이터베이스: unilost.db`);
+  console.log(`📦 Node.js 버전: ${process.version}`);
+  console.log(`🌍 환경: ${process.env.NODE_ENV || 'development'}`);
 });
