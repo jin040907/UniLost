@@ -780,23 +780,36 @@
     socket.emit('thread:join', { itemId, nick: $('threadNick')?.value?.trim()|| (ME?.name||'익명') });
   }
 
-  // ===== 탭 전환 =====
   function switchTab(tab){
-    ['tabRegister','tabBrowse','tabAdmin','tabChat'].forEach(id=> $(id).classList.add('hidden'));
-    $(tab).classList.remove('hidden');
-    document.querySelectorAll('header nav button').forEach(b=> {
-      b.classList.replace('bg-primary-600','bg-slate-100');
-      b.classList.replace('text-white','text-slate-700');
-    });
-    const btnIdMap={tabRegister:'tabRegisterBtn', tabBrowse:'tabBrowseBtn', tabAdmin:'tabAdminBtn', tabChat:'tabChatBtn'};
-    const btnEl=$(btnIdMap[tab]); 
-    if (btnEl) {
-      btnEl.classList.replace('bg-slate-100','bg-primary-600');
-      btnEl.classList.replace('text-slate-700','text-white');
-    }
-    if (tab==='tabRegister'){ if (!mapRegister) initRegisterMap(); setTimeout(()=> mapRegister?.invalidateSize(), 0); }
-    if (tab==='tabBrowse'){   if (!mapBrowse)   initBrowseMap();   setTimeout(()=> mapBrowse?.invalidateSize(),   0); }
+  // 모든 탭 숨기기
+  ['tabRegister','tabBrowse','tabAdmin','tabChat']
+    .forEach(id=> $(id).classList.add('hidden'));
+
+  $(tab).classList.remove('hidden');
+
+  // 모든 버튼을 '비활성화 스타일'로 변경
+  document.querySelectorAll('header nav button').forEach(b=>{
+    b.classList.remove('bg-indigo-600','text-white');
+    b.classList.add('bg-slate-200','text-black');
+  });
+
+  // 선택된 탭 버튼은 '활성화 스타일'로 변경
+  const btnIdMap={
+    tabRegister:'tabRegisterBtn',
+    tabBrowse:'tabBrowseBtn',
+    tabAdmin:'tabAdminBtn',
+    tabChat:'tabChatBtn'
+  };
+  const btnEl=$(btnIdMap[tab]);
+  if (btnEl){
+    btnEl.classList.remove('bg-slate-200','text-black');
+    btnEl.classList.add('bg-indigo-600','text-white');
   }
+
+  // 지도 리사이즈 처리
+  if (tab==='tabRegister'){ if (!mapRegister) initRegisterMap(); setTimeout(()=> mapRegister?.invalidateSize(), 0); }
+  if (tab==='tabBrowse'){   if (!mapBrowse)   initBrowseMap();   setTimeout(()=> mapBrowse?.invalidateSize(),   0); }
+}
 
 
   // ===== 시작 =====
