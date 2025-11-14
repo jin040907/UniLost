@@ -1,65 +1,65 @@
-# 데이터베이스 마이그레이션 가이드
+# Database Migration Guide
 
-## SQLite → PostgreSQL 마이그레이션
+## SQLite → PostgreSQL Migration
 
-Render 무료 플랜에서는 SQLite가 적합하지 않습니다. PostgreSQL로 마이그레이션하는 것을 권장합니다.
+SQLite is not suitable for the Render Free Plan. We recommend migrating to PostgreSQL.
 
-## 무료 PostgreSQL 옵션
+## Free PostgreSQL Options
 
-### 1. Supabase (추천 ⭐)
-- **무료 플랜**: 500MB 저장공간, 무제한 API 요청
+### 1. Supabase (Recommended ⭐)
+- **Free Plan**: 500MB of storage, unlimited API requests
 - **URL**: https://supabase.com
-- **설정**: 매우 간단, 자동 백업
+- **Setup**: Very simple, automatic backups
 
 ### 2. Neon
-- **무료 플랜**: 3GB 저장공간
+- **Free Plan**: 3GB of storage
 - **URL**: https://neon.tech
-- **설정**: 간단
+- **Setup**: Simple
 
 ### 3. Railway
-- **무료 플랜**: $5 크레딧/월
+- **Free Plan**: $5 credits/month
 - **URL**: https://railway.app
-- **설정**: 간단
+- **Setup**: Easy
 
-## Supabase로 마이그레이션하기
+## Migrate to Supabase
 
-### 1. Supabase 프로젝트 생성
-1. https://supabase.com 접속
-2. "New Project" 클릭
-3. 프로젝트 이름 입력
-4. 데이터베이스 비밀번호 설정
-5. Region 선택 (가장 가까운 지역)
+### 1. Create a Supabase Project
+1. Go to https://supabase.com
+2. Click "New Project"
+3. Enter a project name
+4. Set a database password
+5. Select a region (your nearest region)
 
-### 2. 연결 정보 확인
-Supabase 대시보드 → Settings → Database에서:
-- Connection string (URI) 복사
-- 예: `postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres`
+### 2. Verify the connection information
+In the Supabase dashboard → Settings → Database:
+- Copy the connection string (URI)
+- Example: `postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres`
 
-### 3. 환경변수 설정
-Render 대시보드 → Environment에서 추가:
+### 3. Set the environment variable
+In the Render dashboard → Environment, add:
 ```
 DATABASE_URL=postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres
 ```
 
-### 4. 코드 변경
-`db.js`를 PostgreSQL용으로 변경 (아래 참고)
+### 4. Code Changes
+Convert `db.js` to PostgreSQL (see below)
 
-## PostgreSQL 마이그레이션 코드
+## PostgreSQL Migration Code
 
-`pg` 패키지를 사용하여 PostgreSQL로 전환:
+Migrate to PostgreSQL using the `pg` package:
 
 ```bash
 npm install pg
 ```
 
-`db.js`를 PostgreSQL용으로 변경하면 됩니다.
+Just convert `db.js` to PostgreSQL.
 
-## Render Disk 사용 (유료 플랜)
+## Using Render Disk (Paid Plan)
 
-유료 플랜을 사용한다면 Render Disk를 사용할 수 있습니다:
-1. Render 대시보드 → Disk 탭
-2. 새 디스크 생성
-3. 디스크 경로에 데이터베이스 파일 저장
+If you're on a paid plan, you can use Render Disk:
 
-하지만 무료 플랜에서는 PostgreSQL 사용을 강력히 권장합니다.
+1. Render Dashboard → Disk tab
+2. Create a new disk
+3. Save the database file to the disk path
 
+However, using PostgreSQL is strongly recommended for the free plan.
