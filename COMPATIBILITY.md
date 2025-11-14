@@ -1,113 +1,113 @@
-# 지원 운영체제 및 브라우저 호환성
+# Supported Operating Systems and Browser Compatibility
 
-## 지원 운영체제 (서버)
+## Supported Operating Systems (Server)
 
-### 서버 실행 환경
-UniLost 서버는 Node.js 기반이므로 다음 운영체제에서 실행 가능합니다:
+### Server Execution Environment
+The UniLost server is based on Node.js and can run on the following operating systems:
 
-- ✅ **Windows** 10 이상
-- ✅ **macOS** 10.15 (Catalina) 이상
-- ✅ **Linux** (Ubuntu 18.04+, Debian 10+, CentOS 7+ 등)
+- ✅ **Windows** 10 or later
+- ✅ **macOS** 10.15 (Catalina) or later
+- ✅ **Linux** (Ubuntu 18.04+, Debian 10+, CentOS 7+, etc.)
+  
+### Requirements
+- Node.js 18.0.0 or later (Recommended: Node.js 20 LTS)
+- npm 9.0.0 or later
+- PostgreSQL (for deployment) or SQLite (for local development)
 
-### 요구사항
-- Node.js 18.0.0 이상 (권장: Node.js 20 LTS)
-- npm 9.0.0 이상
-- PostgreSQL (배포 시) 또는 SQLite (로컬 개발)
+## Supported Browsers (Client)
 
-## 지원 브라우저 (클라이언트)
+### Desktop Browsers
 
-### 데스크톱 브라우저
-
-| 브라우저 | 최소 버전 | 권장 버전 | 상태 |
+| Browser | Minimum Version | Recommended Version | Status |
 |---------|----------|----------|------|
-| **Chrome** | 90+ | 최신 버전 | ✅ 완전 지원 |
-| **Firefox** | 88+ | 최신 버전 | ✅ 완전 지원 |
-| **Safari** | 14+ | 최신 버전 | ✅ 완전 지원 |
-| **Edge** | 90+ | 최신 버전 | ✅ 완전 지원 |
-| **Opera** | 76+ | 최신 버전 | ✅ 완전 지원 |
+| **Chrome** | 90+ | Latest Version | ✅ Fully Supported |
+| **Firefox** | 88+ | Latest Version | ✅ Fully Supported |
+| **Safari** | 14+ | Latest Version | ✅ Fully Supported |
+| **Edge** | 90+ | Latest Version | ✅ Fully Supported |
+| **Opera** | 76+ | Latest Version | ✅ Fully Supported |
 
-### 모바일 브라우저
+### Mobile Browser
 
-| 플랫폼 | 브라우저 | 최소 버전 | 상태 |
+| Platform | Browser | Minimum Version | Status |
 |--------|---------|----------|------|
-| **iOS** | Safari | iOS 14+ | ✅ 완전 지원 |
-| **iOS** | Chrome | 최신 버전 | ✅ 완전 지원 |
-| **Android** | Chrome | 90+ | ✅ 완전 지원 |
-| **Android** | Samsung Internet | 14+ | ✅ 완전 지원 |
-| **Android** | Firefox | 88+ | ✅ 완전 지원 |
+| **iOS** | Safari | iOS 14+ | ✅ Fully Supported |
+| **iOS** | Chrome | Latest Version | ✅ Fully Supported |
+| **Android** | Chrome | 90+ | ✅ Fully Supported |
+| **Android** | Samsung Internet | 14+ | ✅ Fully Supported |
+| **Android** | Firefox | 88+ | ✅ Fully Supported |
 
-## 기술 스택별 호환성
+## Compatibility by Technology Stack
 
-### Frontend 기술
-- **HTML5**: 모든 모던 브라우저 지원
+### Frontend Technologies
+- **HTML5**: Supports all modern browsers
 - **ES6+ JavaScript**: Chrome 51+, Firefox 54+, Safari 10+, Edge 15+
-- **Tailwind CSS**: 모든 모던 브라우저 지원
+- **Tailwind CSS**: Supports all modern browsers
 - **Fetch API**: Chrome 42+, Firefox 39+, Safari 10.1+, Edge 14+
 
-### 지도 라이브러리
-- **Leaflet.js 1.9.4**: 
-  - Chrome 60+, Firefox 55+, Safari 11+, Edge 79+
-  - 모바일: iOS Safari 11+, Android Chrome 60+
+### Map Library
+- **Leaflet.js 1.9.4**:
+- Chrome 60+, Firefox 55+, Safari 11+, Edge 79+
+- Mobile: iOS Safari 11+, Android Chrome 60+
 
-### 실시간 통신
+### Real-time Communication
 - **Socket.IO 4.8.1**:
-  - WebSocket 지원 브라우저 필요
-  - Chrome 16+, Firefox 11+, Safari 7+, Edge 12+
-  - 폴백: Long Polling (구형 브라우저)
+- Requires a WebSocket-supporting browser
+- Chrome 16+, Firefox 11+, Safari 7+, Edge 12+
+- Fallback: Long Polling (older browsers)
 
-## 기능별 호환성
+## Feature Compatibility
 
-### 완전 지원되는 기능
-- ✅ 지도 표시 및 상호작용 (Leaflet)
-- ✅ 실시간 채팅 (Socket.IO)
-- ✅ 사용자 인증 및 세션 관리
-- ✅ 반응형 디자인 (모바일/데스크톱)
-- ✅ 파일 업로드 (이미지)
-- ✅ 지오코딩 (주소 검색)
+### Fully Supported Features
+- ✅ Map Display and Interaction (Leaflet)
+- ✅ Real-Time Chat (Socket.IO)
+- ✅ User Authentication and Session Management
+- ✅ Responsive Design (Mobile/Desktop)
+- ✅ File Upload (Image)
+- ✅ Geocoding (Address Search)
 
-### 제한사항
-- ⚠️ **구형 브라우저 (IE 11 이하)**: 지원하지 않음
-- ⚠️ **오프라인 모드**: 지원하지 않음 (서버 연결 필요)
-- ⚠️ **PWA 기능**: 현재 미구현
+### Limitations
+- ⚠️ **Older Browsers (IE 11 and Below)**: Not Supported
+- ⚠️ **Offline Mode**: Not Supported (Server Connection Required)
+- ⚠️ **PWA Features**: Currently Not Implemented
 
-## 테스트 환경
+## Test Environment
 
-### 검증된 환경
+### Verified Environment
 - ✅ Chrome 120+ (Windows, macOS, Android)
 - ✅ Firefox 121+ (Windows, macOS, Android)
 - ✅ Safari 17+ (macOS, iOS)
 - ✅ Edge 120+ (Windows, macOS)
-- ✅ 모바일 Safari (iOS 15+)
-- ✅ 모바일 Chrome (Android 10+)
+- ✅ Mobile Safari (iOS) 15+)
+- ✅ Mobile Chrome (Android 10+)
+  
+## How to Check Compatibility
 
-## 호환성 확인 방법
+Check that the following features work in your browser:
 
-브라우저에서 다음 기능이 작동하는지 확인하세요:
+1. **Map Loading**: Does the Leaflet map display properly?
+2. **WebSocket Connection**: Does live chat work?
+3. **File Upload**: Can you upload images?
+4. **Responsive Layout**: Does the UI display properly on mobile?
 
-1. **지도 로딩**: Leaflet 지도가 정상적으로 표시되는가?
-2. **WebSocket 연결**: 실시간 채팅이 작동하는가?
-3. **파일 업로드**: 이미지 업로드가 가능한가?
-4. **반응형 레이아웃**: 모바일에서 UI가 정상적으로 표시되는가?
+## Troubleshooting
 
-## 문제 해결
+### If the map doesn't display
+- Check for CORS errors in the browser console
+- Check the network connection
+- Check Leaflet CSS/JS loading
 
-### 지도가 표시되지 않는 경우
-- 브라우저 콘솔에서 CORS 에러 확인
-- 네트워크 연결 확인
-- Leaflet CSS/JS 로딩 확인
+### If live chat doesn't work
+- Check WebSocket support
+- Check your firewall settings
+- Check the Socket.IO connection status
 
-### 실시간 채팅이 작동하지 않는 경우
-- WebSocket 지원 여부 확인
-- 방화벽 설정 확인
-- Socket.IO 연결 상태 확인
+### If the layout is broken on mobile
+- Check your browser viewport settings
+- Check Tailwind CSS loading
 
-### 모바일에서 레이아웃이 깨지는 경우
-- 브라우저 뷰포트 설정 확인
-- Tailwind CSS 로딩 확인
+## References
 
-## 참고 자료
-
-- [Leaflet 브라우저 호환성](https://leafletjs.com/reference.html#browser-support)
-- [Socket.IO 브라우저 지원](https://socket.io/docs/v4/client-installation/)
-- [Node.js 플랫폼 지원](https://nodejs.org/en/about/platforms/)
+- [Leaflet Browser Compatibility](https://leafletjs.com/reference.html#browser-support)
+- [Socket.IO Browser Support](https://socket.io/docs/v4/client-installation/)
+- [Node.js Platform Support](https://nodejs.org/en/about/platforms/)
 
