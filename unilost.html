@@ -416,7 +416,13 @@
   <script>
   // ===== Common State/Utils =====
   const defaultLat = 37.5519, defaultLng = 127.0732; // Near Sejong University
-  const $ = (id) => document.getElementById(id);
+  const $ = (id) => {
+    const el = document.getElementById(id);
+    if (!el) {
+      console.warn('Element not found:', id);
+    }
+    return el;
+  };
   let itemsCache = []; // Item cache
   const STORE_KEY = 'lostItems_v2'; // No longer used but kept for compatibility
   
@@ -950,18 +956,39 @@
   // ===== Tab Switching =====
   function switchTab(tab){
     try {
-      ['tabRegister','tabBrowse','tabAdmin','tabChat'].forEach(id=> $(id).classList.add('hidden'));
-      $(tab).classList.remove('hidden');
-      document.querySelectorAll('header nav button').forEach(b=> {
-        b.classList.replace('bg-primary-600','bg-slate-100');
-        b.classList.replace('text-white','text-slate-700');
+      // Hide all tabs - with null checks
+      ['tabRegister','tabBrowse','tabAdmin','tabChat'].forEach(id=> {
+        const el = $(id);
+        if (el) el.classList.add('hidden');
       });
+      
+      // Show selected tab - with null check
+      const selectedTab = $(tab);
+      if (selectedTab) {
+        selectedTab.classList.remove('hidden');
+      } else {
+        console.error('Tab not found:', tab);
+        return;
+      }
+      
+      // Update button styles
+      const navButtons = document.querySelectorAll('header nav button');
+      if (navButtons) {
+        navButtons.forEach(b=> {
+          if (b) {
+            b.classList.replace('bg-primary-600','bg-slate-100');
+            b.classList.replace('text-white','text-slate-700');
+          }
+        });
+      }
+      
       const btnIdMap={tabRegister:'tabRegisterBtn', tabBrowse:'tabBrowseBtn', tabAdmin:'tabAdminBtn', tabChat:'tabChatBtn'};
       const btnEl=$(btnIdMap[tab]); 
       if (btnEl) {
         btnEl.classList.replace('bg-slate-100','bg-primary-600');
         btnEl.classList.replace('text-slate-700','text-white');
       }
+      
       if (tab==='tabRegister'){ 
         if (!mapRegister) initRegisterMap(); 
         setTimeout(()=> { try { mapRegister?.invalidateSize(); } catch(e) { console.warn('Failed to invalidate register map size:', e); } }, 0); 
@@ -998,11 +1025,23 @@
       e.preventDefault(); // Prevent default browser error handling
     });
 
-    // Tabs - with error handling
-    $('tabRegisterBtn').addEventListener('click', ()=>{ try { switchTab('tabRegister'); } catch(e) { console.error('Tab switch error:', e); } });
-    $('tabBrowseBtn').addEventListener('click',   ()=>{ try { switchTab('tabBrowse'); } catch(e) { console.error('Tab switch error:', e); } });
-    $('tabAdminBtn').addEventListener('click',    ()=>{ try { switchTab('tabAdmin'); } catch(e) { console.error('Tab switch error:', e); } });
-    $('tabChatBtn').addEventListener('click',     ()=>{ try { switchTab('tabChat'); } catch(e) { console.error('Tab switch error:', e); } });
+    // Tabs - with error handling and null checks
+    const tabRegisterBtn = $('tabRegisterBtn');
+    if (tabRegisterBtn) {
+      tabRegisterBtn.addEventListener('click', ()=>{ try { switchTab('tabRegister'); } catch(e) { console.error('Tab switch error:', e); } });
+    }
+    const tabBrowseBtn = $('tabBrowseBtn');
+    if (tabBrowseBtn) {
+      tabBrowseBtn.addEventListener('click', ()=>{ try { switchTab('tabBrowse'); } catch(e) { console.error('Tab switch error:', e); } });
+    }
+    const tabAdminBtn = $('tabAdminBtn');
+    if (tabAdminBtn) {
+      tabAdminBtn.addEventListener('click', ()=>{ try { switchTab('tabAdmin'); } catch(e) { console.error('Tab switch error:', e); } });
+    }
+    const tabChatBtn = $('tabChatBtn');
+    if (tabChatBtn) {
+      tabChatBtn.addEventListener('click', ()=>{ try { switchTab('tabChat'); } catch(e) { console.error('Tab switch error:', e); } });
+    }
 
     // Form binding (doesn't depend on maps)
     bindRegisterForm();
@@ -1011,65 +1050,109 @@
     // Browse map will be initialized when tab is switched
     initRegisterMap();
 
-    // Search/Export/Import
-    $('btnSearch').addEventListener('click', ()=> renderBrowse());
-    $('btnExport').addEventListener('click', async ()=>{
-      const items = await loadItems();
-      const data=JSON.stringify(items, null, 2);
-      const blob=new Blob([data], {type:'application/json'});
-      const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='lost_items_backup.json'; a.click(); URL.revokeObjectURL(url);
-    });
-    $('inImport').addEventListener('change', async (e)=>{
-      const f=e.target.files?.[0]; if(!f) return;
-      try{ 
-        const text=await f.text(); 
-        const arr=JSON.parse(text); 
-        if(!Array.isArray(arr)) throw new Error('형식 오류');
-        
-        // 각 항목을 API를 통해 등록
-        for (const item of arr) {
-          try {
-            await fetch('/api/items', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              credentials: 'same-origin',
-              body: JSON.stringify({
-                title: item.title,
-                desc: item.desc || item.description,
-                cat: item.cat || item.category,
-                imgData: item.imgData,
-                lat: item.lat,
-                lng: item.lng,
-                radius: item.radius || 0,
-                storagePlace: item.storagePlace
-              })
-            });
-          } catch (err) {
-            console.error('Item import failed:', item, err);
-          }
+    // Search/Export/Import - with null checks
+    const btnSearch = $('btnSearch');
+    if (btnSearch) {
+      btnSearch.addEventListener('click', ()=> { try { renderBrowse(); } catch(e) { console.error('Search error:', e); } });
+    }
+    const btnExport = $('btnExport');
+    if (btnExport) {
+      btnExport.addEventListener('click', async ()=>{
+        try {
+          const items = await loadItems();
+          const data=JSON.stringify(items, null, 2);
+          const blob=new Blob([data], {type:'application/json'});
+          const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='lost_items_backup.json'; a.click(); URL.revokeObjectURL(url);
+        } catch(e) {
+          console.error('Export error:', e);
         }
-        
-        await refreshItems();
-        alert('Import completed'); 
-        await renderBrowse(); 
-        await renderAdminLists();
-      }catch(err){ alert('JSON parsing failed: '+(err.message||err)); }
-    });
+      });
+    }
+    const inImport = $('inImport');
+    if (inImport) {
+      inImport.addEventListener('change', async (e)=>{
+        const f=e.target.files?.[0]; if(!f) return;
+        try{ 
+          const text=await f.text(); 
+          const arr=JSON.parse(text); 
+          if(!Array.isArray(arr)) throw new Error('형식 오류');
+          
+          // 각 항목을 API를 통해 등록
+          for (const item of arr) {
+            try {
+              await fetch('/api/items', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                  title: item.title,
+                  desc: item.desc || item.description,
+                  cat: item.cat || item.category,
+                  imgData: item.imgData,
+                  lat: item.lat,
+                  lng: item.lng,
+                  radius: item.radius || 0,
+                  storagePlace: item.storagePlace
+                })
+              });
+            } catch (err) {
+              console.error('Item import failed:', item, err);
+            }
+          }
+          
+          await refreshItems();
+          alert('Import completed'); 
+          await renderBrowse(); 
+          await renderAdminLists();
+        }catch(err){ alert('JSON parsing failed: '+(err.message||err)); }
+      });
+    }
 
-    // Close drawer + backdrop
-    const closeDrawer=()=>{ $('itemDrawer').classList.add('hidden'); $('drawerBackdrop').classList.add('hidden'); };
-    $('btnCloseDrawer').addEventListener('click', closeDrawer);
-    $('drawerBackdrop').addEventListener('click', closeDrawer);
+    // Close drawer + backdrop - with null checks
+    const closeDrawer=()=>{ 
+      const drawer = $('itemDrawer');
+      const backdrop = $('drawerBackdrop');
+      if (drawer) drawer.classList.add('hidden');
+      if (backdrop) backdrop.classList.add('hidden');
+    };
+    const btnCloseDrawer = $('btnCloseDrawer');
+    if (btnCloseDrawer) {
+      btnCloseDrawer.addEventListener('click', closeDrawer);
+    }
+    const drawerBackdrop = $('drawerBackdrop');
+    if (drawerBackdrop) {
+      drawerBackdrop.addEventListener('click', closeDrawer);
+    }
 
     // Chat
-    initChat();
+    try {
+      initChat();
+    } catch (e) {
+      console.error('Failed to initialize chat:', e);
+    }
 
     // Authentication state → Reflect to UI then default tab
-    fetchMe().then(()=> switchTab('tabRegister'));
+    fetchMe()
+      .then(()=> {
+        try {
+          switchTab('tabRegister');
+        } catch (e) {
+          console.error('Failed to switch to default tab:', e);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to fetch user info:', err);
+        // Still try to show default tab even if auth fails
+        try {
+          switchTab('tabRegister');
+        } catch (e) {
+          console.error('Failed to switch to default tab:', e);
+        }
+      });
   }
 
   window.addEventListener('DOMContentLoaded', ()=>{
-    // Start page initialization immediately, don't wait for Leaflet
+    // Start page initialization immediately - don't wait for anything
     // This ensures the page is functional even if CDN resources fail to load
     let pageStarted = false;
     function startPage() {
@@ -1088,27 +1171,22 @@
       }
     }
     
-    // Try to wait for Leaflet, but don't block page initialization
+    // Start page immediately - don't wait for Leaflet
+    // Maps will initialize when needed
+    startPage();
+    
+    // Optionally check for Leaflet in background (non-blocking)
     let tries=0; 
     const checkLeaflet = setInterval(()=>{
       if (window.L){ 
-        clearInterval(checkLeaflet); 
-        startPage();
+        clearInterval(checkLeaflet);
+        // Leaflet loaded, maps can now be initialized when tabs are switched
       }
-      else if (++tries>30){ 
+      else if (++tries>50){ 
         clearInterval(checkLeaflet); 
         console.warn('Leaflet loading timeout: Maps may not work. Page will continue without maps.');
-        startPage(); // Start page anyway
       }
     }, 100);
-    
-    // Also start page after a maximum delay to ensure it always starts
-    setTimeout(() => {
-      if (!pageStarted) {
-        clearInterval(checkLeaflet);
-        startPage();
-      }
-    }, 5000);
   });
   </script>
 </body>
