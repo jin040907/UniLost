@@ -4,7 +4,15 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 
 const dbPath = path.join(__dirname, 'unilost.db');
-const db = new Database(dbPath);
+
+let db;
+try {
+  db = new Database(dbPath);
+  console.log('✅ 데이터베이스 연결 성공:', dbPath);
+} catch (err) {
+  console.error('❌ 데이터베이스 연결 실패:', err);
+  throw err;
+}
 
 // 데이터베이스 초기화
 function initDB() {
@@ -176,8 +184,13 @@ const threadDB = {
   }
 };
 
-// 초기화 실행
-initDB();
+// 초기화 실행 (에러 핸들링)
+try {
+  initDB();
+} catch (err) {
+  console.error('❌ 데이터베이스 초기화 실패:', err);
+  throw err;
+}
 
 module.exports = {
   db,
