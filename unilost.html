@@ -352,12 +352,12 @@
     return itemsCache;
   }
   const RULES = [
-    { kw: [/에어팟|airpod|이어폰|버즈/i], cat:'이어폰/에어팟' }, { kw:[/지갑|wallet|카드지갑/i],cat:'지갑' },
-    { kw: [/학생증|신분증|카드|학번/i],cat:'학생증/카드' }, { kw:[/노트북|laptop|맥북|그램/i],cat:'노트북' },
-    { kw: [/아이패드|태블릿|ipad/i],cat:'전자기기' }, { kw:[/핸드폰|스마트폰|휴대폰|iphone|galaxy|폰/i],cat:'전자기기' },
-    { kw: [/우산/i],cat:'우산' }, { kw:[/후드|코트|옷|자켓|점퍼|패딩/i],cat:'의류' }, { kw:[/책|교재|노트|수첩/i],cat:'서적/노트' },
+    { kw: [/airpod|earbuds|earphones|buds|galaxy buds/i], cat:'Earbuds/AirPods' }, { kw:[/wallet|card wallet/i],cat:'Wallet' },
+    { kw: [/student id|id card|card|student number|student card/i],cat:'Student ID/Card' }, { kw:[/laptop|macbook|gram|notebook/i],cat:'Laptop' },
+    { kw: [/ipad|tablet/i],cat:'Electronics' }, { kw:[/phone|smartphone|mobile|iphone|galaxy|cellphone|cell phone/i],cat:'Electronics' },
+    { kw: [/umbrella/i],cat:'Umbrella' }, { kw:[/hood|coat|clothing|jacket|jumper|padded|shirt|pants|jeans/i],cat:'Clothing' }, { kw:[/book|textbook|note|notebook|notepad/i],cat:'Books/Notes' },
   ];
-  const autoClassify = (t='') => { const s=t.toLowerCase(); for (const r of RULES) if (r.kw.some(rx=>rx.test(s))) return r.cat; return '기타'; };
+  const autoClassify = (t='') => { const s=t.toLowerCase(); for (const r of RULES) if (r.kw.some(rx=>rx.test(s))) return r.cat; return 'Other'; };
 
   // ===== Authentication State =====
   let ME = null;  // {id, name, isAdmin} | null
