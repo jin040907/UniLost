@@ -867,33 +867,36 @@
     socket.emit('thread:join', { itemId, nick: $('threadNick')?.value?.trim()|| (ME?.name||'익명') });
   }
 
-  function switchTab(tab){
-  // 모든 탭 숨기기
+  // ===== 탭 전환 =====
+function switchTab(tab){
+  // 섹션 숨기기/보이기
   ['tabRegister','tabBrowse','tabAdmin','tabChat']
-    .forEach(id=> $(id).classList.add('hidden'));
-
+    .forEach(id => $(id).classList.add('hidden'));
   $(tab).classList.remove('hidden');
 
-  // 모든 버튼을 '비활성화 스타일'로 변경
-  document.querySelectorAll('header nav button').forEach(b=>{
+  // 🔹 탭 버튼 4개만 비활성화 스타일로 초기화
+  const tabBtnIds = ['tabRegisterBtn','tabBrowseBtn','tabAdminBtn','tabChatBtn'];
+  tabBtnIds.forEach(id => {
+    const b = $(id);
+    if (!b) return;
     b.classList.remove('bg-indigo-600','text-white');
     b.classList.add('bg-slate-200','text-black');
   });
 
-  // 선택된 탭 버튼은 '활성화 스타일'로 변경
-  const btnIdMap={
-    tabRegister:'tabRegisterBtn',
-    tabBrowse:'tabBrowseBtn',
-    tabAdmin:'tabAdminBtn',
-    tabChat:'tabChatBtn'
+  // 🔹 선택된 탭 버튼만 활성화 스타일로
+  const btnIdMap = {
+    tabRegister: 'tabRegisterBtn',
+    tabBrowse:   'tabBrowseBtn',
+    tabAdmin:    'tabAdminBtn',
+    tabChat:     'tabChatBtn'
   };
-  const btnEl=$(btnIdMap[tab]);
+  const btnEl = $(btnIdMap[tab]);
   if (btnEl){
     btnEl.classList.remove('bg-slate-200','text-black');
     btnEl.classList.add('bg-indigo-600','text-white');
   }
 
-  // 지도 리사이즈 처리
+  // 지도 리사이즈 처리 그대로 유지
   if (tab==='tabRegister'){ if (!mapRegister) initRegisterMap(); setTimeout(()=> mapRegister?.invalidateSize(), 0); }
   if (tab==='tabBrowse'){   if (!mapBrowse)   initBrowseMap();   setTimeout(()=> mapBrowse?.invalidateSize(),   0); }
 }
