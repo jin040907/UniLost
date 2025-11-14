@@ -1,85 +1,84 @@
-# PostgreSQL 설정 가이드
+# PostgreSQL Configuration Guide
 
-## Supabase로 PostgreSQL 설정하기 (추천)
+## Setting Up PostgreSQL with Supabase (Recommended)
 
-### 1. Supabase 프로젝트 생성
-1. https://supabase.com 접속
-2. "Start your project" 클릭
-3. GitHub로 로그인
-4. "New Project" 클릭
-5. 프로젝트 정보 입력:
-   - Name: unilost (원하는 이름)
-   - Database Password: 강력한 비밀번호 설정 (저장해두세요!)
-   - Region: Northeast Asia (Seoul) - 한국에서 가장 가까움
-6. "Create new project" 클릭
+### 1. Create a Supabase Project
+1. Go to https://supabase.com
+2. Click "Start your project"
+3. Log in with GitHub
+4. Click "New Project"
+5. Enter project information:
+- Name: unilost (any name you want)
+- Database Password: Set a strong password (save it!)
+- Region: Northeast Asia (Seoul) - Closest to Korea
+6. Click "Create new project"
 
-### 2. 연결 정보 가져오기
-1. 프로젝트 대시보드에서 "Settings" → "Database" 클릭
-2. "Connection string" 섹션에서 "URI" 선택
-3. 연결 문자열 복사:
-   ```
-   postgresql://postgres:[YOUR-PASSWORD]@db.xxxxx.supabase.co:5432/postgres
-   ```
-4. `[YOUR-PASSWORD]`를 실제 비밀번호로 교체
+### 2. Get connection information
+1. In the project dashboard, click "Settings" → "Database"
+2. In the "Connection string" section, select "URI"
+3. Copy the connection string:
+```
+postgresql://postgres:[YOUR-PASSWORD]@db.xxxxx.supabase.co:5432/postgres
+```
+4. Enter `[YOUR-PASSWORD]` Replace with your actual password.
 
-### 3. Render에 환경변수 추가
-1. Render 대시보드 → Your Service → Environment
-2. "Add Environment Variable" 클릭
+### 3. Add an environment variable to Render
+1. Render Dashboard → Your Service → Environment
+2. Click "Add Environment Variable"
 3. Key: `DATABASE_URL`
-4. Value: 위에서 복사한 연결 문자열 (비밀번호 포함)
-5. "Save Changes" 클릭
+4. Value: The connection string copied above (including the password)
+5. Click "Save Changes."
 
-### 4. 재배포
-- Render가 자동으로 재배포하거나
-- "Manual Deploy" 클릭
+### 4. Redeployment
+- Render automatically redeploys, or
+- Click "Manual Deploy."
 
-## Neon으로 PostgreSQL 설정하기
+## Setting Up PostgreSQL with Neon
 
-### 1. Neon 프로젝트 생성
-1. https://neon.tech 접속
-2. "Sign Up" 클릭
-3. "Create a project" 클릭
-4. 프로젝트 이름 입력
-5. Region 선택 (가장 가까운 지역)
-6. "Create project" 클릭
+### 1. Create a Neon Project
+1. Go to https://neon.tech
+2. Click "Sign Up"
+3. Click "Create a Project"
+4. Enter a Project Name
+5. Select a Region (your nearest region)
+6. Click "Create Project"
 
-### 2. 연결 정보 가져오기
-1. 프로젝트 대시보드에서 "Connection Details" 확인
-2. 연결 문자열 복사:
-   ```
-   postgresql://user:password@host.neon.tech/database?sslmode=require
-   ```
-
-### 3. Render에 환경변수 추가
-- 위와 동일한 방법으로 `DATABASE_URL` 추가
-
-## 테스트
-
-배포 후 로그에서 다음 메시지 확인:
+### 2. Get Connection Information
+1. Check "Connection Details" in the project dashboard.
+2. Copy the connection string:
 ```
-✅ PostgreSQL 연결 풀 생성 완료
-✅ PostgreSQL 데이터베이스 초기화 완료
+postgresql://user:password@host.neon.tech/database?sslmode=require
 ```
 
-## 주의사항
+### 3. Add Environment Variables to Render
+- Add `DATABASE_URL` using the same method as above.
 
-⚠️ **보안**
-- `DATABASE_URL`에는 비밀번호가 포함되어 있으므로 절대 GitHub에 커밋하지 마세요
-- Render의 환경변수로만 관리하세요
+## Test
 
-⚠️ **무료 플랜 제한**
-- Supabase: 500MB 저장공간
-- Neon: 3GB 저장공간
-- 충분히 사용 가능합니다!
+After deployment, check the log for the following message:
+```
+✅ PostgreSQL connection pool creation complete
+✅ PostgreSQL database initialization complete
+```
 
-## 문제 해결
+## Notes
 
-### 연결 실패 시
-1. 연결 문자열의 비밀번호가 올바른지 확인
-2. IP 화이트리스트 확인 (Supabase의 경우)
-3. SSL 설정 확인 (대부분 `sslmode=require` 필요)
+⚠️ **Security**
+- `DATABASE_URL` contains your password, so never commit it to GitHub.
+- Manage it only as an environment variable in Render.
 
-### 테이블이 생성되지 않을 때
-- 로그에서 에러 메시지 확인
-- 데이터베이스 권한 확인
+⚠️ **Free Plan Limits**
+- Supabase: 500MB of storage
+- Neon: 3GB of storage
+- You'll have plenty!
 
+## Troubleshooting
+
+### When a connection fails
+1. Check that the password in the connection string is correct.
+2. Check the IP whitelist (for Supabase).
+3. Check the SSL settings (`sslmode=require` is usually required).
+
+### When a table is not created
+- Check the log for error messages.
+- Check database permissions.
