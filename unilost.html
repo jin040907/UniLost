@@ -22,6 +22,40 @@
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              300: '#93c5fd',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            },
+            accent: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              300: '#86efac',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            }
+          }
+        }
+      }
+    }
+  </script>
 
   <!-- Leaflet (defer + 폴백) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
@@ -36,32 +70,56 @@
     .u-ellipsis  { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     /* 드로어가 지도보다 항상 위 */
     .leaflet-container { z-index: 0; }
+    
+    /* 커스텀 스타일 */
+    .btn-primary {
+      @apply px-4 py-2 rounded-lg bg-primary-600 text-white font-medium transition-all duration-200 hover:bg-primary-700 hover:shadow-md active:scale-95;
+    }
+    .btn-secondary {
+      @apply px-4 py-2 rounded-lg bg-slate-200 text-slate-700 font-medium transition-all duration-200 hover:bg-slate-300 active:scale-95;
+    }
+    .btn-success {
+      @apply px-4 py-2 rounded-lg bg-accent-600 text-white font-medium transition-all duration-200 hover:bg-accent-700 hover:shadow-md active:scale-95;
+    }
+    .input-field {
+      @apply w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all;
+    }
+    .card {
+      @apply bg-white rounded-xl shadow-sm border border-slate-200 p-6 transition-shadow hover:shadow-md;
+    }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
-  <header class="sticky top-0 z-20 bg-white/80 backdrop-blur border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
-      <div class="text-xl font-bold">🎒 UniLost - 교내 분실물 통합 관리</div>
+<body class="bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 text-slate-800 min-h-screen">
+  <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center gap-3">
+      <div class="text-xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent flex items-center gap-2">
+        <span class="text-2xl">🎒</span>
+        <span>UniLost</span>
+        <span class="text-sm font-normal text-slate-600 ml-1">교내 분실물 통합 관리</span>
+      </div>
       <div id="authStatus" class="ml-2 text-sm text-slate-600"></div>
       <nav class="ml-auto flex gap-2 items-center">
-        <button id="tabRegisterBtn" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white">분실물 등록</button>
-        <button id="tabBrowseBtn"   class="px-3 py-1.5 rounded-lg bg-slate-200">검색/지도</button>
-        <button id="tabAdminBtn"    class="px-3 py-1.5 rounded-lg bg-slate-200">관리자</button>
-        <button id="tabChatBtn"     class="px-3 py-1.5 rounded-lg bg-slate-200">채팅</button>
-        <button id="btnLoginToggle" class="px-3 py-1.5 rounded-lg bg-slate-800 text-white">로그인</button>
+        <button id="tabRegisterBtn" class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium shadow-sm hover:bg-primary-700 hover:shadow-md transition-all duration-200">분실물 등록</button>
+        <button id="tabBrowseBtn"   class="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 font-medium hover:bg-slate-200 transition-all duration-200">검색/지도</button>
+        <button id="tabAdminBtn"    class="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 font-medium hover:bg-slate-200 transition-all duration-200">관리자</button>
+        <button id="tabChatBtn"     class="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 font-medium hover:bg-slate-200 transition-all duration-200">채팅</button>
+        <button id="btnLoginToggle" class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 shadow-sm hover:shadow-md transition-all duration-200">로그인</button>
       </nav>
     </div>
   </header>
 
   <!-- 로그인 모달 -->
-  <div id="loginModal" class="fixed inset-0 hidden items-center justify-center bg-black/30 z-50">
-    <div class="bg-white w-80 p-6 rounded-2xl shadow-xl">
-      <h2 class="text-lg font-semibold mb-4 text-center">로그인</h2>
-      <input id="loginId" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="아이디 (예: student1 / admin1)" />
-      <input id="loginPw" type="password" class="w-full border rounded-lg px-3 py-2 mb-3" placeholder="비밀번호 (예: 1234 / admin123)" />
-      <div class="flex justify-end gap-2">
-        <button id="btnCancelLogin" class="px-3 py-2 rounded bg-slate-200">취소</button>
-        <button id="btnDoLogin" class="px-3 py-2 rounded bg-indigo-600 text-white">로그인</button>
+  <div id="loginModal" class="fixed inset-0 hidden items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+    <div class="bg-white w-96 p-8 rounded-2xl shadow-2xl border border-slate-200">
+      <h2 class="text-2xl font-bold mb-2 text-center bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">로그인</h2>
+      <p class="text-sm text-slate-500 text-center mb-6">UniLost에 로그인하여 분실물을 등록하세요</p>
+      <div class="space-y-4">
+        <input id="loginId" class="input-field" placeholder="아이디 (예: student1 / admin1)" />
+        <input id="loginPw" type="password" class="input-field" placeholder="비밀번호 (예: 1234 / admin123)" />
+      </div>
+      <div class="flex justify-end gap-3 mt-6">
+        <button id="btnCancelLogin" class="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 font-medium hover:bg-slate-200 transition-all duration-200">취소</button>
+        <button id="btnDoLogin" class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 shadow-sm hover:shadow-md transition-all duration-200">로그인</button>
       </div>
     </div>
   </div>
@@ -69,136 +127,142 @@
   <!-- 드로어용 백드롭(지도 위 어둡게) -->
   <div id="drawerBackdrop" class="fixed inset-0 bg-black/30 hidden z-[1100]"></div>
 
-  <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+  <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
     <!-- 분실물 등록 -->
     <section id="tabRegister" class="grid md:grid-cols-2 gap-6">
-      <div class="bg-white rounded-2xl shadow p-4 space-y-4">
-        <h2 class="text-lg font-semibold">분실물 등록</h2>
-
-        <div class="grid gap-3">
-          <label class="text-sm">사진 업로드</label>
-          <input id="inImage" type="file" accept="image/*" class="block w-full" />
-          <img id="preview" class="mt-2 max-h-48 rounded-lg hidden" alt="미리보기" />
+      <div class="card space-y-5">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 mb-1">분실물 등록</h2>
+          <p class="text-sm text-slate-500">분실하거나 발견한 물건을 등록해주세요</p>
         </div>
 
         <div class="grid gap-3">
-          <label class="text-sm">분실물 이름/간단 설명</label>
-          <input id="inTitle" class="w-full border rounded-lg px-3 py-2" placeholder="예) 검정 지갑, 파란 우산, 에어팟 케이스" />
-          <textarea id="inDesc" rows="3" class="w-full border rounded-lg px-3 py-2" placeholder="상세 설명 (색상, 브랜드, 특징, 발견/분실 상황)"></textarea>
+          <label class="text-sm font-medium text-slate-700">사진 업로드</label>
+          <input id="inImage" type="file" accept="image/*" class="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 cursor-pointer" />
+          <img id="preview" class="mt-2 max-h-48 rounded-xl hidden shadow-sm border border-slate-200" alt="미리보기" />
+        </div>
+
+        <div class="grid gap-3">
+          <label class="text-sm font-medium text-slate-700">분실물 이름/간단 설명</label>
+          <input id="inTitle" class="input-field" placeholder="예) 검정 지갑, 파란 우산, 에어팟 케이스" />
+          <textarea id="inDesc" rows="3" class="input-field" placeholder="상세 설명 (색상, 브랜드, 특징, 발견/분실 상황)"></textarea>
           <div class="text-xs text-slate-500">※ 설명을 기반으로 자동 분류됩니다. 필요시 수동 변경 가능.</div>
         </div>
 
         <div class="grid gap-2">
-          <label class="text-sm">자동 분류 결과</label>
+          <label class="text-sm font-medium text-slate-700">자동 분류 결과</label>
           <div class="flex gap-2">
-            <input id="inCategory" class="flex-1 border rounded-lg px-3 py-2" placeholder="자동 분류 대기 중…" />
-            <button id="btnClassify" class="px-3 py-2 rounded-lg bg-indigo-600 text-white">자동 분류</button>
+            <input id="inCategory" class="flex-1 input-field" placeholder="자동 분류 대기 중…" />
+            <button id="btnClassify" class="btn-primary whitespace-nowrap">자동 분류</button>
           </div>
         </div>
 
         <div class="grid gap-2">
-          <label class="text-sm">위치(주소) 입력</label>
+          <label class="text-sm font-medium text-slate-700">위치(주소) 입력</label>
           <div class="flex gap-2">
-            <input id="inAddress" class="flex-1 border rounded-lg px-3 py-2" placeholder="예) 세종대학교 군자관, 서울 광진구 능동로 209" />
-            <button id="btnGeocode" class="px-3 py-2 rounded-lg bg-slate-800 text-white">주소 찾기</button>
+            <input id="inAddress" class="flex-1 input-field" placeholder="예) 세종대학교 군자관, 서울 광진구 능동로 209" />
+            <button id="btnGeocode" class="px-4 py-2 rounded-lg bg-slate-800 text-white font-medium hover:bg-slate-900 shadow-sm transition-all duration-200 whitespace-nowrap">주소 찾기</button>
           </div>
           <div class="text-xs text-slate-500">또는 <b>지도 클릭</b>으로 위치 지정</div>
           <div class="grid grid-cols-2 gap-2">
-            <input id="inLat" class="border rounded-lg px-3 py-2" placeholder="위도" />
-            <input id="inLng" class="border rounded-lg px-3 py-2" placeholder="경도" />
+            <input id="inLat" class="input-field" placeholder="위도" />
+            <input id="inLng" class="input-field" placeholder="경도" />
           </div>
         </div>
 
         <div class="flex items-center gap-2">
-          <label class="text-sm">정확도 반경(미터)</label>
-          <input id="inRadius" type="number" min="0" value="50" class="w-32 border rounded-lg px-3 py-2" />
+          <label class="text-sm font-medium text-slate-700">정확도 반경(미터)</label>
+          <input id="inRadius" type="number" min="0" value="50" class="w-32 input-field" />
         </div>
 
         <!-- 새로 추가: 등록 시 보관 장소 -->
         <div class="grid gap-2">
-          <label class="text-sm">보관 장소 (선택)</label>
-          <input id="inStoragePlaceReg" class="w-full border rounded-lg px-3 py-2"
+          <label class="text-sm font-medium text-slate-700">보관 장소 (선택)</label>
+          <input id="inStoragePlaceReg" class="input-field"
                  placeholder="예: 학생생활과 1층 보관함 A-3" />
         </div>
 
-        <div class="flex gap-2">
-          <button id="btnSubmit" class="px-4 py-2 rounded-xl bg-green-600 text-white">등록 요청</button>
-          <button id="btnResetForm" class="px-4 py-2 rounded-xl bg-slate-200">초기화</button>
+        <div class="flex gap-3 pt-2">
+          <button id="btnSubmit" class="btn-success flex-1">등록 요청</button>
+          <button id="btnResetForm" class="btn-secondary">초기화</button>
         </div>
 
         <p id="guardNotice" class="text-xs text-rose-600 hidden">※ 등록하려면 로그인하세요.</p>
       </div>
 
-      <div class="bg-white rounded-2xl shadow p-4">
-        <h3 class="text-sm font-semibold mb-2">지도에서 위치 확인</h3>
-        <div id="mapRegister" class="rounded-xl overflow-hidden"></div>
-        <p class="mt-2 text-xs text-slate-500">주소 입력 후 <b>주소 찾기</b>를 누르거나, 지도를 클릭해 좌표를 지정하세요.</p>
+      <div class="card">
+        <h3 class="text-lg font-semibold mb-3 text-slate-900">지도에서 위치 확인</h3>
+        <div id="mapRegister" class="rounded-xl overflow-hidden border border-slate-200"></div>
+        <p class="mt-3 text-xs text-slate-500">주소 입력 후 <b>주소 찾기</b>를 누르거나, 지도를 클릭해 좌표를 지정하세요.</p>
       </div>
     </section>
 
     <!-- 검색/지도 -->
     <section id="tabBrowse" class="hidden">
       <div class="grid md:grid-cols-3 gap-6">
-        <div class="md:col-span-1 bg-white rounded-2xl shadow p-4 space-y-3">
-          <h2 class="text-lg font-semibold">분실물 검색</h2>
-          <input id="qText" class="w-full border rounded-lg px-3 py-2" placeholder="키워드 (예: 지갑, 파란, 에어팟)" />
-          <select id="qCategory" class="w-full border rounded-lg px-3 py-2">
+        <div class="md:col-span-1 card space-y-4">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900 mb-1">분실물 검색</h2>
+            <p class="text-sm text-slate-500">키워드나 카테고리로 검색하세요</p>
+          </div>
+          <input id="qText" class="input-field" placeholder="키워드 (예: 지갑, 파란, 에어팟)" />
+          <select id="qCategory" class="input-field">
             <option value="">전체 카테고리</option>
             <option>지갑</option><option>학생증/카드</option><option>전자기기</option>
             <option>이어폰/에어팟</option><option>노트북</option><option>우산</option>
             <option>의류</option><option>서적/노트</option><option>기타</option>
           </select>
           <div class="flex items-center gap-2 text-sm">
-            <input id="qOnlyApproved" type="checkbox" checked>
-            <label for="qOnlyApproved">승인된 항목만</label>
+            <input id="qOnlyApproved" type="checkbox" checked class="w-4 h-4 text-primary-600 rounded focus:ring-primary-500">
+            <label for="qOnlyApproved" class="text-slate-700">승인된 항목만</label>
           </div>
-          <button id="btnSearch" class="w-full mt-1 px-3 py-2 rounded-lg bg-indigo-600 text-white">검색</button>
+          <button id="btnSearch" class="btn-primary w-full">검색</button>
           <div class="text-xs text-slate-500">목록에서 항목을 클릭하면 지도 포커스 & 드로어가 열립니다.</div>
-          <hr class="my-2" />
+          <hr class="my-2 border-slate-200" />
           <div class="flex gap-2">
-            <button id="btnExport" class="flex-1 px-3 py-2 rounded-lg bg-slate-100">JSON 내보내기</button>
-            <label class="flex-1 px-3 py-2 rounded-lg bg-slate-100 text-center cursor-pointer">
+            <button id="btnExport" class="btn-secondary flex-1 text-sm">JSON 내보내기</button>
+            <label class="btn-secondary flex-1 text-sm text-center cursor-pointer">
               JSON 가져오기<input id="inImport" type="file" accept="application/json" class="hidden" />
             </label>
           </div>
         </div>
 
-        <div class="md:col-span-2 bg-white rounded-2xl shadow p-4 relative">
-          <h3 class="text-sm font-semibold mb-2">지도 & 목록</h3>
-          <div id="mapBrowse" class="rounded-xl overflow-hidden"></div>
-          <ul id="listResults" class="mt-3 divide-y"></ul>
+        <div class="md:col-span-2 card relative">
+          <h3 class="text-lg font-semibold mb-3 text-slate-900">지도 & 목록</h3>
+          <div id="mapBrowse" class="rounded-xl overflow-hidden border border-slate-200"></div>
+          <ul id="listResults" class="mt-4 divide-y divide-slate-200"></ul>
         </div>
       </div>
 
       <!-- 항목 상세 + 스레드 채팅 드로어 (항상 읽기 전용) -->
       <div id="itemDrawer" class="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-white shadow-2xl border-l border-slate-200 hidden z-[1200]">
         <div class="h-full flex flex-col">
-          <div class="flex items-center gap-2 px-4 py-3 border-b">
-            <button id="btnCloseDrawer" class="px-3 py-1.5 rounded bg-slate-100">닫기</button>
-            <div id="drawerTitle" class="ml-2 font-semibold truncate">항목</div>
+          <div class="flex items-center gap-2 px-4 py-4 border-b border-slate-200 bg-gradient-to-r from-primary-50 to-white">
+            <button id="btnCloseDrawer" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all duration-200">닫기</button>
+            <div id="drawerTitle" class="ml-2 font-semibold truncate text-slate-900">항목</div>
           </div>
-          <div class="p-4 space-y-3 overflow-auto">
-            <img id="drawerImg" class="w-full max-h-48 object-cover rounded-lg bg-slate-100 hidden" alt="">
+          <div class="p-5 space-y-4 overflow-auto">
+            <img id="drawerImg" class="w-full max-h-48 object-cover rounded-xl bg-slate-100 hidden shadow-sm" alt="">
             <div class="text-sm text-slate-600"><span id="drawerMeta"></span></div>
-            <div class="text-sm whitespace-pre-wrap" id="drawerDesc"></div>
+            <div class="text-sm whitespace-pre-wrap text-slate-700" id="drawerDesc"></div>
             <div class="text-sm">
-              <div class="font-medium">보관 장소</div>
+              <div class="font-semibold text-slate-900 mb-1">보관 장소</div>
               <div id="drawerStorageView" class="text-slate-700"></div>
               <!-- 드로어에서는 항상 수정 불가 -->
               <div id="drawerStorageEdit" class="hidden mt-2 gap-2 sm:flex">
-                <input id="inStoragePlace" class="flex-1 border rounded-lg px-3 py-2" />
-                <button id="btnSaveStorage" class="px-3 py-2 rounded-lg bg-emerald-600 text-white">저장</button>
+                <input id="inStoragePlace" class="flex-1 input-field" />
+                <button id="btnSaveStorage" class="btn-success whitespace-nowrap">저장</button>
               </div>
             </div>
-            <hr/>
+            <hr class="border-slate-200"/>
             <div>
-              <div class="font-semibold">스레드 채팅</div>
-              <div id="threadConn" class="inline-block text-xs px-2 py-0.5 rounded bg-slate-200 mt-1">연결 대기</div>
-              <div id="threadLog" class="h-64 mt-2 border rounded-xl p-2 overflow-auto space-y-2"></div>
-              <div class="mt-2 flex gap-2">
-                <input id="threadNick" class="w-32 border rounded-lg px-2 py-2" placeholder="닉네임" />
-                <input id="threadMsg" class="flex-1 border rounded-lg px-3 py-2" placeholder="메시지 (Enter 전송)" />
-                <button id="btnThreadSend" class="px-3 py-2 rounded-lg bg-indigo-600 text-white">보내기</button>
+              <div class="font-semibold text-slate-900 mb-2">스레드 채팅</div>
+              <div id="threadConn" class="inline-block text-xs px-2 py-1 rounded-lg bg-slate-100 text-slate-600 mt-1">연결 대기</div>
+              <div id="threadLog" class="h-64 mt-3 border border-slate-200 rounded-xl p-3 overflow-auto space-y-2 bg-slate-50"></div>
+              <div class="mt-3 flex gap-2">
+                <input id="threadNick" class="w-32 input-field" placeholder="닉네임" />
+                <input id="threadMsg" class="flex-1 input-field" placeholder="메시지 (Enter 전송)" />
+                <button id="btnThreadSend" class="btn-primary whitespace-nowrap">보내기</button>
               </div>
             </div>
           </div>
@@ -208,22 +272,25 @@
 
     <!-- 관리자 -->
     <section id="tabAdmin" class="hidden">
-      <div class="bg-white rounded-2xl shadow p-4">
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold">관리자 승인</h2>
+      <div class="card">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-1">관리자 승인</h2>
+            <p class="text-sm text-slate-500">분실물 등록 요청을 검토하고 승인하세요</p>
+          </div>
           <div class="flex gap-2 items-center text-sm">
             <span class="text-slate-600">관리자 로그인 필요</span>
-            <span id="adminStatus" class="text-xs text-slate-500 ml-1">권한 없음</span>
+            <span id="adminStatus" class="text-xs px-2 py-1 rounded-lg bg-slate-100 text-slate-600 ml-1">권한 없음</span>
           </div>
         </div>
-        <div class="mt-4 grid md:grid-cols-2 gap-4">
+        <div class="grid md:grid-cols-2 gap-6">
           <div>
-            <h3 class="font-semibold mb-2">대기(미승인)</h3>
-            <ul id="pendingList" class="divide-y"></ul>
+            <h3 class="font-semibold mb-3 text-slate-900 text-lg">대기(미승인)</h3>
+            <ul id="pendingList" class="divide-y divide-slate-200"></ul>
           </div>
           <div>
-            <h3 class="font-semibold mb-2">승인됨</h3>
-            <ul id="approvedList" class="divide-y"></ul>
+            <h3 class="font-semibold mb-3 text-slate-900 text-lg">승인됨</h3>
+            <ul id="approvedList" class="divide-y divide-slate-200"></ul>
           </div>
         </div>
       </div>
@@ -232,23 +299,27 @@
     <!-- 전역 채팅 -->
     <section id="tabChat" class="hidden">
       <div class="grid md:grid-cols-3 gap-6">
-        <div class="md:col-span-1 bg-white rounded-2xl shadow p-4 space-y-3">
-          <h2 class="text-lg font-semibold">학생/관리자 채팅</h2>
-          <input id="chatNick" class="w-full border rounded-lg px-3 py-2" placeholder="닉네임 (미입력시 익명)" />
-          <textarea id="chatMsg" rows="3" class="w-full border rounded-lg px-3 py-2" placeholder="메시지"></textarea>
-          <button id="btnSend" class="w-full px-3 py-2 rounded-lg bg-indigo-600 text-white">보내기 (Enter)</button>
-          <div class="text-xs"><span id="chatConn" class="px-2 py-0.5 rounded bg-slate-200">연결 대기</span></div>
+        <div class="md:col-span-1 card space-y-4">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900 mb-1">학생/관리자 채팅</h2>
+            <p class="text-sm text-slate-500">전체 사용자와 실시간으로 소통하세요</p>
+          </div>
+          <input id="chatNick" class="input-field" placeholder="닉네임 (미입력시 익명)" />
+          <textarea id="chatMsg" rows="3" class="input-field" placeholder="메시지"></textarea>
+          <button id="btnSend" class="btn-primary w-full">보내기 (Enter)</button>
+          <div class="text-xs"><span id="chatConn" class="px-2 py-1 rounded-lg bg-slate-100 text-slate-600">연결 대기</span></div>
         </div>
-        <div class="md:col-span-2 bg-white rounded-2xl shadow p-4">
-          <h3 class="text-sm font-semibold mb-2">채팅 로그</h3>
-          <div id="chatLog" class="h-[60vh] overflow-auto space-y-2"></div>
+        <div class="md:col-span-2 card">
+          <h3 class="text-lg font-semibold mb-3 text-slate-900">채팅 로그</h3>
+          <div id="chatLog" class="h-[60vh] overflow-auto space-y-2 border border-slate-200 rounded-xl p-4 bg-slate-50"></div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="max-w-7xl mx-auto px-4 pb-10 text-xs text-slate-500">
-    데이터는 <b>SQLite 데이터베이스</b>에 저장됩니다. 서버 재시작 후에도 데이터가 보존됩니다.
+  <footer class="max-w-7xl mx-auto px-4 py-8 text-xs text-center text-slate-500 border-t border-slate-200 mt-12">
+    <p>데이터는 <b class="text-slate-700">PostgreSQL/SQLite 데이터베이스</b>에 저장됩니다. 서버 재시작 후에도 데이터가 보존됩니다.</p>
+    <p class="mt-2">© 2024 UniLost Contributors - Apache License 2.0</p>
   </footer>
 
   <script>
@@ -572,16 +643,16 @@
           </div>
           ${pendingMode ? `
             <div class="flex gap-2 ${admin?'':'hidden'} need-admin">
-              <button data-action='approve' data-id='${it.id}' class='px-3 py-1.5 rounded bg-green-600 text-white text-sm'>승인</button>
-              <button data-action='reject'  data-id='${it.id}' class='px-3 py-1.5 rounded bg-rose-600 text-white text-sm'>삭제</button>
+              <button data-action='approve' data-id='${it.id}' class='px-3 py-1.5 rounded-lg bg-accent-600 text-white text-sm font-medium hover:bg-accent-700 transition-all duration-200'>승인</button>
+              <button data-action='reject'  data-id='${it.id}' class='px-3 py-1.5 rounded-lg bg-rose-600 text-white text-sm font-medium hover:bg-rose-700 transition-all duration-200'>삭제</button>
             </div>` : ''}
         </div>
         <div class="flex items-center gap-2 text-sm">
-          <div class="text-slate-700">보관 장소:</div>
+          <div class="text-slate-700 font-medium">보관 장소:</div>
           <div class="flex-1">
-            <input class="w-full border rounded-lg px-2 py-1.5 admin-storage" data-id='${it.id}' value='${it.storagePlace||''}' placeholder="예: 학생생활과 1층 보관함 A-3" ${admin?'':'disabled'}/>
+            <input class="w-full input-field text-sm py-1.5 admin-storage" data-id='${it.id}' value='${it.storagePlace||''}' placeholder="예: 학생생활과 1층 보관함 A-3" ${admin?'':'disabled'}/>
           </div>
-          <button class="px-3 py-1.5 rounded bg-slate-800 text-white text-sm btn-storage-save ${admin?'':'hidden'} need-admin" data-id='${it.id}'>저장</button>
+          <button class="px-3 py-1.5 rounded-lg bg-slate-800 text-white text-sm font-medium hover:bg-slate-900 transition-all duration-200 btn-storage-save ${admin?'':'hidden'} need-admin" data-id='${it.id}'>저장</button>
         </div>`;
       return li;
     };
@@ -713,9 +784,16 @@
   function switchTab(tab){
     ['tabRegister','tabBrowse','tabAdmin','tabChat'].forEach(id=> $(id).classList.add('hidden'));
     $(tab).classList.remove('hidden');
-    document.querySelectorAll('header nav button').forEach(b=> b.classList.replace('bg-indigo-600','bg-slate-200'));
+    document.querySelectorAll('header nav button').forEach(b=> {
+      b.classList.replace('bg-primary-600','bg-slate-100');
+      b.classList.replace('text-white','text-slate-700');
+    });
     const btnIdMap={tabRegister:'tabRegisterBtn', tabBrowse:'tabBrowseBtn', tabAdmin:'tabAdminBtn', tabChat:'tabChatBtn'};
-    const btnEl=$(btnIdMap[tab]); if (btnEl) btnEl.classList.replace('bg-slate-200','bg-indigo-600');
+    const btnEl=$(btnIdMap[tab]); 
+    if (btnEl) {
+      btnEl.classList.replace('bg-slate-100','bg-primary-600');
+      btnEl.classList.replace('text-slate-700','text-white');
+    }
     if (tab==='tabRegister'){ if (!mapRegister) initRegisterMap(); setTimeout(()=> mapRegister?.invalidateSize(), 0); }
     if (tab==='tabBrowse'){   if (!mapBrowse)   initBrowseMap();   setTimeout(()=> mapBrowse?.invalidateSize(),   0); }
   }
