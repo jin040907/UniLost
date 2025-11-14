@@ -1,0 +1,16 @@
+# Render 배포 설정 파일
+# 이 파일이 있으면 Render에서 자동으로 설정을 읽어옵니다
+
+services:
+  - type: web
+    name: campuslost
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true  # 자동으로 랜덤 시크릿 생성
+    healthCheckPath: /
+

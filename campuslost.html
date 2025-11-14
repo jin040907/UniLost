@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>교내 분실물 통합 관리 (데모)</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Leaflet (defer + 폴백) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"
+          onerror="(function(){var s=document.createElement('script');s.defer=true;s.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';document.head.appendChild(s);}())"></script>
+
+  <style>
+    html, body { height: 100%; }
+    body { margin: 0; }
+    #mapRegister { height: 70vh; min-height: 320px; width: 100%; }
+    #mapBrowse   { height: 60vh; min-height: 300px; width: 100%; }
+    .u-ellipsis  { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* 드로어가 지도보다 항상 위 */
+    .leaflet-container { z-index: 0; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+  <header class="sticky top-0 z-20 bg-white/80 backdrop-blur border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
+      <div class="text-xl font-bold">🎒 교내 분실물 통합 관리</div>
+      <div id="authStatus" class="ml-2 text-sm text-slate-600"></div>
+      <nav class="ml-auto flex gap-2 items-center">
+        <button id="tabRegisterBtn" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white">분실물 등록</button>
+        <button id="tabBrowseBtn"   class="px-3 py-1.5 rounded-lg bg-slate-200">검색/지도</button>
+        <button id="tabAdminBtn"    class="px-3 py-1.5 rounded-lg bg-slate-200">관리자</button>
+        <button id="tabChatBtn"     class="px-3 py-1.5 rounded-lg bg-slate-200">채팅</button>
+        <button id="btnLoginToggle" class="px-3 py-1.5 rounded-lg bg-slate-800 text-white">로그인</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 로그인 모달 -->
+  <div id="loginModal" class="fixed inset-0 hidden items-center justify-center bg-black/30 z-50">
+    <div class="bg-white w-80 p-6 rounded-2xl shadow-xl">
+      <h2 class="text-lg font-semibold mb-4 text-center">로그인</h2>
+      <input id="loginId" class="w-full border rounded-lg px-3 py-2 mb-2" placeholder="아이디 (예: student1 / admin1)" />
+      <input id="loginPw" type="password" class="w-full border rounded-lg px-3 py-2 mb-3" placeholder="비밀번호 (예: 1234 / admin123)" />
+      <div class="flex justify-end gap-2">
+        <button id="btnCancelLogin" class="px-3 py-2 rounded bg-slate-200">취소</button>
+        <button id="btnDoLogin" class="px-3 py-2 rounded bg-indigo-600 text-white">로그인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 드로어용 백드롭(지도 위 어둡게) -->
+  <div id="drawerBackdrop" class="fixed inset-0 bg-black/30 hidden z-[1100]"></div>
+
+  <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+    <!-- 분실물 등록 -->
+    <section id="tabRegister" class="grid md:grid-cols-2 gap-6">
+      <div class="bg-white rounded-2xl shadow p-4 space-y-4">
+        <h2 class="text-lg font-semibold">분실물 등록</h2>
+
+        <div class="grid gap-3">
+          <label class="text-sm">사진 업로드</label>
+          <input id="inImage" type="file" accept="image/*" class="block w-full" />
+          <img id="preview" class="mt-2 max-h-48 rounded-lg hidden" alt="미리보기" />
+        </div>
+
+        <div class="grid gap-3">
+          <label class="text-sm">분실물 이름/간단 설명</label>
+          <input id="inTitle" class="w-full border rounded-lg px-3 py-2" placeholder="예) 검정 지갑, 파란 우산, 에어팟 케이스" />
+          <textarea id="inDesc" rows="3" class="w-full border rounded-lg px-3 py-2" placeholder="상세 설명 (색상, 브랜드, 특징, 발견/분실 상황)"></textarea>
+          <div class="text-xs text-slate-500">※ 설명을 기반으로 자동 분류됩니다. 필요시 수동 변경 가능.</div>
+        </div>
+
+        <div class="grid gap-2">
+          <label class="text-sm">자동 분류 결과</label>
+          <div class="flex gap-2">
+            <input id="inCategory" class="flex-1 border rounded-lg px-3 py-2" placeholder="자동 분류 대기 중…" />
+            <button id="btnClassify" class="px-3 py-2 rounded-lg bg-indigo-600 text-white">자동 분류</button>
+          </div>
+        </div>
+
+        <div class="grid gap-2">
+          <label class="text-sm">위치(주소) 입력</label>
+          <div class="flex gap-2">
+            <input id="inAddress" class="flex-1 border rounded-lg px-3 py-2" placeholder="예) 세종대학교 군자관, 서울 광진구 능동로 209" />
+            <button id="btnGeocode" class="px-3 py-2 rounded-lg bg-slate-800 text-white">주소 찾기</button>
+          </div>
+          <div class="text-xs text-slate-500">또는 <b>지도 클릭</b>으로 위치 지정</div>
+          <div class="grid grid-cols-2 gap-2">
+            <input id="inLat" class="border rounded-lg px-3 py-2" placeholder="위도" />
+            <input id="inLng" class="border rounded-lg px-3 py-2" placeholder="경도" />
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <label class="text-sm">정확도 반경(미터)</label>
+          <input id="inRadius" type="number" min="0" value="50" class="w-32 border rounded-lg px-3 py-2" />
+        </div>
+
+        <!-- 새로 추가: 등록 시 보관 장소 -->
+        <div class="grid gap-2">
+          <label class="text-sm">보관 장소 (선택)</label>
+          <input id="inStoragePlaceReg" class="w-full border rounded-lg px-3 py-2"
+                 placeholder="예: 학생생활과 1층 보관함 A-3" />
+        </div>
+
+        <div class="flex gap-2">
+          <button id="btnSubmit" class="px-4 py-2 rounded-xl bg-green-600 text-white">등록 요청</button>
+          <button id="btnResetForm" class="px-4 py-2 rounded-xl bg-slate-200">초기화</button>
+        </div>
+
+        <p id="guardNotice" class="text-xs text-rose-600 hidden">※ 등록하려면 로그인하세요.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-4">
+        <h3 class="text-sm font-semibold mb-2">지도에서 위치 확인</h3>
+        <div id="mapRegister" class="rounded-xl overflow-hidden"></div>
+        <p class="mt-2 text-xs text-slate-500">주소 입력 후 <b>주소 찾기</b>를 누르거나, 지도를 클릭해 좌표를 지정하세요.</p>
+      </div>
+    </section>
+
+    <!-- 검색/지도 -->
+    <section id="tabBrowse" class="hidden">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="md:col-span-1 bg-white rounded-2xl shadow p-4 space-y-3">
+          <h2 class="text-lg font-semibold">분실물 검색</h2>
+          <input id="qText" class="w-full border rounded-lg px-3 py-2" placeholder="키워드 (예: 지갑, 파란, 에어팟)" />
+          <select id="qCategory" class="w-full border rounded-lg px-3 py-2">
+            <option value="">전체 카테고리</option>
+            <option>지갑</option><option>학생증/카드</option><option>전자기기</option>
+            <option>이어폰/에어팟</option><option>노트북</option><option>우산</option>
+            <option>의류</option><option>서적/노트</option><option>기타</option>
+          </select>
+          <div class="flex items-center gap-2 text-sm">
+            <input id="qOnlyApproved" type="checkbox" checked>
+            <label for="qOnlyApproved">승인된 항목만</label>
+          </div>
+          <button id="btnSearch" class="w-full mt-1 px-3 py-2 rounded-lg bg-indigo-600 text-white">검색</button>
+          <div class="text-xs text-slate-500">목록에서 항목을 클릭하면 지도 포커스 & 드로어가 열립니다.</div>
+          <hr class="my-2" />
+          <div class="flex gap-2">
+            <button id="btnExport" class="flex-1 px-3 py-2 rounded-lg bg-slate-100">JSON 내보내기</button>
+            <label class="flex-1 px-3 py-2 rounded-lg bg-slate-100 text-center cursor-pointer">
+              JSON 가져오기<input id="inImport" type="file" accept="application/json" class="hidden" />
+            </label>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 bg-white rounded-2xl shadow p-4 relative">
+          <h3 class="text-sm font-semibold mb-2">지도 & 목록</h3>
+          <div id="mapBrowse" class="rounded-xl overflow-hidden"></div>
+          <ul id="listResults" class="mt-3 divide-y"></ul>
+        </div>
+      </div>
+
+      <!-- 항목 상세 + 스레드 채팅 드로어 (항상 읽기 전용) -->
+      <div id="itemDrawer" class="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-white shadow-2xl border-l border-slate-200 hidden z-[1200]">
+        <div class="h-full flex flex-col">
+          <div class="flex items-center gap-2 px-4 py-3 border-b">
+            <button id="btnCloseDrawer" class="px-3 py-1.5 rounded bg-slate-100">닫기</button>
+            <div id="drawerTitle" class="ml-2 font-semibold truncate">항목</div>
+          </div>
+          <div class="p-4 space-y-3 overflow-auto">
+            <img id="drawerImg" class="w-full max-h-48 object-cover rounded-lg bg-slate-100 hidden" alt="">
+            <div class="text-sm text-slate-600"><span id="drawerMeta"></span></div>
+            <div class="text-sm whitespace-pre-wrap" id="drawerDesc"></div>
+            <div class="text-sm">
+              <div class="font-medium">보관 장소</div>
+              <div id="drawerStorageView" class="text-slate-700"></div>
+              <!-- 드로어에서는 항상 수정 불가 -->
+              <div id="drawerStorageEdit" class="hidden mt-2 gap-2 sm:flex">
+                <input id="inStoragePlace" class="flex-1 border rounded-lg px-3 py-2" />
+                <button id="btnSaveStorage" class="px-3 py-2 rounded-lg bg-emerald-600 text-white">저장</button>
+              </div>
+            </div>
+            <hr/>
+            <div>
+              <div class="font-semibold">스레드 채팅</div>
+              <div id="threadConn" class="inline-block text-xs px-2 py-0.5 rounded bg-slate-200 mt-1">연결 대기</div>
+              <div id="threadLog" class="h-64 mt-2 border rounded-xl p-2 overflow-auto space-y-2"></div>
+              <div class="mt-2 flex gap-2">
+                <input id="threadNick" class="w-32 border rounded-lg px-2 py-2" placeholder="닉네임" />
+                <input id="threadMsg" class="flex-1 border rounded-lg px-3 py-2" placeholder="메시지 (Enter 전송)" />
+                <button id="btnThreadSend" class="px-3 py-2 rounded-lg bg-indigo-600 text-white">보내기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 관리자 -->
+    <section id="tabAdmin" class="hidden">
+      <div class="bg-white rounded-2xl shadow p-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold">관리자 승인</h2>
+          <div class="flex gap-2 items-center text-sm">
+            <span class="text-slate-600">관리자 로그인 필요</span>
+            <span id="adminStatus" class="text-xs text-slate-500 ml-1">권한 없음</span>
+          </div>
+        </div>
+        <div class="mt-4 grid md:grid-cols-2 gap-4">
+          <div>
+            <h3 class="font-semibold mb-2">대기(미승인)</h3>
+            <ul id="pendingList" class="divide-y"></ul>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-2">승인됨</h3>
+            <ul id="approvedList" class="divide-y"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 전역 채팅 -->
+    <section id="tabChat" class="hidden">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="md:col-span-1 bg-white rounded-2xl shadow p-4 space-y-3">
+          <h2 class="text-lg font-semibold">학생/관리자 채팅</h2>
+          <input id="chatNick" class="w-full border rounded-lg px-3 py-2" placeholder="닉네임 (미입력시 익명)" />
+          <textarea id="chatMsg" rows="3" class="w-full border rounded-lg px-3 py-2" placeholder="메시지"></textarea>
+          <button id="btnSend" class="w-full px-3 py-2 rounded-lg bg-indigo-600 text-white">보내기 (Enter)</button>
+          <div class="text-xs"><span id="chatConn" class="px-2 py-0.5 rounded bg-slate-200">연결 대기</span></div>
+        </div>
+        <div class="md:col-span-2 bg-white rounded-2xl shadow p-4">
+          <h3 class="text-sm font-semibold mb-2">채팅 로그</h3>
+          <div id="chatLog" class="h-[60vh] overflow-auto space-y-2"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="max-w-7xl mx-auto px-4 pb-10 text-xs text-slate-500">
+    데이터는 <b>SQLite 데이터베이스</b>에 저장됩니다. 서버 재시작 후에도 데이터가 보존됩니다.
+  </footer>
+
+  <script>
+  // ===== 공용 상태/유틸 =====
+  const defaultLat = 37.5519, defaultLng = 127.0732; // 세종대 근처
+  const $ = (id) => document.getElementById(id);
+  let itemsCache = []; // 항목 캐시
+  const STORE_KEY = 'lostItems_v2'; // 더 이상 사용하지 않지만 호환성을 위해 유지
+  
+  // API를 통한 항목 로드
+  async function loadItems() {
+    try {
+      const res = await fetch('/api/items', { credentials: 'same-origin' });
+      if (!res.ok) throw new Error('항목 로드 실패');
+      itemsCache = await res.json();
+      return itemsCache;
+    } catch (err) {
+      console.error('항목 로드 오류:', err);
+      return itemsCache; // 캐시된 데이터 반환
+    }
+  }
+  
+  // 항목 새로고침 (캐시 업데이트)
+  async function refreshItems() {
+    itemsCache = await loadItems();
+    return itemsCache;
+  }
+  const RULES = [
+    { kw: [/에어팟|airpod|이어폰|버즈/i], cat:'이어폰/에어팟' }, { kw:[/지갑|wallet|카드지갑/i],cat:'지갑' },
+    { kw: [/학생증|신분증|카드|학번/i],cat:'학생증/카드' }, { kw:[/노트북|laptop|맥북|그램/i],cat:'노트북' },
+    { kw: [/아이패드|태블릿|ipad/i],cat:'전자기기' }, { kw:[/핸드폰|스마트폰|휴대폰|iphone|galaxy|폰/i],cat:'전자기기' },
+    { kw: [/우산/i],cat:'우산' }, { kw:[/후드|코트|옷|자켓|점퍼|패딩/i],cat:'의류' }, { kw:[/책|교재|노트|수첩/i],cat:'서적/노트' },
+  ];
+  const autoClassify = (t='') => { const s=t.toLowerCase(); for (const r of RULES) if (r.kw.some(rx=>rx.test(s))) return r.cat; return '기타'; };
+
+  // ===== 인증 상태 =====
+  let ME = null;  // {id, name, isAdmin} | null
+
+  async function fetchMe(){
+    const res = await fetch('/api/me', { credentials: 'same-origin' });
+    const { user } = await res.json();
+    ME = user || null;
+    updateAuthUI();
+  }
+  async function doLogin(id, pw){
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ id, pw })
+    });
+    if (!res.ok){
+      const e = await res.json().catch(()=>({error:'로그인 실패'}));
+      throw new Error(e.error||'로그인 실패');
+    }
+    ME = (await res.json()).user;
+    updateAuthUI();
+  }
+  async function doLogout(){
+    await fetch('/api/logout', { method:'POST', credentials: 'same-origin' });
+    ME = null; updateAuthUI();
+  }
+
+  async function updateAuthUI(){
+    const s = $('authStatus');
+    s.textContent = ME ? `안녕하세요, ${ME.name}님` : '로그인하지 않음';
+    const btn = $('btnLoginToggle');
+    btn.textContent = ME ? '로그아웃' : '로그인';
+    btn.onclick = ()=> ME ? doLogout() : showLoginModal();
+
+    const canSubmit = !!ME;
+    $('btnSubmit').disabled = !canSubmit;
+    $('btnSubmit').classList.toggle('opacity-50', !canSubmit);
+    $('guardNotice').classList.toggle('hidden', canSubmit);
+
+    const admin = !!(ME && ME.isAdmin);
+    $('adminStatus').textContent = admin ? '관리자 권한 보유' : '권한 없음';
+
+    await renderAdminLists();
+    await renderBrowse();
+  }
+
+  function showLoginModal(){ $('loginModal').classList.remove('hidden'); }
+  function hideLoginModal(){ $('loginModal').classList.add('hidden'); }
+  $('btnCancelLogin').onclick = hideLoginModal;
+  $('btnDoLogin').onclick = async ()=>{
+    const id = $('loginId').value.trim();
+    const pw = $('loginPw').value.trim();
+    if (!id || !pw) return alert('아이디/비밀번호를 입력하세요.');
+    try { await doLogin(id, pw); hideLoginModal(); }
+    catch(e){ alert(e.message||'로그인 실패'); }
+  };
+
+  // ===== 지도 =====
+  let mapRegister, mapBrowse, registerMarker, registerCircle, regRO, brRO;
+  let browseMarkers = [];
+  function initRegisterMap(){
+    const el = $('mapRegister'); if (!el || mapRegister) return;
+    if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initRegisterMap,120); return; }
+    mapRegister = L.map('mapRegister');
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapRegister);
+    setRegisterLocation(defaultLat, defaultLng, true);
+    mapRegister.on('click', e=> setRegisterLocation(e.latlng.lat, e.latlng.lng, false));
+    setTimeout(()=> mapRegister.invalidateSize(), 50);
+    regRO = new ResizeObserver(()=> mapRegister && mapRegister.invalidateSize()); regRO.observe(el);
+  }
+  function setRegisterLocation(lat, lng, first){
+    $('inLat').value = (lat??defaultLat).toFixed(6);
+    $('inLng').value = (lng??defaultLng).toFixed(6);
+    if (registerMarker) registerMarker.remove();
+    if (registerCircle) registerCircle.remove();
+    registerMarker = L.marker([lat,lng]).addTo(mapRegister).bindPopup('등록 위치');
+    const r = Number($('inRadius').value||0);
+    if (r>0) registerCircle = L.circle([lat,lng], {radius:r, fillOpacity:.15}).addTo(mapRegister);
+    mapRegister.setView([lat,lng], first?15:16); registerMarker.openPopup();
+  }
+  function initBrowseMap(){
+    const el = $('mapBrowse'); if (!el || mapBrowse) return;
+    if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initBrowseMap,120); return; }
+    mapBrowse = L.map('mapBrowse');
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapBrowse);
+    mapBrowse.setView([defaultLat, defaultLng], 15);
+    renderBrowse();
+    setTimeout(()=> mapBrowse.invalidateSize(), 50);
+    brRO = new ResizeObserver(()=> mapBrowse && mapBrowse.invalidateSize()); brRO.observe(el);
+  }
+  function clearBrowseMarkers(){ browseMarkers.forEach(m=>m.remove()); browseMarkers=[]; }
+
+  // ===== 지오코딩 =====
+  async function geocode(address){
+    const url = new URL('https://nominatim.openstreetmap.org/search');
+    url.search = new URLSearchParams({ q: address, format: 'json', addressdetails: 1 }).toString();
+    const res = await fetch(url, { headers: { 'Accept-Language': 'ko' } });
+    if (!res.ok) throw new Error('지오코딩 실패');
+    return res.json();
+  }
+
+  // ===== 등록 폼 =====
+  function bindRegisterForm(){
+    const inImage=$('inImage'), preview=$('preview'), inTitle=$('inTitle'), inDesc=$('inDesc'), inCategory=$('inCategory');
+
+    inImage.addEventListener('change', ()=>{
+      const f=inImage.files?.[0];
+      if(!f){ preview.classList.add('hidden'); preview.src=''; return; }
+      const fr=new FileReader(); fr.onload=()=>{ preview.src=fr.result; preview.classList.remove('hidden'); }; fr.readAsDataURL(f);
+      if(!inCategory.value) inCategory.value = autoClassify(f.name||'');
+    });
+    $('btnClassify').addEventListener('click', ()=> inCategory.value = autoClassify(`${inTitle.value}\n${inDesc.value}`));
+    $('btnGeocode').addEventListener('click', async ()=>{
+      const q=$('inAddress').value.trim(); if(!q) return alert('주소를 입력하세요.');
+      try{
+        const results=await geocode(q); if(!results.length) return alert('주소를 찾지 못했습니다.');
+        const {lat,lon,display_name}=results[0]; setRegisterLocation(parseFloat(lat), parseFloat(lon), false);
+        if (registerMarker) registerMarker.bindPopup(`<b>분실물 위치</b><br>${display_name}`).openPopup();
+      }catch(e){ alert(e.message||'지오코딩 오류'); }
+    });
+    $('inRadius').addEventListener('change', ()=>{
+      const lat=parseFloat($('inLat').value||defaultLat), lng=parseFloat($('inLng').value||defaultLng);
+      setRegisterLocation(lat,lng,false);
+    });
+
+    $('btnResetForm').addEventListener('click', ()=>{
+      inImage.value=''; preview.src=''; preview.classList.add('hidden');
+      inTitle.value=''; inDesc.value=''; inCategory.value=''; $('inAddress').value='';
+      $('inLat').value=defaultLat; $('inLng').value=defaultLng; $('inRadius').value=50;
+      const sp=$('inStoragePlaceReg'); if (sp) sp.value='';
+      setRegisterLocation(defaultLat, defaultLng, true);
+    });
+
+    $('btnSubmit').addEventListener('click', async ()=>{
+      if (!ME) return alert('로그인이 필요합니다.');
+      const title=inTitle.value.trim(); if(!title) return alert('분실물 이름/설명을 입력하세요.');
+      const desc=inDesc.value.trim(); let cat=inCategory.value.trim(); if(!cat) cat=autoClassify(`${title}\n${desc}`);
+      const lat=parseFloat($('inLat').value), lng=parseFloat($('inLng').value); const radius=Number($('inRadius').value||0);
+
+      // 등록 시 보관 장소
+      const storagePlace = ($('inStoragePlaceReg').value || '').trim();
+
+      let imgData=''; const f=inImage.files?.[0];
+      if(f){ imgData = await new Promise(r=>{ const fr=new FileReader(); fr.onload=()=>r(fr.result); fr.readAsDataURL(f); }); }
+
+      try {
+        const res = await fetch('/api/items', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ title, desc, cat, imgData, lat, lng, radius, storagePlace })
+        });
+        
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: '등록 실패' }));
+          throw new Error(err.error || '등록 실패');
+        }
+        
+        await refreshItems();
+        alert('등록 요청이 접수되었습니다. 관리자 승인 후 공개됩니다.');
+        $('btnResetForm').click();
+        renderAdminLists();
+        renderBrowse();
+      } catch (err) {
+        alert(err.message || '등록 중 오류가 발생했습니다.');
+      }
+    });
+  }
+
+  // ===== 검색/지도 + 드로어 =====
+  async function renderBrowse(){
+    if (!mapBrowse) return;
+    const items = await loadItems();
+    const qText=$('qText').value.trim().toLowerCase(), qCategory=$('qCategory').value, onlyApproved=$('qOnlyApproved').checked;
+    const filtered=items.filter(it=>{
+      if (onlyApproved && it.status!=='approved') return false;
+      if (qCategory && it.cat!==qCategory) return false;
+      if (qText){ const blob = `${it.title} ${it.desc} ${it.cat}`.toLowerCase(); if (!blob.includes(qText)) return false; }
+      return true;
+    }).sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||''));
+
+    const ul=$('listResults'); ul.innerHTML='';
+    filtered.forEach(it=>{
+      const li=document.createElement('li');
+      li.className='py-2 flex gap-3 items-center cursor-pointer hover:bg-slate-50 px-2 rounded';
+      li.innerHTML=`
+        <img src="${it.imgData||''}" class="w-12 h-12 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'}" alt="">
+        <div class="flex-1 min-w-0">
+          <div class="font-medium u-ellipsis">${it.title}<span class="text-xs text-slate-500"> (${it.cat}${it.storagePlace?` · 보관:${it.storagePlace}`:''})</span></div>
+          <div class="text-xs text-slate-500 u-ellipsis">${it.desc||''}</div>
+          <div class="text-[10px] text-slate-400">${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
+        </div>`;
+      li.addEventListener('click', ()=>{ mapBrowse.setView([it.lat,it.lng], 17); openItemDrawer(it.id); });
+      ul.appendChild(li);
+    });
+
+    clearBrowseMarkers();
+    filtered.forEach(it=>{
+      const mk=L.marker([it.lat,it.lng]).addTo(mapBrowse).bindPopup(`
+        <b>${it.title}</b><br/>
+        <span class="text-xs">${it.cat}${it.storagePlace?` · 보관:${it.storagePlace}`:''} • ${new Date(it.created_at).toLocaleString()}</span><br/>
+        <span class="text-xs">${(it.desc||'').replace(/[\n\r]+/g,' ')}</span>
+      `);
+      browseMarkers.push(mk);
+      if (it.radius>0){ const circle=L.circle([it.lat,it.lng],{radius:it.radius,fillOpacity:.12}); circle.addTo(mapBrowse); browseMarkers.push(circle); }
+      mk.on('click', ()=> openItemDrawer(it.id));
+    });
+  }
+
+  async function openItemDrawer(itemId){
+    const items = await loadItems();
+    const it=items.find(x=>x.id===itemId); if(!it) return;
+
+    $('drawerBackdrop').classList.remove('hidden');
+    $('itemDrawer').classList.remove('hidden');
+
+    $('drawerTitle').textContent=`${it.title} (#${it.id})`;
+    const img=$('drawerImg'); if(it.imgData){ img.src=it.imgData; img.classList.remove('hidden'); } else { img.classList.add('hidden'); }
+    $('drawerMeta').textContent=`${it.cat} • ${new Date(it.created_at).toLocaleString()}`;
+    $('drawerDesc').textContent=it.desc||'';
+    $('drawerStorageView').textContent=it.storagePlace||'—';
+
+    // 드로어에서는 항상 읽기 전용
+    const editWrap=$('drawerStorageEdit'); if (editWrap) editWrap.classList.add('hidden');
+
+    // 스레드 채팅
+    // Socket이 아직 초기화되지 않았으면 초기화 시도
+    if (!socket && window.io) {
+      initChat();
+    }
+    // Socket 연결 상태에 따라 배지 설정
+    if (socket && socket.connected) {
+      setThreadConnBadge('connected');
+      joinThread(it.id);
+    } else {
+      setThreadConnBadge('disconnected');
+      // Socket이 연결되면 자동으로 join하도록 이벤트 리스너 추가
+      if (socket) {
+        const onConnect = () => {
+          setThreadConnBadge('connected');
+          joinThread(it.id);
+          socket.off('connect', onConnect);
+        };
+        socket.on('connect', onConnect);
+      }
+    }
+
+    const sendThread=()=>{
+      const text=$('threadMsg').value.trim(); if(!text) return;
+      const nick=$('threadNick').value.trim() || (ME?.name||'익명');
+      if (!socket || !socket.connected) {
+        alert('서버에 연결되지 않았습니다. 잠시 후 다시 시도해주세요.');
+        return;
+      }
+      socket.emit('thread:send', { itemId: it.id, nick, text, ts: new Date().toISOString() });
+      $('threadMsg').value='';
+      // 서버에서 thread:new 이벤트를 받아서 추가되므로 여기서는 추가하지 않음
+    };
+    $('btnThreadSend').onclick=sendThread;
+    $('threadMsg').onkeydown=(e)=>{ if(e.key==='Enter'&& !e.shiftKey){ e.preventDefault(); sendThread(); } };
+
+    setTimeout(()=> mapBrowse?.invalidateSize(), 60);
+  }
+
+  // ===== 관리자 목록 =====
+  async function renderAdminLists(){
+    const admin = !!(ME && ME.isAdmin);
+    const items = await loadItems();
+    const pending=items.filter(it=>it.status!=='approved').sort((a,b)=>(a.created_at||'').localeCompare(b.created_at||'')); // 오래된 순
+    const approved=items.filter(it=>it.status==='approved').sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||'')); // 최신 순
+
+    const pendingList=$('pendingList'), approvedList=$('approvedList');
+    pendingList.innerHTML=''; approvedList.innerHTML='';
+
+    const mkRow=(it, pendingMode)=>{
+      const li=document.createElement('li');
+      li.className='py-3 flex flex-col gap-2';
+      li.innerHTML=`
+        <div class="flex gap-3 items-center">
+          <img src="${it.imgData||''}" class="w-14 h-14 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'}" alt="">
+          <div class="flex-1 min-w-0">
+            <div class="font-medium u-ellipsis">${it.title} <span class="text-xs text-slate-500">(${it.cat})</span></div>
+            <div class="text-xs text-slate-500 u-ellipsis">${it.desc||''}</div>
+            <div class="text-[10px] text-slate-400">#${it.id} • ${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
+          </div>
+          ${pendingMode ? `
+            <div class="flex gap-2 ${admin?'':'hidden'} need-admin">
+              <button data-action='approve' data-id='${it.id}' class='px-3 py-1.5 rounded bg-green-600 text-white text-sm'>승인</button>
+              <button data-action='reject'  data-id='${it.id}' class='px-3 py-1.5 rounded bg-rose-600 text-white text-sm'>삭제</button>
+            </div>` : ''}
+        </div>
+        <div class="flex items-center gap-2 text-sm">
+          <div class="text-slate-700">보관 장소:</div>
+          <div class="flex-1">
+            <input class="w-full border rounded-lg px-2 py-1.5 admin-storage" data-id='${it.id}' value='${it.storagePlace||''}' placeholder="예: 학생생활과 1층 보관함 A-3" ${admin?'':'disabled'}/>
+          </div>
+          <button class="px-3 py-1.5 rounded bg-slate-800 text-white text-sm btn-storage-save ${admin?'':'hidden'} need-admin" data-id='${it.id}'>저장</button>
+        </div>`;
+      return li;
+    };
+
+    pending.forEach(it=> pendingList.appendChild(mkRow(it, true)));
+    approved.forEach(it=> approvedList.appendChild(mkRow(it, false)));
+
+    pendingList.querySelectorAll('button[data-action]').forEach(btn=>btn.addEventListener('click', async ()=>{
+      if (!(ME && ME.isAdmin)) return alert('관리자 권한이 필요합니다.');
+      const id=Number(btn.getAttribute('data-id'));
+      const act=btn.getAttribute('data-action');
+      
+      try {
+        if (act === 'approve') {
+          const res = await fetch(`/api/items/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ status: 'approved' })
+          });
+          if (!res.ok) throw new Error('승인 실패');
+        } else if (act === 'reject') {
+          const res = await fetch(`/api/items/${id}`, {
+            method: 'DELETE',
+            credentials: 'same-origin'
+          });
+          if (!res.ok) throw new Error('삭제 실패');
+        }
+        
+        await refreshItems();
+        await renderAdminLists();
+        await renderBrowse();
+      } catch (err) {
+        alert(err.message || '작업 중 오류가 발생했습니다.');
+      }
+    }));
+    [...pendingList.querySelectorAll('.btn-storage-save'), ...approvedList.querySelectorAll('.btn-storage-save')].forEach(btn=>{
+      btn.addEventListener('click', async ()=>{
+        if (!(ME && ME.isAdmin)) return alert('관리자 권한이 필요합니다.');
+        const id=Number(btn.getAttribute('data-id'));
+        const input=btn.parentElement?.querySelector('.admin-storage');
+        const storagePlace = input?.value?.trim() || '';
+        
+        try {
+          const res = await fetch(`/api/items/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ storagePlace })
+          });
+          if (!res.ok) throw new Error('저장 실패');
+          
+          await refreshItems();
+          await renderAdminLists();
+          await renderBrowse();
+        } catch (err) {
+          alert(err.message || '저장 중 오류가 발생했습니다.');
+        }
+      });
+    });
+  }
+
+  // ===== 채팅 (Socket.IO) =====
+  const socketScript = document.createElement('script'); socketScript.src='/socket.io/socket.io.js'; document.head.appendChild(socketScript);
+  let socket=null, currentThreadId=null;
+  function setConnBadge(state){
+    const el=$('chatConn'); if(!el) return;
+    if(state==='connected'){ el.textContent='연결됨'; el.className='px-2 py-0.5 rounded bg-green-100 text-green-700'; }
+    else if(state==='reconnecting'){ el.textContent='재연결 중…'; el.className='px-2 py-0.5 rounded bg-amber-100 text-amber-700'; }
+    else { el.textContent='연결 대기'; el.className='px-2 py-0.5 rounded bg-slate-200'; }
+  }
+  function setThreadConnBadge(state){
+    const el=$('threadConn'); if(!el) return;
+    if(state==='connected'){ el.textContent='연결됨'; el.className='inline-block text-xs px-2 py-0.5 rounded bg-green-100 text-green-700'; }
+    else if(state==='reconnecting'){ el.textContent='재연결 중…'; el.className='inline-block text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-700'; }
+    else { el.textContent='연결 대기'; el.className='inline-block text-xs px-2 py-0.5 rounded bg-slate-200'; }
+  }
+  function appendChatRow({nick,text,ts}){ const wrap=$('chatLog'); if(!wrap) return; const row=document.createElement('div'); row.className='border rounded-xl px-3 py-2'; row.innerHTML=`<div class='text-sm font-medium'>${nick||'익명'}</div><div class='text-sm whitespace-pre-wrap'>${(text||'').slice(0,2000)}</div><div class='text-[10px] text-slate-500 mt-1'>${new Date(ts).toLocaleString()}</div>`; wrap.appendChild(row); wrap.scrollTop=wrap.scrollHeight; }
+  function appendThreadRow({nick,text,ts}){ const wrap=$('threadLog'); if(!wrap) return; const row=document.createElement('div'); row.className='border rounded-xl px-3 py-2'; row.innerHTML=`<div class='text-sm font-medium'>${nick||'익명'}</div><div class='text-sm whitespace-pre-wrap'>${(text||'').slice(0,2000)}</div><div class='text-[10px] text-slate-500 mt-1'>${new Date(ts).toLocaleString()}</div>`; wrap.appendChild(row); wrap.scrollTop=wrap.scrollHeight; }
+  function initChat(){
+    if (window.io===undefined){ socketScript.onload = initChat; return; }
+    // 이미 초기화되었으면 다시 초기화하지 않음
+    if (socket && socket.connected) return;
+    socket = io({ withCredentials:false });
+    socket.on('connect', ()=>{ setConnBadge('connected'); setThreadConnBadge('connected'); socket.emit('chat:join', { nick: $('chatNick')?.value?.trim()|| (ME?.name||'익명') }); });
+    socket.io.on('reconnect_attempt', ()=>{ setConnBadge('reconnecting'); setThreadConnBadge('reconnecting'); });
+    socket.on('disconnect', ()=>{ setConnBadge('disconnected'); setThreadConnBadge('disconnected'); });
+    socket.on('chat:history', (msgs=[])=>{ const wrap=$('chatLog'); if(wrap){ wrap.innerHTML=''; msgs.forEach(appendChatRow); } });
+    socket.on('chat:new', (msg)=> appendChatRow(msg));
+    socket.on('thread:history', ({itemId, msgs=[]})=>{ 
+      if(itemId!==currentThreadId) return; 
+      const log=$('threadLog'); 
+      if(!log) return; 
+      log.innerHTML=''; 
+      msgs.forEach(appendThreadRow); 
+    });
+    socket.on('thread:new', ({itemId, msg})=>{ 
+      // 개발 모드에서만 디버깅 로그 출력
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('📨 스레드 메시지 수신:', {itemId, currentThreadId, msg});
+      }
+      if(itemId!==currentThreadId) {
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          console.log('⚠️ 다른 스레드 메시지 무시:', itemId, '!==', currentThreadId);
+        }
+        return;
+      }
+      appendThreadRow(msg); 
+    });
+    $('btnSend').addEventListener('click', ()=>{
+      if (!socket?.connected) return;
+      const nick = $('chatNick').value.trim() || (ME?.name||'익명');
+      const text = $('chatMsg').value.trim(); if(!text) return;
+      socket.emit('chat:send', { nick, text, ts: new Date().toISOString() }); $('chatMsg').value='';
+    });
+    $('chatMsg').addEventListener('keydown', (e)=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); $('btnSend').click(); } });
+  }
+  function joinThread(itemId){
+    if (!socket || !socket.connected){ 
+      console.warn('Socket이 연결되지 않아 스레드에 참여할 수 없습니다.');
+      return; 
+    }
+    if (currentThreadId) socket.emit('thread:leave', { itemId: currentThreadId });
+    currentThreadId = itemId;
+    socket.emit('thread:join', { itemId, nick: $('threadNick')?.value?.trim()|| (ME?.name||'익명') });
+  }
+
+  // ===== 탭 전환 =====
+  function switchTab(tab){
+    ['tabRegister','tabBrowse','tabAdmin','tabChat'].forEach(id=> $(id).classList.add('hidden'));
+    $(tab).classList.remove('hidden');
+    document.querySelectorAll('header nav button').forEach(b=> b.classList.replace('bg-indigo-600','bg-slate-200'));
+    const btnIdMap={tabRegister:'tabRegisterBtn', tabBrowse:'tabBrowseBtn', tabAdmin:'tabAdminBtn', tabChat:'tabChatBtn'};
+    const btnEl=$(btnIdMap[tab]); if (btnEl) btnEl.classList.replace('bg-slate-200','bg-indigo-600');
+    if (tab==='tabRegister'){ if (!mapRegister) initRegisterMap(); setTimeout(()=> mapRegister?.invalidateSize(), 0); }
+    if (tab==='tabBrowse'){   if (!mapBrowse)   initBrowseMap();   setTimeout(()=> mapBrowse?.invalidateSize(),   0); }
+  }
+
+  // ===== 시작 =====
+  function start(){
+    window.addEventListener('error', (e)=>{
+      const msg=document.createElement('div'); msg.className='fixed bottom-4 left-4 bg-rose-50 text-rose-700 border border-rose-200 rounded-lg px-3 py-2 shadow z-50 text-xs'; msg.textContent='스크립트 오류: '+(e.message||''); document.body.appendChild(msg); setTimeout(()=> msg.remove(), 3500);
+    });
+
+    // 탭
+    $('tabRegisterBtn').addEventListener('click', ()=> switchTab('tabRegister'));
+    $('tabBrowseBtn').addEventListener('click',   ()=> switchTab('tabBrowse'));
+    $('tabAdminBtn').addEventListener('click',    ()=> switchTab('tabAdmin'));
+    $('tabChatBtn').addEventListener('click',     ()=> switchTab('tabChat'));
+
+    // 지도 + 폼
+    initRegisterMap();
+    bindRegisterForm();
+    initBrowseMap();
+
+    // 검색/내보내기/가져오기
+    $('btnSearch').addEventListener('click', ()=> renderBrowse());
+    $('btnExport').addEventListener('click', async ()=>{
+      const items = await loadItems();
+      const data=JSON.stringify(items, null, 2);
+      const blob=new Blob([data], {type:'application/json'});
+      const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='lost_items_backup.json'; a.click(); URL.revokeObjectURL(url);
+    });
+    $('inImport').addEventListener('change', async (e)=>{
+      const f=e.target.files?.[0]; if(!f) return;
+      try{ 
+        const text=await f.text(); 
+        const arr=JSON.parse(text); 
+        if(!Array.isArray(arr)) throw new Error('형식 오류');
+        
+        // 각 항목을 API를 통해 등록
+        for (const item of arr) {
+          try {
+            await fetch('/api/items', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'same-origin',
+              body: JSON.stringify({
+                title: item.title,
+                desc: item.desc || item.description,
+                cat: item.cat || item.category,
+                imgData: item.imgData,
+                lat: item.lat,
+                lng: item.lng,
+                radius: item.radius || 0,
+                storagePlace: item.storagePlace
+              })
+            });
+          } catch (err) {
+            console.error('항목 가져오기 실패:', item, err);
+          }
+        }
+        
+        await refreshItems();
+        alert('가져오기 완료'); 
+        await renderBrowse(); 
+        await renderAdminLists();
+      }catch(err){ alert('JSON 파싱 실패: '+(err.message||err)); }
+    });
+
+    // 드로어 닫기 + 백드롭
+    const closeDrawer=()=>{ $('itemDrawer').classList.add('hidden'); $('drawerBackdrop').classList.add('hidden'); };
+    $('btnCloseDrawer').addEventListener('click', closeDrawer);
+    $('drawerBackdrop').addEventListener('click', closeDrawer);
+
+    // 채팅
+    initChat();
+
+    // 인증 상태 → UI 반영 후 기본 탭
+    fetchMe().then(()=> switchTab('tabRegister'));
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    let tries=0; const t=setInterval(()=>{
+      if (window.L){ clearInterval(t); start(); }
+      else if (++tries>50){ clearInterval(t); alert('Leaflet 로딩 실패: 네트워크를 확인하세요.'); }
+    }, 60);
+  });
+  </script>
+</body>
+</html>
