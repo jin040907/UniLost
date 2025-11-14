@@ -1,69 +1,70 @@
-# Apache License 2.0 준수 점검 결과
+# Apache License 2.0 Compliance Check Results
 
-## ✅ 완료된 항목
+## ✔ Completed Items
 
-### 1. LICENSE 파일
-- ✅ `LICENSE` 파일 생성 완료
-- ✅ Apache License 2.0 전체 텍스트 포함
-- ✅ 저작권 정보 포함 (Copyright 2024 UniLost Contributors)
+---
 
-### 2. 소스 파일 라이선스 헤더
-- ✅ `server.js` - Apache License 2.0 헤더 추가
-- ✅ `db.js` - Apache License 2.0 헤더 추가
-- ✅ `unilost.html` - Apache License 2.0 헤더 추가 (HTML 주석 형식)
+### **1. LICENSE File**
+- ✔ LICENSE file created  
+- ✔ Full text of the Apache License 2.0 included  
+- ✔ Copyright notice added  
+  - *Copyright 2024 UniLost Contributors*
 
-### 3. 패키지 메타데이터
-- ✅ `package.json` - `license: "Apache-2.0"` 설정 완료
+---
 
-### 4. 문서
-- ✅ `README.md` - 라이선스 섹션에 Apache License 2.0 명시 및 LICENSE 파일 링크
+### **2. Source File License Headers**
+- ✔ `server.js` – Added Apache License 2.0 header  
+- ✔ `db.js` – Added Apache License 2.0 header  
+- ✔ `unilost.html` – Added Apache License 2.0 header (HTML comment format)
 
-## 📋 Apache License 2.0 요구사항 체크리스트
+---
 
-### 필수 요구사항
-- [x] LICENSE 파일이 프로젝트 루트에 있음
-- [x] 각 소스 파일에 저작권 표시 및 라이선스 정보 포함
-- [x] package.json에 라이선스 정보 명시
-- [x] README에 라이선스 정보 명시
+### **3. Package Metadata**
+- ✔ `package.json` – Set `"license": "Apache-2.0"`
 
-### 권장 사항
-- [x] 소스 파일 상단에 라이선스 헤더 포함
-- [x] LICENSE 파일에 저작권 정보 포함
+---
 
-### 선택 사항
-- [ ] NOTICE 파일 (필요시 추가 가능)
-- [ ] 기여자 목록 (CONTRIBUTORS 파일)
+### **4. Documentation**
+- ✔ `README.md` – Added Apache License 2.0 section  
+- ✔ Linked README license section to the LICENSE file  
+- ✔ Included Apache License 2.0 Requirements Checklist
 
-## 📝 라이선스 헤더 형식
+---
 
-### JavaScript 파일 (.js)
-```javascript
+# 📋 Apache License 2.0 Requirements Checklist
+
+### **Required**
+- LICENSE file in the project root  
+- Copyright notice and license header in each source file  
+- License information included in `package.json`  
+- License information included in README  
+
+### **Recommended**
+- License header at the top of source files  
+- Copyright information included in LICENSE file  
+
+### **Optional**
+- NOTICE file (if needed)  
+- CONTRIBUTORS file (contributors list)
+
+---
+
+# 📝 License Header Examples
+
+### **JavaScript File (`.js`)**
+```js
 /*
  * Copyright 2024 UniLost Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * ...
+ * You may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-```
-
-### HTML 파일 (.html)
-```html
-<!--
-  Copyright 2024 UniLost Contributors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  ...
--->
-```
-
-## ✅ 결론
-
-프로젝트는 Apache License 2.0의 모든 필수 요구사항을 충족합니다.
-
-- LICENSE 파일 ✅
-- 소스 파일 헤더 ✅
-- 패키지 메타데이터 ✅
-- 문서 업데이트 ✅
-
-프로젝트를 Apache License 2.0으로 배포할 준비가 완료되었습니다.
-
