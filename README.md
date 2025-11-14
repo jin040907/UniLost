@@ -29,8 +29,16 @@
 
 ### 요구사항
 
-- Node.js 14 이상
-- npm 또는 yarn
+**서버:**
+- Node.js 18.0.0 이상 (권장: Node.js 20 LTS)
+- npm 9.0.0 이상
+- PostgreSQL (배포 시) 또는 SQLite (로컬 개발)
+
+**클라이언트:**
+- 모던 웹 브라우저 (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+)
+- 모바일: iOS Safari 14+, Android Chrome 90+
+
+자세한 호환성 정보는 [COMPATIBILITY.md](./COMPATIBILITY.md)를 참고하세요.
 
 ### 설치
 
