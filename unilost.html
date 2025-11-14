@@ -1002,12 +1002,6 @@
     }
   }
 
-  // 지도 리사이즈 처리 그대로 유지
-  if (tab==='tabRegister'){ if (!mapRegister) initRegisterMap(); setTimeout(()=> mapRegister?.invalidateSize(), 0); }
-  if (tab==='tabBrowse'){   if (!mapBrowse)   initBrowseMap();   setTimeout(()=> mapBrowse?.invalidateSize(),   0); }
-}
-
-
   // ===== Start =====
   function start(){
     // Global error handler - prevent page blocking
