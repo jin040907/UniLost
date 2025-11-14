@@ -127,7 +127,9 @@ node server.js
 
 ## 라이선스
 
-ISC
+Apache License 2.0
+
+자세한 내용은 [LICENSE](./LICENSE) 파일을 참고하세요.
 
 ## 개발자
 
