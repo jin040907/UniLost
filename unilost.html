@@ -124,6 +124,17 @@
     </div>
   </div>
 
+  <!-- 주소 검색 결과 모달 -->
+  <div id="addressResultsModal" class="fixed inset-0 hidden items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+    <div class="bg-white w-full max-w-2xl max-h-[80vh] p-6 rounded-2xl shadow-2xl border border-slate-200 flex flex-col">
+      <h2 class="text-xl font-bold mb-4 text-slate-900">검색 결과 선택</h2>
+      <div id="addressResultsList" class="flex-1 overflow-y-auto space-y-2 mb-4"></div>
+      <div class="flex justify-end gap-3">
+        <button id="btnCancelAddressResults" class="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 font-medium hover:bg-slate-200 transition-all duration-200">취소</button>
+      </div>
+    </div>
+  </div>
+
   <!-- 드로어용 백드롭(지도 위 어둡게) -->
   <div id="drawerBackdrop" class="fixed inset-0 bg-black/30 hidden z-[1100]"></div>
 
@@ -158,12 +169,12 @@
         </div>
 
         <div class="grid gap-2">
-          <label class="text-sm font-medium text-slate-700">위치(주소) 입력</label>
+          <label class="text-sm font-medium text-slate-700">위치(주소 또는 건물명) 입력</label>
           <div class="flex gap-2">
-            <input id="inAddress" class="flex-1 input-field" placeholder="예) 세종대학교 군자관, 서울 광진구 능동로 209" />
-            <button id="btnGeocode" class="px-4 py-2 rounded-lg bg-slate-800 text-white font-medium hover:bg-slate-900 shadow-sm transition-all duration-200 whitespace-nowrap">주소 찾기</button>
+            <input id="inAddress" class="flex-1 input-field" placeholder="예) 세종대학교 군자관, 세종대학교, 서울 광진구 능동로 209" />
+            <button id="btnGeocode" class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 shadow-sm hover:shadow-md transition-all duration-200 whitespace-nowrap">주소 찾기</button>
           </div>
-          <div class="text-xs text-slate-500">또는 <b>지도 클릭</b>으로 위치 지정</div>
+          <div class="text-xs text-slate-500">건물 이름이나 주소를 입력하세요. 또는 <b>지도 클릭</b>으로 위치 지정</div>
           <div class="grid grid-cols-2 gap-2">
             <input id="inLat" class="input-field" placeholder="위도" />
             <input id="inLng" class="input-field" placeholder="경도" />
@@ -451,10 +462,64 @@
   // ===== 지오코딩 =====
   async function geocode(address){
     const url = new URL('https://nominatim.openstreetmap.org/search');
-    url.search = new URLSearchParams({ q: address, format: 'json', addressdetails: 1 }).toString();
-    const res = await fetch(url, { headers: { 'Accept-Language': 'ko' } });
+    // 한국 우선 검색, 건물 이름 검색 개선을 위해 limit 증가 및 countrycodes 추가
+    url.search = new URLSearchParams({ 
+      q: address, 
+      format: 'json', 
+      addressdetails: 1,
+      limit: 10,
+      countrycodes: 'kr',
+      'accept-language': 'ko'
+    }).toString();
+    const res = await fetch(url, { 
+      headers: { 
+        'Accept-Language': 'ko',
+        'User-Agent': 'UniLost/1.0'
+      } 
+    });
     if (!res.ok) throw new Error('지오코딩 실패');
-    return res.json();
+    const results = await res.json();
+    return results;
+  }
+
+  // 주소 검색 결과 모달 표시
+  function showAddressResults(results, query){
+    const modal = $('addressResultsModal');
+    const list = $('addressResultsList');
+    list.innerHTML = '';
+    
+    if (!results || results.length === 0) {
+      list.innerHTML = '<p class="text-slate-500 text-center py-4">검색 결과가 없습니다.</p>';
+      modal.classList.remove('hidden');
+      return;
+    }
+
+    results.forEach((result, index) => {
+      const item = document.createElement('div');
+      item.className = 'p-3 rounded-lg border border-slate-200 hover:border-primary-300 hover:bg-primary-50 cursor-pointer transition-all';
+      item.innerHTML = `
+        <div class="font-medium text-slate-900">${result.display_name || '위치 정보 없음'}</div>
+        <div class="text-xs text-slate-500 mt-1">위도: ${parseFloat(result.lat).toFixed(6)}, 경도: ${parseFloat(result.lon).toFixed(6)}</div>
+      `;
+      item.addEventListener('click', () => {
+        selectAddressResult(result);
+      });
+      list.appendChild(item);
+    });
+
+    modal.classList.remove('hidden');
+  }
+
+  function hideAddressResultsModal(){
+    $('addressResultsModal').classList.add('hidden');
+  }
+
+  function selectAddressResult(result){
+    const {lat, lon, display_name} = result;
+    setRegisterLocation(parseFloat(lat), parseFloat(lon), false);
+    if (registerMarker) registerMarker.bindPopup(`<b>분실물 위치</b><br>${display_name}`).openPopup();
+    $('inAddress').value = display_name;
+    hideAddressResultsModal();
   }
 
   // ===== 등록 폼 =====
@@ -469,12 +534,34 @@
     });
     $('btnClassify').addEventListener('click', ()=> inCategory.value = autoClassify(`${inTitle.value}\n${inDesc.value}`));
     $('btnGeocode').addEventListener('click', async ()=>{
-      const q=$('inAddress').value.trim(); if(!q) return alert('주소를 입력하세요.');
+      const q=$('inAddress').value.trim(); 
+      if(!q) return alert('주소 또는 건물명을 입력하세요.');
       try{
-        const results=await geocode(q); if(!results.length) return alert('주소를 찾지 못했습니다.');
-        const {lat,lon,display_name}=results[0]; setRegisterLocation(parseFloat(lat), parseFloat(lon), false);
-        if (registerMarker) registerMarker.bindPopup(`<b>분실물 위치</b><br>${display_name}`).openPopup();
-      }catch(e){ alert(e.message||'지오코딩 오류'); }
+        const results=await geocode(q); 
+        if(!results.length) {
+          alert('검색 결과를 찾지 못했습니다. 다른 키워드로 시도해보세요.\n예: "세종대학교 군자관", "세종대학교", "서울 광진구 능동로 209"');
+          return;
+        }
+        // 결과가 1개면 바로 선택, 여러 개면 선택 모달 표시
+        if(results.length === 1){
+          selectAddressResult(results[0]);
+        } else {
+          showAddressResults(results, q);
+        }
+      }catch(e){ 
+        alert(e.message||'지오코딩 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'); 
+      }
+    });
+    
+    // 주소 검색 결과 모달 닫기
+    $('btnCancelAddressResults').addEventListener('click', hideAddressResultsModal);
+    $('addressResultsModal').addEventListener('click', (e) => {
+      if(e.target.id === 'addressResultsModal') hideAddressResultsModal();
+    });
+    
+    // Enter 키로 주소 검색
+    $('inAddress').addEventListener('keypress', (e) => {
+      if(e.key === 'Enter') $('btnGeocode').click();
     });
     $('inRadius').addEventListener('change', ()=>{
       const lat=parseFloat($('inLat').value||defaultLat), lng=parseFloat($('inLng').value||defaultLng);
