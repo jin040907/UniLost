@@ -43,8 +43,9 @@ secret: process.env.SESSION_SECRET || 'demo-lost-and-found-secret'
 ```
 
 ### 2. 데이터베이스
-- SQLite는 파일 기반이므로 호스팅 서비스에서 영구 저장소 설정 필요
-- 또는 PostgreSQL 같은 클라우드 DB 사용 권장
+- ✅ PostgreSQL 지원 완료
+- `DATABASE_URL` 환경변수 설정 필요
+- Supabase, Neon 등 무료 PostgreSQL 서비스 사용 권장
 
 ### 3. 포트 설정
 현재 코드는 이미 `process.env.PORT`를 사용하므로 문제없음 ✅

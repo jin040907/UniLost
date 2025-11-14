@@ -1,7 +1,7 @@
 // server.js
 // -------------------------------
-// 요구 패키지: express, express-session, bcrypt, socket.io, better-sqlite3
-// 설치: npm i express express-session bcrypt socket.io better-sqlite3
+// 요구 패키지: express, express-session, bcrypt, socket.io, pg (PostgreSQL)
+// 설치: npm i express express-session bcrypt socket.io pg
 // 실행: node server.js
 // -------------------------------
 const path = require('path');
@@ -10,7 +10,7 @@ const session = require('express-session');
 const http = require('http');
 const { Server } = require('socket.io');
 const bcrypt = require('bcrypt');
-const { userDB, itemDB, chatDB, threadDB } = require('./db');
+const { userDB, itemDB, chatDB, threadDB, usePostgres } = require('./db');
 
 const app = express();
 const server = http.createServer(app);
@@ -52,22 +52,27 @@ app.get('/api/me', (req, res) => {
   res.json({ user: req.session.user || null });
 });
 
-app.post('/api/login', (req, res) => {
-  const { id, pw } = req.body || {};
-  if (!id || !pw) return res.status(400).json({ error: '아이디/비밀번호 필요' });
-  
-  const user = userDB.findById(id);
-  if (!user) return res.status(400).json({ error: '존재하지 않는 아이디' });
-  
-  const ok = bcrypt.compareSync(pw, user.pw_hash);
-  if (!ok) return res.status(401).json({ error: '비밀번호 불일치' });
+app.post('/api/login', async (req, res) => {
+  try {
+    const { id, pw } = req.body || {};
+    if (!id || !pw) return res.status(400).json({ error: '아이디/비밀번호 필요' });
+    
+    const user = await userDB.findById(id);
+    if (!user) return res.status(400).json({ error: '존재하지 않는 아이디' });
+    
+    const ok = bcrypt.compareSync(pw, user.pw_hash);
+    if (!ok) return res.status(401).json({ error: '비밀번호 불일치' });
 
-  req.session.user = { 
-    id: user.id, 
-    name: user.name, 
-    isAdmin: !!user.is_admin 
-  };
-  res.json({ ok: true, user: req.session.user });
+    req.session.user = { 
+      id: user.id, 
+      name: user.name, 
+      isAdmin: !!user.is_admin 
+    };
+    res.json({ ok: true, user: req.session.user });
+  } catch (err) {
+    console.error('로그인 오류:', err);
+    res.status(500).json({ error: '로그인 실패' });
+  }
 });
 
 app.post('/api/logout', (req, res) => {
@@ -75,29 +80,29 @@ app.post('/api/logout', (req, res) => {
 });
 
 // --- 분실물 항목 API ---
-app.get('/api/items', (req, res) => {
+app.get('/api/items', async (req, res) => {
   try {
     const { status } = req.query;
     let items;
     if (status) {
-      items = itemDB.findAll(status);
+      items = await itemDB.findAll(status);
     } else {
-      items = itemDB.findAll();
+      items = await itemDB.findAll();
     }
     // 데이터베이스 필드명을 클라이언트가 기대하는 형식으로 변환
     const formatted = items.map(item => ({
       id: item.id,
       title: item.title,
-      desc: item.description,
-      cat: item.category,
-      imgData: item.img_data,
+      desc: item.description || item.desc,
+      cat: item.category || item.cat,
+      imgData: item.img_data || item.imgData,
       lat: item.lat,
       lng: item.lng,
       radius: item.radius,
       status: item.status,
-      storagePlace: item.storage_place,
-      created_at: item.created_at,
-      createdBy: item.created_by
+      storagePlace: item.storage_place || item.storagePlace,
+      created_at: item.created_at ? (typeof item.created_at === 'string' ? item.created_at : item.created_at.toISOString()) : null,
+      createdBy: item.created_by || item.createdBy
     }));
     res.json(formatted);
   } catch (err) {
@@ -106,24 +111,24 @@ app.get('/api/items', (req, res) => {
   }
 });
 
-app.get('/api/items/:id', (req, res) => {
+app.get('/api/items/:id', async (req, res) => {
   try {
-    const item = itemDB.findById(parseInt(req.params.id));
+    const item = await itemDB.findById(parseInt(req.params.id));
     if (!item) return res.status(404).json({ error: '항목을 찾을 수 없습니다' });
     
     const formatted = {
       id: item.id,
       title: item.title,
-      desc: item.description,
-      cat: item.category,
-      imgData: item.img_data,
+      desc: item.description || item.desc,
+      cat: item.category || item.cat,
+      imgData: item.img_data || item.imgData,
       lat: item.lat,
       lng: item.lng,
       radius: item.radius,
       status: item.status,
-      storagePlace: item.storage_place,
-      created_at: item.created_at,
-      createdBy: item.created_by
+      storagePlace: item.storage_place || item.storagePlace,
+      created_at: item.created_at ? (typeof item.created_at === 'string' ? item.created_at : item.created_at.toISOString()) : null,
+      createdBy: item.created_by || item.createdBy
     };
     res.json(formatted);
   } catch (err) {
@@ -132,7 +137,7 @@ app.get('/api/items/:id', (req, res) => {
   }
 });
 
-app.post('/api/items', (req, res) => {
+app.post('/api/items', async (req, res) => {
   try {
     if (!req.session.user) {
       return res.status(401).json({ error: '로그인이 필요합니다' });
@@ -143,7 +148,7 @@ app.post('/api/items', (req, res) => {
       return res.status(400).json({ error: '필수 필드가 누락되었습니다' });
     }
 
-    const item = itemDB.create({
+    const item = await itemDB.create({
       title,
       description: desc,
       category: cat,
@@ -159,15 +164,15 @@ app.post('/api/items', (req, res) => {
     const formatted = {
       id: item.id,
       title: item.title,
-      desc: item.description,
-      cat: item.category,
+      desc: item.description || item.desc,
+      cat: item.category || item.cat,
       imgData: item.imgData,
       lat: item.lat,
       lng: item.lng,
       radius: item.radius,
       status: item.status,
       storagePlace: item.storagePlace,
-      created_at: item.created_at || new Date().toISOString(),
+      created_at: item.created_at ? (typeof item.created_at === 'string' ? item.created_at : item.created_at.toISOString()) : new Date().toISOString(),
       createdBy: item.createdBy
     };
 
@@ -178,7 +183,7 @@ app.post('/api/items', (req, res) => {
   }
 });
 
-app.patch('/api/items/:id', (req, res) => {
+app.patch('/api/items/:id', async (req, res) => {
   try {
     if (!req.session.user || !req.session.user.isAdmin) {
       return res.status(403).json({ error: '관리자 권한이 필요합니다' });
@@ -194,24 +199,24 @@ app.patch('/api/items/:id', (req, res) => {
       return res.status(400).json({ error: '업데이트할 필드가 없습니다' });
     }
 
-    itemDB.update(id, updates);
-    const item = itemDB.findById(id);
+    await itemDB.update(id, updates);
+    const item = await itemDB.findById(id);
     
     if (!item) return res.status(404).json({ error: '항목을 찾을 수 없습니다' });
 
     const formatted = {
       id: item.id,
       title: item.title,
-      desc: item.description,
-      cat: item.category,
-      imgData: item.img_data,
+      desc: item.description || item.desc,
+      cat: item.category || item.cat,
+      imgData: item.img_data || item.imgData,
       lat: item.lat,
       lng: item.lng,
       radius: item.radius,
       status: item.status,
-      storagePlace: item.storage_place,
-      created_at: item.created_at,
-      createdBy: item.created_by
+      storagePlace: item.storage_place || item.storagePlace,
+      created_at: item.created_at ? (typeof item.created_at === 'string' ? item.created_at : item.created_at.toISOString()) : null,
+      createdBy: item.created_by || item.createdBy
     };
 
     res.json(formatted);
@@ -221,14 +226,14 @@ app.patch('/api/items/:id', (req, res) => {
   }
 });
 
-app.delete('/api/items/:id', (req, res) => {
+app.delete('/api/items/:id', async (req, res) => {
   try {
     if (!req.session.user || !req.session.user.isAdmin) {
       return res.status(403).json({ error: '관리자 권한이 필요합니다' });
     }
 
     const id = parseInt(req.params.id);
-    itemDB.delete(id);
+    await itemDB.delete(id);
     res.json({ ok: true });
   } catch (err) {
     console.error('항목 삭제 오류:', err);
@@ -241,15 +246,15 @@ io.on('connection', (socket) => {
   debugLog('✅ 클라이언트 연결됨');
 
   // 전역 채팅
-  socket.on('chat:join', ({ nick }) => {
+  socket.on('chat:join', async ({ nick }) => {
     try {
-      const messages = chatDB.findAll(200);
+      const messages = await chatDB.findAll(200);
       // 데이터베이스 형식을 클라이언트 형식으로 변환
       const formatted = messages.map(msg => ({
         nick: msg.nick,
         text: msg.text,
-        ts: msg.created_at
-      })).reverse(); // 최신순으로 정렬
+        ts: msg.created_at ? (typeof msg.created_at === 'string' ? msg.created_at : msg.created_at.toISOString()) : new Date().toISOString()
+      }));
       socket.emit('chat:history', formatted);
     } catch (err) {
       console.error('채팅 히스토리 로드 오류:', err);
@@ -257,12 +262,12 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('chat:send', (msg) => {
+  socket.on('chat:send', async (msg) => {
     try {
       const nick = (msg.nick || '익명').toString().slice(0, 50);
       const text = (msg.text || '').toString().slice(0, 2000);
       
-      const saved = chatDB.create(nick, text);
+      const saved = await chatDB.create(nick, text);
       io.emit('chat:new', {
         nick: saved.nick,
         text: saved.text,
@@ -274,17 +279,17 @@ io.on('connection', (socket) => {
   });
 
   // 항목별 스레드 채팅
-  socket.on('thread:join', ({ itemId, nick }) => {
+  socket.on('thread:join', async ({ itemId, nick }) => {
     if (!itemId) return;
     const roomName = `item:${itemId}`;
     socket.join(roomName);
     debugLog(`👤 스레드 참여: itemId=${itemId}, room=${roomName}, socketId=${socket.id}`);
     try {
-      const messages = threadDB.findByItemId(itemId, 200);
+      const messages = await threadDB.findByItemId(itemId, 200);
       const formatted = messages.map(msg => ({
         nick: msg.nick,
         text: msg.text,
-        ts: msg.created_at
+        ts: msg.created_at ? (typeof msg.created_at === 'string' ? msg.created_at : msg.created_at.toISOString()) : new Date().toISOString()
       }));
       socket.emit('thread:history', { itemId, msgs: formatted });
     } catch (err) {
@@ -298,13 +303,13 @@ io.on('connection', (socket) => {
     socket.leave(`item:${itemId}`);
   });
 
-  socket.on('thread:send', ({ itemId, nick, text, ts }) => {
+  socket.on('thread:send', async ({ itemId, nick, text, ts }) => {
     if (!itemId || !text) return;
     try {
       const safeNick = (nick || '익명').toString().slice(0, 50);
       const safeText = text.toString().slice(0, 2000);
       
-      const saved = threadDB.create(itemId, safeNick, safeText);
+      const saved = await threadDB.create(itemId, safeNick, safeText);
       const roomName = `item:${itemId}`;
       const message = { 
         itemId, 
@@ -348,10 +353,5 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`🌐 다른 컴퓨터에서 접속: http://[서버IP주소]:${PORT}`);
-  console.log(`   예: http://192.168.0.100:${PORT}`);
-  console.log(`💾 데이터베이스: unilost.db`);
-  console.log(`📦 Node.js 버전: ${process.version}`);
-  console.log(`🌍 환경: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`http://localhost:${PORT}`);
 });

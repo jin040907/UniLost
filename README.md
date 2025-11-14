@@ -14,7 +14,7 @@
 ## 기술 스택
 
 - **Backend**: Node.js, Express.js
-- **Database**: SQLite (better-sqlite3)
+- **Database**: PostgreSQL (배포) / SQLite (로컬 개발)
 - **Real-time**: Socket.IO
 - **Frontend**: HTML, JavaScript, Tailwind CSS
 - **Maps**: Leaflet.js, OpenStreetMap
@@ -107,6 +107,9 @@ node server.js
 
 - `PORT`: 서버 포트 (기본값: 3000)
 - `SESSION_SECRET`: 세션 시크릿 키 (운영환경 필수)
+- `DATABASE_URL`: PostgreSQL 연결 문자열 (배포 시 필수)
+  - 예: `postgresql://user:password@host:5432/database`
+  - 없으면 로컬 개발용 SQLite 사용
 
 ## 라이선스
 
