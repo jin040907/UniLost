@@ -421,36 +421,77 @@
   let mapRegister, mapBrowse, registerMarker, registerCircle, regRO, brRO;
   let browseMarkers = [];
   function initRegisterMap(){
-    const el = $('mapRegister'); if (!el || mapRegister) return;
-    if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initRegisterMap,120); return; }
-    mapRegister = L.map('mapRegister');
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapRegister);
-    setRegisterLocation(defaultLat, defaultLng, true);
-    mapRegister.on('click', e=> setRegisterLocation(e.latlng.lat, e.latlng.lng, false));
-    setTimeout(()=> mapRegister.invalidateSize(), 50);
-    regRO = new ResizeObserver(()=> mapRegister && mapRegister.invalidateSize()); regRO.observe(el);
+    try {
+      if (typeof L === 'undefined' || !L || !L.map) {
+        console.warn('Leaflet not loaded yet, retrying...');
+        setTimeout(initRegisterMap, 200);
+        return;
+      }
+      const el = $('mapRegister'); if (!el || mapRegister) return;
+      if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initRegisterMap,120); return; }
+      mapRegister = L.map('mapRegister');
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapRegister);
+      setRegisterLocation(defaultLat, defaultLng, true);
+      mapRegister.on('click', e=> setRegisterLocation(e.latlng.lat, e.latlng.lng, false));
+      setTimeout(()=> mapRegister.invalidateSize(), 50);
+      regRO = new ResizeObserver(()=> mapRegister && mapRegister.invalidateSize()); regRO.observe(el);
+    } catch (err) {
+      console.error('Failed to initialize register map:', err);
+      // Show error message but don't block page functionality
+      const el = $('mapRegister');
+      if (el) {
+        el.innerHTML = '<div class="p-4 text-center text-red-600">Map failed to load. Please refresh the page or check your network connection.</div>';
+      }
+    }
   }
   function setRegisterLocation(lat, lng, first){
-    $('inLat').value = (lat??defaultLat).toFixed(6);
-    $('inLng').value = (lng??defaultLng).toFixed(6);
-    if (registerMarker) registerMarker.remove();
-    if (registerCircle) registerCircle.remove();
-    registerMarker = L.marker([lat,lng]).addTo(mapRegister).bindPopup('Registration Location');
-    const r = Number($('inRadius').value||0);
-    if (r>0) registerCircle = L.circle([lat,lng], {radius:r, fillOpacity:.15}).addTo(mapRegister);
-    mapRegister.setView([lat,lng], first?15:16); registerMarker.openPopup();
+    if (!mapRegister) return;
+    try {
+      $('inLat').value = (lat??defaultLat).toFixed(6);
+      $('inLng').value = (lng??defaultLng).toFixed(6);
+      if (registerMarker) registerMarker.remove();
+      if (registerCircle) registerCircle.remove();
+      registerMarker = L.marker([lat,lng]).addTo(mapRegister).bindPopup('Registration Location');
+      const r = Number($('inRadius').value||0);
+      if (r>0) registerCircle = L.circle([lat,lng], {radius:r, fillOpacity:.15}).addTo(mapRegister);
+      mapRegister.setView([lat,lng], first?15:16); registerMarker.openPopup();
+    } catch (err) {
+      console.error('Failed to set register location:', err);
+    }
   }
   function initBrowseMap(){
-    const el = $('mapBrowse'); if (!el || mapBrowse) return;
-    if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initBrowseMap,120); return; }
-    mapBrowse = L.map('mapBrowse');
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapBrowse);
-    mapBrowse.setView([defaultLat, defaultLng], 15);
-    renderBrowse();
-    setTimeout(()=> mapBrowse.invalidateSize(), 50);
-    brRO = new ResizeObserver(()=> mapBrowse && mapBrowse.invalidateSize()); brRO.observe(el);
+    try {
+      if (typeof L === 'undefined' || !L || !L.map) {
+        console.warn('Leaflet not loaded yet, retrying...');
+        setTimeout(initBrowseMap, 200);
+        return;
+      }
+      const el = $('mapBrowse'); if (!el || mapBrowse) return;
+      if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initBrowseMap,120); return; }
+      mapBrowse = L.map('mapBrowse');
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapBrowse);
+      mapBrowse.setView([defaultLat, defaultLng], 15);
+      renderBrowse();
+      setTimeout(()=> mapBrowse.invalidateSize(), 50);
+      brRO = new ResizeObserver(()=> mapBrowse && mapBrowse.invalidateSize()); brRO.observe(el);
+    } catch (err) {
+      console.error('Failed to initialize browse map:', err);
+      // Show error message but don't block page functionality
+      const el = $('mapBrowse');
+      if (el) {
+        el.innerHTML = '<div class="p-4 text-center text-red-600">Map failed to load. Please refresh the page or check your network connection.</div>';
+      }
+    }
   }
-  function clearBrowseMarkers(){ browseMarkers.forEach(m=>m.remove()); browseMarkers=[]; }
+  function clearBrowseMarkers(){ 
+    try {
+      browseMarkers.forEach(m=>{ try { m.remove(); } catch(e) { console.warn('Failed to remove marker:', e); } }); 
+      browseMarkers=[]; 
+    } catch (err) {
+      console.error('Failed to clear browse markers:', err);
+      browseMarkers = [];
+    }
+  }
 
   // ===== Geocoding =====
   async function geocode(address){
@@ -539,41 +580,63 @@
   // ===== Search/Map + Drawer =====
   async function renderBrowse(){
     if (!mapBrowse) return;
-    const items = await loadItems();
-    const qText=$('qText').value.trim().toLowerCase(), qCategory=$('qCategory').value, onlyApproved=$('qOnlyApproved').checked;
-    const filtered=items.filter(it=>{
-      if (onlyApproved && it.status!=='approved') return false;
-      if (qCategory && it.cat!==qCategory) return false;
-      if (qText){ const blob = `${it.title} ${it.desc} ${it.cat}`.toLowerCase(); if (!blob.includes(qText)) return false; }
-      return true;
-    }).sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||''));
+    try {
+      const items = await loadItems();
+      const qText=$('qText').value.trim().toLowerCase(), qCategory=$('qCategory').value, onlyApproved=$('qOnlyApproved').checked;
+      const filtered=items.filter(it=>{
+        if (onlyApproved && it.status!=='approved') return false;
+        if (qCategory && it.cat!==qCategory) return false;
+        if (qText){ const blob = `${it.title} ${it.desc} ${it.cat}`.toLowerCase(); if (!blob.includes(qText)) return false; }
+        return true;
+      }).sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||''));
 
-    const ul=$('listResults'); ul.innerHTML='';
-    filtered.forEach(it=>{
-      const li=document.createElement('li');
-      li.className='py-2 flex gap-3 items-center cursor-pointer hover:bg-slate-50 px-2 rounded';
-      li.innerHTML=`
-        <img src="${it.imgData||''}" class="w-12 h-12 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'}" alt="">
-        <div class="flex-1 min-w-0">
-          <div class="font-medium u-ellipsis">${it.title}<span class="text-xs text-slate-500"> (${it.cat}${it.storagePlace?` · Storage:${it.storagePlace}`:''})</span></div>
-          <div class="text-xs text-slate-500 u-ellipsis">${it.desc||''}</div>
-          <div class="text-[10px] text-slate-400">${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
-        </div>`;
-      li.addEventListener('click', ()=>{ mapBrowse.setView([it.lat,it.lng], 17); openItemDrawer(it.id); });
-      ul.appendChild(li);
-    });
+      const ul=$('listResults'); ul.innerHTML='';
+      filtered.forEach(it=>{
+        const li=document.createElement('li');
+        li.className='py-2 flex gap-3 items-center cursor-pointer hover:bg-slate-50 px-2 rounded';
+        li.innerHTML=`
+          <img src="${it.imgData||''}" class="w-12 h-12 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'}" alt="">
+          <div class="flex-1 min-w-0">
+            <div class="font-medium u-ellipsis">${it.title}<span class="text-xs text-slate-500"> (${it.cat}${it.storagePlace?` · Storage:${it.storagePlace}`:''})</span></div>
+            <div class="text-xs text-slate-500 u-ellipsis">${it.desc||''}</div>
+            <div class="text-[10px] text-slate-400">${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
+          </div>`;
+        li.addEventListener('click', ()=>{ 
+          if (mapBrowse) {
+            try {
+              mapBrowse.setView([it.lat,it.lng], 17);
+              openItemDrawer(it.id);
+            } catch (err) {
+              console.error('Failed to set map view:', err);
+              openItemDrawer(it.id);
+            }
+          } else {
+            openItemDrawer(it.id);
+          }
+        });
+        ul.appendChild(li);
+      });
 
-    clearBrowseMarkers();
-    filtered.forEach(it=>{
-      const mk=L.marker([it.lat,it.lng]).addTo(mapBrowse).bindPopup(`
-        <b>${it.title}</b><br/>
-        <span class="text-xs">${it.cat}${it.storagePlace?` · Storage:${it.storagePlace}`:''} • ${new Date(it.created_at).toLocaleString()}</span><br/>
-        <span class="text-xs">${(it.desc||'').replace(/[\n\r]+/g,' ')}</span>
-      `);
-      browseMarkers.push(mk);
-      if (it.radius>0){ const circle=L.circle([it.lat,it.lng],{radius:it.radius,fillOpacity:.12}); circle.addTo(mapBrowse); browseMarkers.push(circle); }
-      mk.on('click', ()=> openItemDrawer(it.id));
-    });
+      clearBrowseMarkers();
+      if (typeof L !== 'undefined' && L && L.marker) {
+        filtered.forEach(it=>{
+          try {
+            const mk=L.marker([it.lat,it.lng]).addTo(mapBrowse).bindPopup(`
+              <b>${it.title}</b><br/>
+              <span class="text-xs">${it.cat}${it.storagePlace?` · Storage:${it.storagePlace}`:''} • ${new Date(it.created_at).toLocaleString()}</span><br/>
+              <span class="text-xs">${(it.desc||'').replace(/[\n\r]+/g,' ')}</span>
+            `);
+            browseMarkers.push(mk);
+            if (it.radius>0){ const circle=L.circle([it.lat,it.lng],{radius:it.radius,fillOpacity:.12}); circle.addTo(mapBrowse); browseMarkers.push(circle); }
+            mk.on('click', ()=> openItemDrawer(it.id));
+          } catch (err) {
+            console.error('Failed to add marker for item:', it.id, err);
+          }
+        });
+      }
+    } catch (err) {
+      console.error('Failed to render browse:', err);
+    }
   }
 
   async function openItemDrawer(itemId){
@@ -628,7 +691,13 @@
     $('btnThreadSend').onclick=sendThread;
     $('threadMsg').onkeydown=(e)=>{ if(e.key==='Enter'&& !e.shiftKey){ e.preventDefault(); sendThread(); } };
 
-    setTimeout(()=> mapBrowse?.invalidateSize(), 60);
+    setTimeout(()=> { 
+      try { 
+        mapBrowse?.invalidateSize(); 
+      } catch(e) { 
+        console.warn('Failed to invalidate browse map size in drawer:', e); 
+      } 
+    }, 60);
   }
 
   // ===== Admin Lists =====
@@ -793,20 +862,30 @@
 
   // ===== Tab Switching =====
   function switchTab(tab){
-    ['tabRegister','tabBrowse','tabAdmin','tabChat'].forEach(id=> $(id).classList.add('hidden'));
-    $(tab).classList.remove('hidden');
-    document.querySelectorAll('header nav button').forEach(b=> {
-      b.classList.replace('bg-primary-600','bg-slate-100');
-      b.classList.replace('text-white','text-slate-700');
-    });
-    const btnIdMap={tabRegister:'tabRegisterBtn', tabBrowse:'tabBrowseBtn', tabAdmin:'tabAdminBtn', tabChat:'tabChatBtn'};
-    const btnEl=$(btnIdMap[tab]); 
-    if (btnEl) {
-      btnEl.classList.replace('bg-slate-100','bg-primary-600');
-      btnEl.classList.replace('text-slate-700','text-white');
+    try {
+      ['tabRegister','tabBrowse','tabAdmin','tabChat'].forEach(id=> $(id).classList.add('hidden'));
+      $(tab).classList.remove('hidden');
+      document.querySelectorAll('header nav button').forEach(b=> {
+        b.classList.replace('bg-primary-600','bg-slate-100');
+        b.classList.replace('text-white','text-slate-700');
+      });
+      const btnIdMap={tabRegister:'tabRegisterBtn', tabBrowse:'tabBrowseBtn', tabAdmin:'tabAdminBtn', tabChat:'tabChatBtn'};
+      const btnEl=$(btnIdMap[tab]); 
+      if (btnEl) {
+        btnEl.classList.replace('bg-slate-100','bg-primary-600');
+        btnEl.classList.replace('text-slate-700','text-white');
+      }
+      if (tab==='tabRegister'){ 
+        if (!mapRegister) initRegisterMap(); 
+        setTimeout(()=> { try { mapRegister?.invalidateSize(); } catch(e) { console.warn('Failed to invalidate register map size:', e); } }, 0); 
+      }
+      if (tab==='tabBrowse'){   
+        if (!mapBrowse) initBrowseMap();   
+        setTimeout(()=> { try { mapBrowse?.invalidateSize(); } catch(e) { console.warn('Failed to invalidate browse map size:', e); } }, 0); 
+      }
+    } catch (err) {
+      console.error('Failed to switch tab:', err);
     }
-    if (tab==='tabRegister'){ if (!mapRegister) initRegisterMap(); setTimeout(()=> mapRegister?.invalidateSize(), 0); }
-    if (tab==='tabBrowse'){   if (!mapBrowse)   initBrowseMap();   setTimeout(()=> mapBrowse?.invalidateSize(),   0); }
   }
 
 
@@ -822,10 +901,12 @@
     $('tabAdminBtn').addEventListener('click',    ()=> switchTab('tabAdmin'));
     $('tabChatBtn').addEventListener('click',     ()=> switchTab('tabChat'));
 
-    // Maps + Form
-    initRegisterMap();
+    // Form binding (doesn't depend on maps)
     bindRegisterForm();
-    initBrowseMap();
+    
+    // Only initialize Register map here (default tab)
+    // Browse map will be initialized when tab is switched
+    initRegisterMap();
 
     // Search/Export/Import
     $('btnSearch').addEventListener('click', ()=> renderBrowse());
@@ -887,7 +968,12 @@
   window.addEventListener('DOMContentLoaded', ()=>{
     let tries=0; const t=setInterval(()=>{
       if (window.L){ clearInterval(t); start(); }
-      else if (++tries>50){ clearInterval(t); alert('Leaflet loading failed: Please check your network connection.'); }
+      else if (++tries>50){ 
+        clearInterval(t); 
+        console.warn('Leaflet loading failed: Maps may not work. Please check your network connection.');
+        // Start anyway so the page remains functional even without maps
+        start(); 
+      }
     }, 60);
   });
   </script>
