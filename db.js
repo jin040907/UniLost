@@ -3,7 +3,7 @@ const Database = require('better-sqlite3');
 const path = require('path');
 const bcrypt = require('bcrypt');
 
-const dbPath = path.join(__dirname, 'campuslost.db');
+const dbPath = path.join(__dirname, 'unilost.db');
 const db = new Database(dbPath);
 
 // 데이터베이스 초기화

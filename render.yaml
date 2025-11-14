@@ -3,7 +3,7 @@
 
 services:
   - type: web
-    name: campuslost
+    name: unilost
     env: node
     buildCommand: npm install
     startCommand: node server.js

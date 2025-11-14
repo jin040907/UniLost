@@ -25,7 +25,7 @@
 
 ### GitHub에 업로드하기 전
 1. **데이터베이스 파일 제외 확인**
-   - `campuslost.db`는 `.gitignore`에 포함되어 있어 자동 제외됨 ✅
+   - `unilost.db`는 `.gitignore`에 포함되어 있어 자동 제외됨 ✅
 
 2. **환경변수 설정**
    - 배포 시 `SESSION_SECRET` 환경변수 설정 필요

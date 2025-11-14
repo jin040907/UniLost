@@ -1,4 +1,4 @@
-# 교내 분실물 통합 관리 시스템 (Campus Lost & Found)
+# UniLost - 교내 분실물 통합 관리 시스템
 
 세종대학교 분실물 통합 관리 웹 애플리케이션입니다. 지도 기반 분실물 등록/검색, 실시간 채팅, 관리자 승인 시스템을 제공합니다.
 
@@ -59,7 +59,7 @@ node server.js
 .
 ├── server.js          # Express 서버 메인 파일
 ├── db.js             # SQLite 데이터베이스 모듈
-├── campuslost.html   # 프론트엔드 HTML 파일
+├── unilost.html      # 프론트엔드 HTML 파일
 ├── package.json       # 프로젝트 의존성
 ├── render.yaml        # Render 배포 설정
 └── DEPLOY.md         # 배포 가이드

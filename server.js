@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname)));
 
 // ✅ 기본 페이지 라우트
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'campuslost.html'));
+  res.sendFile(path.join(__dirname, 'unilost.html'));
 });
 
 // --- 로그인/로그아웃 API ---
@@ -331,5 +331,5 @@ server.listen(PORT, HOST, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
   console.log(`🌐 다른 컴퓨터에서 접속: http://[서버IP주소]:${PORT}`);
   console.log(`   예: http://192.168.0.100:${PORT}`);
-  console.log(`💾 데이터베이스: campuslost.db`);
+  console.log(`💾 데이터베이스: unilost.db`);
 });

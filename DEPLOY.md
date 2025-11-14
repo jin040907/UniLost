@@ -65,7 +65,7 @@ secret: process.env.SESSION_SECRET || 'demo-lost-and-found-secret'
    - "New +" → "Web Service"
    - GitHub 저장소 연결
    - 설정:
-     - Name: campuslost (원하는 이름)
+     - Name: unilost (원하는 이름)
      - Region: Singapore (한국에서 가까움)
      - Branch: main
      - Root Directory: (비워두기)

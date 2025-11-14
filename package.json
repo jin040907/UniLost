@@ -1,5 +1,5 @@
 {
-  "name": "campus-lost-found",
+  "name": "unilost",
   "version": "1.0.0",
   "description": "교내 분실물 통합 관리 시스템 - 지도 기반 분실물 등록/검색 및 실시간 채팅 기능",
   "main": "server.js",
