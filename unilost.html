@@ -20,47 +20,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UniLost - Campus Lost & Found Management</title>
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind with fallback -->
+  <script src="https://cdn.tailwindcss.com" 
+          onerror="(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tailwindcss@3/dist/tailwind.min.js';document.head.appendChild(s);}())"></script>
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              200: '#bfdbfe',
-              300: '#93c5fd',
-              400: '#60a5fa',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              800: '#1e40af',
-              900: '#1e3a8a',
-            },
-            accent: {
-              50: '#f0fdf4',
-              100: '#dcfce7',
-              200: '#bbf7d0',
-              300: '#86efac',
-              400: '#4ade80',
-              500: '#22c55e',
-              600: '#16a34a',
-              700: '#15803d',
-              800: '#166534',
-              900: '#14532d',
+    // Wait for Tailwind to load before configuring
+    function initTailwind() {
+      if (typeof tailwind !== 'undefined') {
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                primary: {
+                  50: '#eff6ff',
+                  100: '#dbeafe',
+                  200: '#bfdbfe',
+                  300: '#93c5fd',
+                  400: '#60a5fa',
+                  500: '#3b82f6',
+                  600: '#2563eb',
+                  700: '#1d4ed8',
+                  800: '#1e40af',
+                  900: '#1e3a8a',
+                },
+                accent: {
+                  50: '#f0fdf4',
+                  100: '#dcfce7',
+                  200: '#bbf7d0',
+                  300: '#86efac',
+                  400: '#4ade80',
+                  500: '#22c55e',
+                  600: '#16a34a',
+                  700: '#15803d',
+                  800: '#166534',
+                  900: '#14532d',
+                }
+              }
             }
           }
-        }
+        };
+      } else {
+        setTimeout(initTailwind, 100);
       }
     }
+    initTailwind();
   </script>
 
-  <!-- Leaflet (defer + 폴백) -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
-  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"
-          onerror="(function(){var s=document.createElement('script');s.defer=true;s.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';document.head.appendChild(s);}())"></script>
+  <!-- Leaflet CSS with fallback -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous"
+        onerror="(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';l.crossOrigin='anonymous';document.head.appendChild(l);}())">
+  
+  <!-- Leaflet JS with multiple fallbacks -->
+  <script>
+    (function() {
+      var loaded = false;
+      function loadLeaflet(src) {
+        if (loaded) return;
+        var s = document.createElement('script');
+        s.defer = true;
+        s.crossOrigin = 'anonymous';
+        s.src = src;
+        s.onload = function() { loaded = true; };
+        s.onerror = function() {
+          if (src.includes('unpkg.com')) {
+            loadLeaflet('https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js');
+          } else if (src.includes('jsdelivr.net')) {
+            loadLeaflet('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js');
+          } else {
+            console.warn('All Leaflet CDN sources failed. Maps will not work.');
+            loaded = true; // Stop retrying
+          }
+        };
+        document.head.appendChild(s);
+      }
+      loadLeaflet('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
+    })();
+  </script>
 
   <style>
     html, body { height: 100%; }
@@ -73,19 +108,71 @@
     
     /* Custom styles */
     .btn-primary {
-      @apply px-4 py-2 rounded-lg bg-primary-600 text-white font-medium transition-all duration-200 hover:bg-primary-700 hover:shadow-md active:scale-95;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      background-color: #2563eb;
+      color: white;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .btn-primary:active {
+      transform: scale(0.95);
     }
     .btn-secondary {
-      @apply px-4 py-2 rounded-lg bg-slate-200 text-slate-700 font-medium transition-all duration-200 hover:bg-slate-300 active:scale-95;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      background-color: #e2e8f0;
+      color: #334155;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      background-color: #cbd5e1;
+    }
+    .btn-secondary:active {
+      transform: scale(0.95);
     }
     .btn-success {
-      @apply px-4 py-2 rounded-lg bg-accent-600 text-white font-medium transition-all duration-200 hover:bg-accent-700 hover:shadow-md active:scale-95;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      background-color: #16a34a;
+      color: white;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-success:hover {
+      background-color: #15803d;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .btn-success:active {
+      transform: scale(0.95);
     }
     .input-field {
-      @apply w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all;
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      padding: 0.625rem 1rem;
+      transition: all 0.2s;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: transparent;
+      box-shadow: 0 0 0 2px #3b82f6;
     }
     .card {
-      @apply bg-white rounded-xl shadow-sm border border-slate-200 p-6 transition-shadow hover:shadow-md;
+      background-color: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+      padding: 1.5rem;
+      transition: box-shadow 0.2s;
+    }
+    .card:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
   </style>
 </head>
@@ -421,36 +508,77 @@
   let mapRegister, mapBrowse, registerMarker, registerCircle, regRO, brRO;
   let browseMarkers = [];
   function initRegisterMap(){
-    const el = $('mapRegister'); if (!el || mapRegister) return;
-    if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initRegisterMap,120); return; }
-    mapRegister = L.map('mapRegister');
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapRegister);
-    setRegisterLocation(defaultLat, defaultLng, true);
-    mapRegister.on('click', e=> setRegisterLocation(e.latlng.lat, e.latlng.lng, false));
-    setTimeout(()=> mapRegister.invalidateSize(), 50);
-    regRO = new ResizeObserver(()=> mapRegister && mapRegister.invalidateSize()); regRO.observe(el);
+    try {
+      if (typeof L === 'undefined' || !L || !L.map) {
+        console.warn('Leaflet not loaded yet, retrying...');
+        setTimeout(initRegisterMap, 200);
+        return;
+      }
+      const el = $('mapRegister'); if (!el || mapRegister) return;
+      if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initRegisterMap,120); return; }
+      mapRegister = L.map('mapRegister');
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapRegister);
+      setRegisterLocation(defaultLat, defaultLng, true);
+      mapRegister.on('click', e=> setRegisterLocation(e.latlng.lat, e.latlng.lng, false));
+      setTimeout(()=> mapRegister.invalidateSize(), 50);
+      regRO = new ResizeObserver(()=> mapRegister && mapRegister.invalidateSize()); regRO.observe(el);
+    } catch (err) {
+      console.error('Failed to initialize register map:', err);
+      // Show error message but don't block page functionality
+      const el = $('mapRegister');
+      if (el) {
+        el.innerHTML = '<div class="p-4 text-center text-red-600">Map failed to load. Please refresh the page or check your network connection.</div>';
+      }
+    }
   }
   function setRegisterLocation(lat, lng, first){
-    $('inLat').value = (lat??defaultLat).toFixed(6);
-    $('inLng').value = (lng??defaultLng).toFixed(6);
-    if (registerMarker) registerMarker.remove();
-    if (registerCircle) registerCircle.remove();
-    registerMarker = L.marker([lat,lng]).addTo(mapRegister).bindPopup('Registration Location');
-    const r = Number($('inRadius').value||0);
-    if (r>0) registerCircle = L.circle([lat,lng], {radius:r, fillOpacity:.15}).addTo(mapRegister);
-    mapRegister.setView([lat,lng], first?15:16); registerMarker.openPopup();
+    if (!mapRegister) return;
+    try {
+      $('inLat').value = (lat??defaultLat).toFixed(6);
+      $('inLng').value = (lng??defaultLng).toFixed(6);
+      if (registerMarker) registerMarker.remove();
+      if (registerCircle) registerCircle.remove();
+      registerMarker = L.marker([lat,lng]).addTo(mapRegister).bindPopup('Registration Location');
+      const r = Number($('inRadius').value||0);
+      if (r>0) registerCircle = L.circle([lat,lng], {radius:r, fillOpacity:.15}).addTo(mapRegister);
+      mapRegister.setView([lat,lng], first?15:16); registerMarker.openPopup();
+    } catch (err) {
+      console.error('Failed to set register location:', err);
+    }
   }
   function initBrowseMap(){
-    const el = $('mapBrowse'); if (!el || mapBrowse) return;
-    if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initBrowseMap,120); return; }
-    mapBrowse = L.map('mapBrowse');
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapBrowse);
-    mapBrowse.setView([defaultLat, defaultLng], 15);
-    renderBrowse();
-    setTimeout(()=> mapBrowse.invalidateSize(), 50);
-    brRO = new ResizeObserver(()=> mapBrowse && mapBrowse.invalidateSize()); brRO.observe(el);
+    try {
+      if (typeof L === 'undefined' || !L || !L.map) {
+        console.warn('Leaflet not loaded yet, retrying...');
+        setTimeout(initBrowseMap, 200);
+        return;
+      }
+      const el = $('mapBrowse'); if (!el || mapBrowse) return;
+      if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initBrowseMap,120); return; }
+      mapBrowse = L.map('mapBrowse');
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapBrowse);
+      mapBrowse.setView([defaultLat, defaultLng], 15);
+      renderBrowse();
+      setTimeout(()=> mapBrowse.invalidateSize(), 50);
+      brRO = new ResizeObserver(()=> mapBrowse && mapBrowse.invalidateSize()); brRO.observe(el);
+    } catch (err) {
+      console.error('Failed to initialize browse map:', err);
+      // Show error message but don't block page functionality
+      const el = $('mapBrowse');
+      if (el) {
+        el.innerHTML = '<div class="p-4 text-center text-red-600">Map failed to load. Please refresh the page or check your network connection.</div>';
+      }
+    }
   }
-  function clearBrowseMarkers(){ browseMarkers.forEach(m=>m.remove()); browseMarkers=[]; }
+  function clearBrowseMarkers(){ 
+    try {
+      browseMarkers.forEach(m=>{ try { m.remove(); } catch(e) { console.warn('Failed to remove marker:', e); } }); 
+      browseMarkers=[]; 
+    } catch (err) {
+      console.error('Failed to clear browse markers:', err);
+      browseMarkers = [];
+    }
+  }
 
   // ===== Geocoding =====
   async function geocode(address){
@@ -539,41 +667,63 @@
   // ===== Search/Map + Drawer =====
   async function renderBrowse(){
     if (!mapBrowse) return;
-    const items = await loadItems();
-    const qText=$('qText').value.trim().toLowerCase(), qCategory=$('qCategory').value, onlyApproved=$('qOnlyApproved').checked;
-    const filtered=items.filter(it=>{
-      if (onlyApproved && it.status!=='approved') return false;
-      if (qCategory && it.cat!==qCategory) return false;
-      if (qText){ const blob = `${it.title} ${it.desc} ${it.cat}`.toLowerCase(); if (!blob.includes(qText)) return false; }
-      return true;
-    }).sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||''));
+    try {
+      const items = await loadItems();
+      const qText=$('qText').value.trim().toLowerCase(), qCategory=$('qCategory').value, onlyApproved=$('qOnlyApproved').checked;
+      const filtered=items.filter(it=>{
+        if (onlyApproved && it.status!=='approved') return false;
+        if (qCategory && it.cat!==qCategory) return false;
+        if (qText){ const blob = `${it.title} ${it.desc} ${it.cat}`.toLowerCase(); if (!blob.includes(qText)) return false; }
+        return true;
+      }).sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||''));
 
-    const ul=$('listResults'); ul.innerHTML='';
-    filtered.forEach(it=>{
-      const li=document.createElement('li');
-      li.className='py-2 flex gap-3 items-center cursor-pointer hover:bg-slate-50 px-2 rounded';
-      li.innerHTML=`
-        <img src="${it.imgData||''}" class="w-12 h-12 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'}" alt="">
-        <div class="flex-1 min-w-0">
-          <div class="font-medium u-ellipsis">${it.title}<span class="text-xs text-slate-500"> (${it.cat}${it.storagePlace?` · Storage:${it.storagePlace}`:''})</span></div>
-          <div class="text-xs text-slate-500 u-ellipsis">${it.desc||''}</div>
-          <div class="text-[10px] text-slate-400">${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
-        </div>`;
-      li.addEventListener('click', ()=>{ mapBrowse.setView([it.lat,it.lng], 17); openItemDrawer(it.id); });
-      ul.appendChild(li);
-    });
+      const ul=$('listResults'); ul.innerHTML='';
+      filtered.forEach(it=>{
+        const li=document.createElement('li');
+        li.className='py-2 flex gap-3 items-center cursor-pointer hover:bg-slate-50 px-2 rounded';
+        li.innerHTML=`
+          <img src="${it.imgData||''}" class="w-12 h-12 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'}" alt="">
+          <div class="flex-1 min-w-0">
+            <div class="font-medium u-ellipsis">${it.title}<span class="text-xs text-slate-500"> (${it.cat}${it.storagePlace?` · Storage:${it.storagePlace}`:''})</span></div>
+            <div class="text-xs text-slate-500 u-ellipsis">${it.desc||''}</div>
+            <div class="text-[10px] text-slate-400">${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
+          </div>`;
+        li.addEventListener('click', ()=>{ 
+          if (mapBrowse) {
+            try {
+              mapBrowse.setView([it.lat,it.lng], 17);
+              openItemDrawer(it.id);
+            } catch (err) {
+              console.error('Failed to set map view:', err);
+              openItemDrawer(it.id);
+            }
+          } else {
+            openItemDrawer(it.id);
+          }
+        });
+        ul.appendChild(li);
+      });
 
-    clearBrowseMarkers();
-    filtered.forEach(it=>{
-      const mk=L.marker([it.lat,it.lng]).addTo(mapBrowse).bindPopup(`
-        <b>${it.title}</b><br/>
-        <span class="text-xs">${it.cat}${it.storagePlace?` · Storage:${it.storagePlace}`:''} • ${new Date(it.created_at).toLocaleString()}</span><br/>
-        <span class="text-xs">${(it.desc||'').replace(/[\n\r]+/g,' ')}</span>
-      `);
-      browseMarkers.push(mk);
-      if (it.radius>0){ const circle=L.circle([it.lat,it.lng],{radius:it.radius,fillOpacity:.12}); circle.addTo(mapBrowse); browseMarkers.push(circle); }
-      mk.on('click', ()=> openItemDrawer(it.id));
-    });
+      clearBrowseMarkers();
+      if (typeof L !== 'undefined' && L && L.marker) {
+        filtered.forEach(it=>{
+          try {
+            const mk=L.marker([it.lat,it.lng]).addTo(mapBrowse).bindPopup(`
+              <b>${it.title}</b><br/>
+              <span class="text-xs">${it.cat}${it.storagePlace?` · Storage:${it.storagePlace}`:''} • ${new Date(it.created_at).toLocaleString()}</span><br/>
+              <span class="text-xs">${(it.desc||'').replace(/[\n\r]+/g,' ')}</span>
+            `);
+            browseMarkers.push(mk);
+            if (it.radius>0){ const circle=L.circle([it.lat,it.lng],{radius:it.radius,fillOpacity:.12}); circle.addTo(mapBrowse); browseMarkers.push(circle); }
+            mk.on('click', ()=> openItemDrawer(it.id));
+          } catch (err) {
+            console.error('Failed to add marker for item:', it.id, err);
+          }
+        });
+      }
+    } catch (err) {
+      console.error('Failed to render browse:', err);
+    }
   }
 
   async function openItemDrawer(itemId){
@@ -628,7 +778,13 @@
     $('btnThreadSend').onclick=sendThread;
     $('threadMsg').onkeydown=(e)=>{ if(e.key==='Enter'&& !e.shiftKey){ e.preventDefault(); sendThread(); } };
 
-    setTimeout(()=> mapBrowse?.invalidateSize(), 60);
+    setTimeout(()=> { 
+      try { 
+        mapBrowse?.invalidateSize(); 
+      } catch(e) { 
+        console.warn('Failed to invalidate browse map size in drawer:', e); 
+      } 
+    }, 60);
   }
 
   // ===== Admin Lists =====
@@ -793,20 +949,30 @@
 
   // ===== Tab Switching =====
   function switchTab(tab){
-    ['tabRegister','tabBrowse','tabAdmin','tabChat'].forEach(id=> $(id).classList.add('hidden'));
-    $(tab).classList.remove('hidden');
-    document.querySelectorAll('header nav button').forEach(b=> {
-      b.classList.replace('bg-primary-600','bg-slate-100');
-      b.classList.replace('text-white','text-slate-700');
-    });
-    const btnIdMap={tabRegister:'tabRegisterBtn', tabBrowse:'tabBrowseBtn', tabAdmin:'tabAdminBtn', tabChat:'tabChatBtn'};
-    const btnEl=$(btnIdMap[tab]); 
-    if (btnEl) {
-      btnEl.classList.replace('bg-slate-100','bg-primary-600');
-      btnEl.classList.replace('text-slate-700','text-white');
+    try {
+      ['tabRegister','tabBrowse','tabAdmin','tabChat'].forEach(id=> $(id).classList.add('hidden'));
+      $(tab).classList.remove('hidden');
+      document.querySelectorAll('header nav button').forEach(b=> {
+        b.classList.replace('bg-primary-600','bg-slate-100');
+        b.classList.replace('text-white','text-slate-700');
+      });
+      const btnIdMap={tabRegister:'tabRegisterBtn', tabBrowse:'tabBrowseBtn', tabAdmin:'tabAdminBtn', tabChat:'tabChatBtn'};
+      const btnEl=$(btnIdMap[tab]); 
+      if (btnEl) {
+        btnEl.classList.replace('bg-slate-100','bg-primary-600');
+        btnEl.classList.replace('text-slate-700','text-white');
+      }
+      if (tab==='tabRegister'){ 
+        if (!mapRegister) initRegisterMap(); 
+        setTimeout(()=> { try { mapRegister?.invalidateSize(); } catch(e) { console.warn('Failed to invalidate register map size:', e); } }, 0); 
+      }
+      if (tab==='tabBrowse'){   
+        if (!mapBrowse) initBrowseMap();   
+        setTimeout(()=> { try { mapBrowse?.invalidateSize(); } catch(e) { console.warn('Failed to invalidate browse map size:', e); } }, 0); 
+      }
+    } catch (err) {
+      console.error('Failed to switch tab:', err);
     }
-    if (tab==='tabRegister'){ if (!mapRegister) initRegisterMap(); setTimeout(()=> mapRegister?.invalidateSize(), 0); }
-    if (tab==='tabBrowse'){   if (!mapBrowse)   initBrowseMap();   setTimeout(()=> mapBrowse?.invalidateSize(),   0); }
   }
 
   // 지도 리사이즈 처리 그대로 유지
@@ -817,20 +983,38 @@
 
   // ===== Start =====
   function start(){
+    // Global error handler - prevent page blocking
     window.addEventListener('error', (e)=>{
-      const msg=document.createElement('div'); msg.className='fixed bottom-4 left-4 bg-rose-50 text-rose-700 border border-rose-200 rounded-lg px-3 py-2 shadow z-50 text-xs'; msg.textContent='Script error: '+(e.message||''); document.body.appendChild(msg); setTimeout(()=> msg.remove(), 3500);
+      console.error('Global error:', e);
+      // Don't show error message for resource loading errors (CDN failures)
+      if (e.target && (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK')) {
+        return; // Let fallback mechanisms handle it
+      }
+      const msg=document.createElement('div'); 
+      msg.className='fixed bottom-4 left-4 bg-rose-50 text-rose-700 border border-rose-200 rounded-lg px-3 py-2 shadow z-50 text-xs'; 
+      msg.textContent='Script error: '+(e.message||''); 
+      document.body.appendChild(msg); 
+      setTimeout(()=> msg.remove(), 3500);
+    });
+    
+    // Handle unhandled promise rejections
+    window.addEventListener('unhandledrejection', (e)=>{
+      console.error('Unhandled promise rejection:', e.reason);
+      e.preventDefault(); // Prevent default browser error handling
     });
 
-    // Tabs
-    $('tabRegisterBtn').addEventListener('click', ()=> switchTab('tabRegister'));
-    $('tabBrowseBtn').addEventListener('click',   ()=> switchTab('tabBrowse'));
-    $('tabAdminBtn').addEventListener('click',    ()=> switchTab('tabAdmin'));
-    $('tabChatBtn').addEventListener('click',     ()=> switchTab('tabChat'));
+    // Tabs - with error handling
+    $('tabRegisterBtn').addEventListener('click', ()=>{ try { switchTab('tabRegister'); } catch(e) { console.error('Tab switch error:', e); } });
+    $('tabBrowseBtn').addEventListener('click',   ()=>{ try { switchTab('tabBrowse'); } catch(e) { console.error('Tab switch error:', e); } });
+    $('tabAdminBtn').addEventListener('click',    ()=>{ try { switchTab('tabAdmin'); } catch(e) { console.error('Tab switch error:', e); } });
+    $('tabChatBtn').addEventListener('click',     ()=>{ try { switchTab('tabChat'); } catch(e) { console.error('Tab switch error:', e); } });
 
-    // Maps + Form
-    initRegisterMap();
+    // Form binding (doesn't depend on maps)
     bindRegisterForm();
-    initBrowseMap();
+    
+    // Only initialize Register map here (default tab)
+    // Browse map will be initialized when tab is switched
+    initRegisterMap();
 
     // Search/Export/Import
     $('btnSearch').addEventListener('click', ()=> renderBrowse());
@@ -890,10 +1074,46 @@
   }
 
   window.addEventListener('DOMContentLoaded', ()=>{
-    let tries=0; const t=setInterval(()=>{
-      if (window.L){ clearInterval(t); start(); }
-      else if (++tries>50){ clearInterval(t); alert('Leaflet loading failed: Please check your network connection.'); }
-    }, 60);
+    // Start page initialization immediately, don't wait for Leaflet
+    // This ensures the page is functional even if CDN resources fail to load
+    let pageStarted = false;
+    function startPage() {
+      if (pageStarted) return;
+      pageStarted = true;
+      try {
+        start();
+      } catch (err) {
+        console.error('Failed to start page:', err);
+        // Show user-friendly error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'fixed top-4 left-4 right-4 bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-lg shadow-lg z-50 text-sm';
+        errorDiv.innerHTML = '<strong>Warning:</strong> Some features may not work properly. Please check your network connection and refresh the page.';
+        document.body.appendChild(errorDiv);
+        setTimeout(() => errorDiv.remove(), 10000);
+      }
+    }
+    
+    // Try to wait for Leaflet, but don't block page initialization
+    let tries=0; 
+    const checkLeaflet = setInterval(()=>{
+      if (window.L){ 
+        clearInterval(checkLeaflet); 
+        startPage();
+      }
+      else if (++tries>30){ 
+        clearInterval(checkLeaflet); 
+        console.warn('Leaflet loading timeout: Maps may not work. Page will continue without maps.');
+        startPage(); // Start page anyway
+      }
+    }, 100);
+    
+    // Also start page after a maximum delay to ensure it always starts
+    setTimeout(() => {
+      if (!pageStarted) {
+        clearInterval(checkLeaflet);
+        startPage();
+      }
+    }, 5000);
   });
   </script>
 </body>
