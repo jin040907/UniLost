@@ -877,7 +877,6 @@
     socket.emit('thread:join', { itemId, nick: $('threadNick')?.value?.trim()|| (ME?.name||'익명') });
   }
 
-  // ===== 탭 전환 =====
   function switchTab(tab){
     ['tabRegister','tabBrowse','tabAdmin','tabChat'].forEach(id=> $(id).classList.add('hidden'));
     $(tab).classList.remove('hidden');
@@ -896,6 +895,11 @@
     if (tab==='tabRegister'){ if (!mapRegister) initRegisterMap(); setTimeout(()=> mapRegister?.invalidateSize(), 0); }
     if (tab==='tabBrowse'){   if (!mapBrowse)   initBrowseMap();   setTimeout(()=> mapBrowse?.invalidateSize(),   0); }
   }
+
+  // 지도 리사이즈 처리
+  if (tab==='tabRegister'){ if (!mapRegister) initRegisterMap(); setTimeout(()=> mapRegister?.invalidateSize(), 0); }
+  if (tab==='tabBrowse'){   if (!mapBrowse)   initBrowseMap();   setTimeout(()=> mapBrowse?.invalidateSize(),   0); }
+}
 
 
   // ===== 시작 =====
