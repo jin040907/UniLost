@@ -1,58 +1,58 @@
-# 웹 서비스 배포 가이드
+# Web Service Deployment Guide
 
-## 무료 호스팅 옵션 (IP 주소 구매 불필요!)
+## Free Hosting Options (No IP Address Purchase Required!)
 
-### 1. **Render** (추천 ⭐)
-- **무료 플랜**: 무료 (약간 느릴 수 있음)
-- **장점**: 간단한 배포, 자동 HTTPS, SQLite 지원
+### 1. **Render** (Recommended ⭐)
+- **Free Plan**: Free (may be slightly slow)
+- **Pros**: Simple deployment, automatic HTTPS, SQLite support
 - **URL**: https://render.com
 
-**배포 방법:**
-1. GitHub에 코드 업로드
-2. Render에서 "New Web Service" 선택
-3. GitHub 저장소 연결
+**Deployment Method:**
+1. Upload your code to GitHub
+2. Select "New Web Service" in Render
+3. Connect your GitHub repository
 4. Build Command: `npm install`
 5. Start Command: `node server.js`
-6. 환경변수 PORT는 자동 설정됨
+6. The PORT environment variable is automatically set
 
 ### 2. **Railway**
-- **무료 플랜**: $5 크레딧/월 (충분함)
-- **장점**: 매우 간단, 빠른 배포
+- **Free Plan**: $5 credits/month (sufficient)
+- **Pros**: Very simple and fast deployment
 - **URL**: https://railway.app
 
-**배포 방법:**
-1. GitHub에 코드 업로드
-2. Railway에서 "New Project" → "Deploy from GitHub"
-3. 자동으로 감지하고 배포
-
+**Deployment Method:**
+1. Upload your code to GitHub
+2. In Railway, select "New Project" → "Deploy from" GitHub"
+3. Automatically detect and deploy
+   
 ### 3. **Fly.io**
-- **무료 플랜**: 무료 (제한적)
-- **장점**: 전 세계 CDN, 빠름
+- **Free Plan**: Free (Limited)
+- **Pros**: Global CDN, Fast
 - **URL**: https://fly.io
 
-### 4. **Heroku** (유료 전환됨, 비추천)
+### 4. **Heroku** (Paid, Not Recommended)
 
-## 배포 전 준비사항
+## Pre-Deployment Preparations
 
-### 1. 환경변수 설정
-서버 코드에서 하드코딩된 secret을 환경변수로 변경 필요:
+### 1. Setting Environment Variables
+Change the hardcoded secret in the server code to an environment variable:
 
 ```javascript
-// server.js에서
+// In server.js
 secret: process.env.SESSION_SECRET || 'demo-lost-and-found-secret'
 ```
 
-### 2. 데이터베이스
-- ✅ PostgreSQL 지원 완료
-- `DATABASE_URL` 환경변수 설정 필요
-- Supabase, Neon 등 무료 PostgreSQL 서비스 사용 권장
+### 2. Database
+- ✅ PostgreSQL support complete
+- Requires setting the `DATABASE_URL` environment variable
+- We recommend using a free PostgreSQL service like Supabase or Neon
 
-### 3. 포트 설정
-현재 코드는 이미 `process.env.PORT`를 사용하므로 문제없음 ✅
+### 3. Port Setting
+The current code already uses `process.env.PORT`, so there's no problem. ✅
 
-## 빠른 배포 (Render 예시)
+## Quick Deployment (Render Example)
 
-1. **GitHub에 코드 업로드**
+1. **Upload your code to GitHub**
    ```bash
    git init
    git add .
@@ -61,31 +61,30 @@ secret: process.env.SESSION_SECRET || 'demo-lost-and-found-secret'
    git push -u origin main
    ```
 
-2. **Render에서 배포**
-   - render.com 접속 → 회원가입
+2. **Deploy from Render**
+   - Go to render.com → Sign up
    - "New +" → "Web Service"
-   - GitHub 저장소 연결
-   - 설정:
-     - Name: unilost (원하는 이름)
-     - Region: Singapore (한국에서 가까움)
+   - Connect to a GitHub repository
+   - Settings:
+     - Name: unilost (any name you want)
+     - Region: Singapore (close to Korea)
      - Branch: main
-     - Root Directory: (비워두기)
+     - Root Directory: (Leave blank)
      - Build Command: `npm install`
      - Start Command: `node server.js`
-   - "Create Web Service" 클릭
+   - Click "Create Web Service"
 
-3. **완료!**
-   - 자동으로 `https://your-app.onrender.com` URL 생성
-   - 전 세계 어디서나 접속 가능!
+4. **Done!**
+- Automatically generates a `https://your-app.onrender.com` URL
+- Accessible from anywhere in the world!
 
-## 주의사항
+## Notes
 
-⚠️ **무료 플랜 제한:**
-- Render: 15분간 요청 없으면 sleep (첫 요청 시 느림)
-- Railway: 월 $5 크레딧 제한
-- SQLite 파일은 일부 서비스에서 영구 저장 안 될 수 있음
+⚠️ **Free Plan Limitations:**
+- Render: Sleeps after 15 minutes of inactivity (first request is slow)
+- Railway: $5 monthly credit limit
+- SQLite files may not be permanently stored on some services
 
-💡 **해결책:**
-- PostgreSQL 같은 클라우드 DB 사용 (Supabase, Neon 등 무료)
-- 또는 유료 플랜 사용 ($7-10/월)
-
+💡 **Solution:**
+- Use a cloud database like PostgreSQL (free options like Supabase or Neon)
+- Or use a paid plan ($7-$10/month)
