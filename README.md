@@ -2,13 +2,19 @@
 
 세종대학교 분실물 통합 관리 웹 애플리케이션입니다. 지도 기반 분실물 등록/검색, 실시간 채팅, 관리자 승인 시스템을 제공합니다.
 
+## 🌐 라이브 데모
+
+**배포된 웹사이트**: https://unilost.onrender.com
+
+> ⚠️ Render 무료 플랜은 15분간 요청이 없으면 sleep 모드로 전환됩니다. 첫 접속 시 약간의 지연이 있을 수 있습니다.
+
 ## 주요 기능
 
 - 🗺️ **지도 기반 분실물 등록/검색**: Leaflet 지도를 활용한 위치 기반 분실물 관리
 - 💬 **실시간 채팅**: Socket.IO 기반 전역 채팅 및 항목별 스레드 채팅
 - 👤 **사용자 인증**: 세션 기반 로그인/로그아웃 시스템
 - 🔐 **관리자 기능**: 분실물 승인/거부, 보관 장소 관리
-- 💾 **데이터 영구 저장**: SQLite 데이터베이스를 통한 데이터 보존
+- 💾 **데이터 영구 저장**: PostgreSQL (배포) / SQLite (로컬 개발) 데이터베이스를 통한 데이터 보존
 - 📱 **반응형 디자인**: 모바일/데스크톱 모두 지원
 
 ## 기술 스택
@@ -58,7 +64,7 @@ node server.js
 ```
 .
 ├── server.js          # Express 서버 메인 파일
-├── db.js             # SQLite 데이터베이스 모듈
+├── db.js             # PostgreSQL/SQLite 데이터베이스 모듈
 ├── unilost.html      # 프론트엔드 HTML 파일
 ├── package.json       # 프로젝트 의존성
 ├── render.yaml        # Render 배포 설정
@@ -94,6 +100,8 @@ node server.js
 
 ## 배포
 
+**현재 배포 상태**: ✅ [https://unilost.onrender.com](https://unilost.onrender.com)
+
 웹 서비스로 배포하는 방법은 [DEPLOY.md](./DEPLOY.md)를 참고하세요.
 
 ### 빠른 배포 (Render)
@@ -102,6 +110,12 @@ node server.js
 2. [Render](https://render.com)에서 "New Web Service" 선택
 3. GitHub 저장소 연결
 4. 자동 배포 완료!
+
+### 배포된 서비스 정보
+
+- **URL**: https://unilost.onrender.com
+- **호스팅**: Render (무료 플랜)
+- **데이터베이스**: PostgreSQL (Supabase)
 
 ## 환경변수
 
