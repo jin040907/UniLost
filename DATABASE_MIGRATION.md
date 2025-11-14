@@ -52,7 +52,7 @@ Migrate to PostgreSQL using the `pg` package:
 npm install pg
 ```
 
-`db.js`를 PostgreSQL용으로 변경하면 됩니다.
+You just need to change `db.js` to use PostgreSQL.
 
 ## Using Render Disk (Paid Plan)
 
