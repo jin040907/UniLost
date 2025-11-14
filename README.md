@@ -29,6 +29,10 @@
 ### 설치
 
 ```bash
+# 저장소 클론
+git clone https://github.com/jin040907/UniLost.git
+cd UniLost
+
 # 의존성 설치
 npm install
 ```
@@ -59,7 +63,6 @@ node server.js
 ├── package.json       # 프로젝트 의존성
 ├── render.yaml        # Render 배포 설정
 └── DEPLOY.md         # 배포 가이드
-
 ```
 
 ## API 엔드포인트
@@ -112,4 +115,3 @@ ISC
 ## 개발자
 
 세종대학교 오픈소스SW개론 프로젝트
-
