@@ -566,51 +566,73 @@
       console.error('Failed to set register location:', err);
     }
   }
-  function initBrowseMap(){
-    try {
-      if (typeof L === 'undefined' || !L || !L.map) {
-        console.warn('Leaflet not loaded yet, retrying...');
-        setTimeout(initBrowseMap, 200);
-        return;
-      }
-      const el = $('mapBrowse'); if (!el || mapBrowse) return;
-      if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initBrowseMap,120); return; }
-      mapBrowse = L.map('mapBrowse', {
-        center: [36.5, 127.9],
-        zoom: 7,
-        maxBounds: [
+
+    function initBrowseMap() {
+      try {
+        if (typeof L === 'undefined' || !L || !L.map) {
+          console.warn('Leaflet not loaded yet, retrying...');
+          setTimeout(initBrowseMap, 200);
+          return;
+        }
+
+        const el = $('mapBrowse');
+        if (!el || mapBrowse) return;
+        if (el.offsetParent === null || el.clientHeight === 0 || el.clientWidth === 0) {
+          setTimeout(initBrowseMap, 120);
+          return;
+        }
+
+        // 한국 영역 (남서~북동)
+        const koreaBounds = [
           [33.0, 124.0],
           [39.5, 132.0]
-        ],
-        maxBoundsViscosity: 1.0
-      });
+        ];
 
-      mapBrowse.setMaxBounds([
-        [33.0, 124.0],
-        [39.5, 132.0]
-      ]);
-      mapBrowse.setMinZoom(7);
-      mapBrowse.setMaxZoom(18);
+        // 지도 생성
+        mapBrowse = L.map('mapBrowse', {
+          center: [36.5, 127.9],     // 초기 중심 (무시됨)
+          zoom: 7,                   // 초기 줌 (무시됨)
+          maxBounds: koreaBounds,    // 경계 설정
+          maxBoundsViscosity: 1.0    // 경계에서 튕김
+        });
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        noWrap: true,
-        attribution:'© OpenStreetMap contributors'
-      }).addTo(mapBrowse);
-      
-      mapBrowse.setView([defaultLat, defaultLng], 15);
-      renderBrowse();
-      setTimeout(()=> mapBrowse.invalidateSize(), 50);
-      brRO = new ResizeObserver(()=> mapBrowse && mapBrowse.invalidateSize()); brRO.observe(el);
-    } catch (err) {
-      console.error('Failed to initialize browse map:', err);
-      // Show error message but don't block page functionality
-      const el = $('mapBrowse');
-      if (el) {
-        el.innerHTML = '<div class="p-4 text-center text-red-600">Map failed to load. Please refresh the page or check your network connection.</div>';
+        // 한국 범위를 강제로 적용 (필수!)
+        mapBrowse.setMaxBounds(koreaBounds);
+
+         // setView()는 금지 — maxBounds를 깨뜨림
+        // 대신 fitBounds() 사용
+        mapBrowse.fitBounds(koreaBounds);
+
+        mapBrowse.setMinZoom(7);
+        mapBrowse.setMaxZoom(18);
+
+        // 타일 레이어
+        L.tileLayer(
+          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          {
+            maxZoom: 19,
+            noWrap: true,
+            attribution: '© OpenStreetMap contributors'
+          }
+        ).addTo(mapBrowse);
+
+        renderBrowse();
+
+        setTimeout(() => mapBrowse.invalidateSize(), 50);
+        brRO = new ResizeObserver(() => mapBrowse && mapBrowse.invalidateSize());
+        brRO.observe(el);
+
+      } catch (err) {
+        console.error('Failed to initialize browse map:', err);
+        const el = $('mapBrowse');
+        if (el) {
+          el.innerHTML = `<div class="p-4 text-center text-red-600">
+            Map failed to load. Please refresh the page.
+          </div>`;
+        }
       }
     }
-  }
+  
   function clearBrowseMarkers(){ 
     try {
       browseMarkers.forEach(m=>{ try { m.remove(); } catch(e) { console.warn('Failed to remove marker:', e); } }); 
