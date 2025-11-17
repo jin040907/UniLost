@@ -502,13 +502,32 @@
   function showLoginModal(){ $('loginModal').classList.remove('hidden'); }
   function hideLoginModal(){ $('loginModal').classList.add('hidden'); }
   $('btnCancelLogin').onclick = hideLoginModal;
-  $('btnDoLogin').onclick = async ()=>{
+  
+  // Login function
+  const performLogin = async ()=>{
     const id = $('loginId').value.trim();
     const pw = $('loginPw').value.trim();
     if (!id || !pw) return alert('Please enter username/password.');
     try { await doLogin(id, pw); hideLoginModal(); }
     catch(e){ alert(e.message||'Login failed'); }
   };
+  
+  $('btnDoLogin').onclick = performLogin;
+  
+  // Enter key support for login form
+  $('loginId').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      $('loginPw').focus();
+    }
+  });
+  
+  $('loginPw').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      performLogin();
+    }
+  });
 
   // ===== Maps =====
   let mapRegister, mapBrowse, registerMarker, registerCircle, regRO, brRO;
