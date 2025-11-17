@@ -4,6 +4,8 @@ node_modules/
 # Database
 *.db
 *.db-journal
+# Allow unilost.db to be tracked
+!unilost.db
 
 # Environment variables
 .env

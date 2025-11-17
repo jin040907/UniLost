@@ -122,7 +122,7 @@ For instructions on deploying as a web service, refer to [DEPLOY.md](./DEPLOY.md
 
 - **URL**: https://unilost.onrender.com
 - **Hosting**: Render (Free Plan)
-- **Database**: PostgreSQL (Supabase)
+- **Database**: PostgreSQL (if DATABASE_URL is set) or SQLite (default)
 
 ## Environment Variables
 
