@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-// db.js - PostgreSQL 데이터베이스 모듈
+// db.js - PostgreSQL database module
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 
-// 데이터베이스 연결 설정
-// 환경변수 DATABASE_URL이 있으면 사용, 없으면 로컬 개발용 SQLite로 폴백
+// Database connection configuration
+// Use DATABASE_URL environment variable if available, otherwise fallback to SQLite for local development
 const usePostgres = !!process.env.DATABASE_URL;
 
 let pool;
-let db; // SQLite 호환성을 위한 변수 (사용하지 않음)
+let db; // Variable for SQLite compatibility (not used)
 
 if (usePostgres) {
-  // PostgreSQL 연결 풀 생성
+  // Create PostgreSQL connection pool
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: process.env.DATABASE_URL?.includes('localhost') ? false : {
@@ -35,26 +35,26 @@ if (usePostgres) {
   });
 
   pool.on('error', (err) => {
-    console.error('❌ PostgreSQL 연결 풀 에러:', err);
+    console.error('❌ PostgreSQL connection pool error:', err);
   });
 } else {
-  // 로컬 개발용 SQLite (선택적)
+  // SQLite for local development (optional)
   try {
     const Database = require('better-sqlite3');
     const path = require('path');
     const dbPath = path.join(__dirname, 'unilost.db');
     db = new Database(dbPath);
   } catch (err) {
-    console.error('❌ SQLite 연결 실패:', err);
-    throw new Error('DATABASE_URL 환경변수를 설정하거나 SQLite를 사용할 수 없습니다.');
+    console.error('❌ SQLite connection failed:', err);
+    throw new Error('DATABASE_URL environment variable must be set or SQLite must be available.');
   }
 }
 
-// 데이터베이스 초기화 (PostgreSQL)
+// Database initialization (PostgreSQL)
 async function initDBPostgres() {
   const client = await pool.connect();
   try {
-    // 사용자 테이블
+    // Users table
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
         id VARCHAR(255) PRIMARY KEY,
@@ -65,7 +65,7 @@ async function initDBPostgres() {
       )
     `);
 
-    // 분실물 항목 테이블
+    // Lost items table
     await client.query(`
       CREATE TABLE IF NOT EXISTS items (
         id SERIAL PRIMARY KEY,
@@ -84,7 +84,7 @@ async function initDBPostgres() {
       )
     `);
 
-    // 전역 채팅 메시지 테이블
+    // Global chat messages table
     await client.query(`
       CREATE TABLE IF NOT EXISTS chat_messages (
         id SERIAL PRIMARY KEY,
@@ -94,7 +94,7 @@ async function initDBPostgres() {
       )
     `);
 
-    // 항목별 스레드 메시지 테이블
+    // Item-specific thread messages table
     await client.query(`
       CREATE TABLE IF NOT EXISTS thread_messages (
         id SERIAL PRIMARY KEY,
@@ -106,13 +106,13 @@ async function initDBPostgres() {
       )
     `);
 
-    // 인덱스 생성
+    // Create indexes
     await client.query(`CREATE INDEX IF NOT EXISTS idx_items_status ON items(status)`);
     await client.query(`CREATE INDEX IF NOT EXISTS idx_items_created_at ON items(created_at)`);
     await client.query(`CREATE INDEX IF NOT EXISTS idx_thread_item_id ON thread_messages(item_id)`);
     await client.query(`CREATE INDEX IF NOT EXISTS idx_chat_created_at ON chat_messages(created_at)`);
 
-    // 기본 사용자 추가 (없는 경우만)
+    // Add default users (only if none exist)
     const userCount = await client.query('SELECT COUNT(*) as count FROM users');
     if (parseInt(userCount.rows[0].count) === 0) {
       await client.query(
@@ -123,16 +123,16 @@ async function initDBPostgres() {
         'INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4)',
         ['admin1', '관리자1', bcrypt.hashSync('admin123', 10), true]
       );
-      // 기본 사용자 생성 완료
+      // Default users created
     }
   } finally {
     client.release();
   }
 }
 
-// 데이터베이스 초기화 (SQLite - 로컬 개발용)
+// Database initialization (SQLite - for local development)
 function initDBSQLite() {
-  // 사용자 테이블
+  // Users table
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
@@ -143,7 +143,7 @@ function initDBSQLite() {
     )
   `);
 
-  // 분실물 항목 테이블
+  // Lost items table
   db.exec(`
     CREATE TABLE IF NOT EXISTS items (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -162,7 +162,7 @@ function initDBSQLite() {
     )
   `);
 
-  // 전역 채팅 메시지 테이블
+  // Global chat messages table
   db.exec(`
     CREATE TABLE IF NOT EXISTS chat_messages (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -172,7 +172,7 @@ function initDBSQLite() {
     )
   `);
 
-  // 항목별 스레드 메시지 테이블
+  // Item-specific thread messages table
   db.exec(`
     CREATE TABLE IF NOT EXISTS thread_messages (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -184,7 +184,7 @@ function initDBSQLite() {
     )
   `);
 
-  // 인덱스 생성
+  // Create indexes
   db.exec(`
     CREATE INDEX IF NOT EXISTS idx_items_status ON items(status);
     CREATE INDEX IF NOT EXISTS idx_items_created_at ON items(created_at);
@@ -192,7 +192,7 @@ function initDBSQLite() {
     CREATE INDEX IF NOT EXISTS idx_chat_created_at ON chat_messages(created_at);
   `);
 
-  // 기본 사용자 추가 (없는 경우만)
+  // Add default users (only if none exist)
   const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get();
   if (userCount.count === 0) {
     const insertUser = db.prepare('INSERT INTO users (id, name, pw_hash, is_admin) VALUES (?, ?, ?, ?)');
@@ -201,7 +201,7 @@ function initDBSQLite() {
   }
 }
 
-// 사용자 관련 함수 (PostgreSQL)
+// User-related functions (PostgreSQL)
 const userDBPostgres = {
   findById: async (id) => {
     const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
@@ -220,7 +220,7 @@ const userDBPostgres = {
   }
 };
 
-// 사용자 관련 함수 (SQLite)
+// User-related functions (SQLite)
 const userDBSQLite = {
   findById: (id) => {
     const result = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
@@ -235,7 +235,7 @@ const userDBSQLite = {
   }
 };
 
-// 분실물 항목 관련 함수 (PostgreSQL)
+// Lost item-related functions (PostgreSQL)
 const itemDBPostgres = {
   findAll: async (status = null) => {
     if (status) {
@@ -328,7 +328,7 @@ const itemDBPostgres = {
   }
 };
 
-// 분실물 항목 관련 함수 (SQLite)
+// Lost item-related functions (SQLite)
 const itemDBSQLite = {
   findAll: (status = null) => {
     if (status) {
@@ -381,14 +381,14 @@ const itemDBSQLite = {
   }
 };
 
-// 채팅 메시지 관련 함수 (PostgreSQL)
+// Chat message-related functions (PostgreSQL)
 const chatDBPostgres = {
   findAll: async (limit = 200) => {
     const result = await pool.query(
       'SELECT * FROM chat_messages ORDER BY created_at DESC LIMIT $1',
       [limit]
     );
-    return result.rows.reverse(); // 최신순으로 정렬
+    return result.rows.reverse(); // Sort by newest first
   },
   create: async (nick, text) => {
     const result = await pool.query(
@@ -405,7 +405,7 @@ const chatDBPostgres = {
   }
 };
 
-// 채팅 메시지 관련 함수 (SQLite)
+// Chat message-related functions (SQLite)
 const chatDBSQLite = {
   findAll: (limit = 200) => {
     return db.prepare('SELECT * FROM chat_messages ORDER BY created_at DESC LIMIT ?').all(limit);
@@ -422,7 +422,7 @@ const chatDBSQLite = {
   }
 };
 
-// 스레드 메시지 관련 함수 (PostgreSQL)
+// Thread message-related functions (PostgreSQL)
 const threadDBPostgres = {
   findByItemId: async (itemId, limit = 200) => {
     const result = await pool.query(
@@ -447,7 +447,7 @@ const threadDBPostgres = {
   }
 };
 
-// 스레드 메시지 관련 함수 (SQLite)
+// Thread message-related functions (SQLite)
 const threadDBSQLite = {
   findByItemId: (itemId, limit = 200) => {
     return db.prepare('SELECT * FROM thread_messages WHERE item_id = ? ORDER BY created_at ASC LIMIT ?').all(itemId, limit);
@@ -465,13 +465,13 @@ const threadDBSQLite = {
   }
 };
 
-// 데이터베이스 타입에 따라 적절한 함수 선택
+// Select appropriate functions based on database type
 const userDB = usePostgres ? userDBPostgres : userDBSQLite;
 const itemDB = usePostgres ? itemDBPostgres : itemDBSQLite;
 const chatDB = usePostgres ? chatDBPostgres : chatDBSQLite;
 const threadDB = usePostgres ? threadDBPostgres : threadDBSQLite;
 
-// 초기화 실행
+// Execute initialization
 (async () => {
   try {
     if (usePostgres) {
@@ -480,7 +480,7 @@ const threadDB = usePostgres ? threadDBPostgres : threadDBSQLite;
       initDBSQLite();
     }
   } catch (err) {
-    console.error('❌ 데이터베이스 초기화 실패:', err);
+    console.error('❌ Database initialization failed:', err);
     throw err;
   }
 })();
