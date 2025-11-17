@@ -522,8 +522,22 @@
       }
       const el = $('mapRegister'); if (!el || mapRegister) return;
       if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initRegisterMap,120); return; }
-      mapRegister = L.map('mapRegister');
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapRegister);
+      mapRegister = L.map('mapRegister', {
+        center: [36.5, 127.9], // 한국
+        zoom: 7,
+        maxBounds: [
+          [33.0, 124.0],  // 남서쪽
+          [39.5, 132.0]   // 북동쪽
+        ],
+        maxBoundsViscosity: 1.0
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        noWrap: true,
+        attribution:'© OpenStreetMap contributors'
+      }).addTo(mapRegister);
+
       setRegisterLocation(defaultLat, defaultLng, true);
       mapRegister.on('click', e=> setRegisterLocation(e.latlng.lat, e.latlng.lng, false));
       setTimeout(()=> mapRegister.invalidateSize(), 50);
@@ -561,8 +575,22 @@
       }
       const el = $('mapBrowse'); if (!el || mapBrowse) return;
       if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initBrowseMap,120); return; }
-      mapBrowse = L.map('mapBrowse');
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapBrowse);
+      mapBrowse = L.map('mapBrowse', {
+        center: [36.5, 127.9],
+        zoom: 7,
+        maxBounds: [
+          [33.0, 124.0],
+          [39.5, 132.0]
+        ],
+        maxBoundsViscosity: 1.0
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        noWrap: true,
+        attribution:'© OpenStreetMap contributors'
+      }).addTo(mapBrowse);
+      
       mapBrowse.setView([defaultLat, defaultLng], 15);
       renderBrowse();
       setTimeout(()=> mapBrowse.invalidateSize(), 50);
