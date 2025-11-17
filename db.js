@@ -117,11 +117,11 @@ async function initDBPostgres() {
     if (parseInt(userCount.rows[0].count) === 0) {
       await client.query(
         'INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4)',
-        ['student1', '학생1', bcrypt.hashSync('1234', 10), false]
+        ['student1', 'Student 1', bcrypt.hashSync('1234', 10), false]
       );
       await client.query(
         'INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4)',
-        ['admin1', '관리자1', bcrypt.hashSync('admin123', 10), true]
+        ['admin1', 'Admin 1', bcrypt.hashSync('admin123', 10), true]
       );
       // Default users created
     }
@@ -196,8 +196,8 @@ function initDBSQLite() {
   const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get();
   if (userCount.count === 0) {
     const insertUser = db.prepare('INSERT INTO users (id, name, pw_hash, is_admin) VALUES (?, ?, ?, ?)');
-    insertUser.run('student1', '학생1', bcrypt.hashSync('1234', 10), 0);
-    insertUser.run('admin1', '관리자1', bcrypt.hashSync('admin123', 10), 1);
+    insertUser.run('student1', 'Student 1', bcrypt.hashSync('1234', 10), 0);
+    insertUser.run('admin1', 'Admin 1', bcrypt.hashSync('admin123', 10), 1);
   }
 }
 
