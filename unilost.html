@@ -522,7 +522,13 @@
       }
       const el = $('mapRegister'); if (!el || mapRegister) return;
       if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initRegisterMap,120); return; }
-      mapRegister = L.map('mapRegister');
+      // South Korea bounds: [[south, west], [north, east]]
+      const koreaBounds = [[33.1, 124.6], [38.6, 131.9]];
+      mapRegister = L.map('mapRegister', {
+        maxBounds: koreaBounds,
+        maxBoundsViscosity: 1.0,
+        minZoom: 7
+      });
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapRegister);
       setRegisterLocation(defaultLat, defaultLng, true);
       mapRegister.on('click', e=> setRegisterLocation(e.latlng.lat, e.latlng.lng, false));
@@ -540,8 +546,13 @@
   function setRegisterLocation(lat, lng, first){
     if (!mapRegister) return;
     try {
-      $('inLat').value = (lat??defaultLat).toFixed(6);
-      $('inLng').value = (lng??defaultLng).toFixed(6);
+      // South Korea bounds validation
+      const koreaBounds = {south: 33.1, north: 38.6, west: 124.6, east: 131.9};
+      lat = Math.max(koreaBounds.south, Math.min(koreaBounds.north, lat ?? defaultLat));
+      lng = Math.max(koreaBounds.west, Math.min(koreaBounds.east, lng ?? defaultLng));
+      
+      $('inLat').value = lat.toFixed(6);
+      $('inLng').value = lng.toFixed(6);
       if (registerMarker) registerMarker.remove();
       if (registerCircle) registerCircle.remove();
       registerMarker = L.marker([lat,lng]).addTo(mapRegister).bindPopup('Registration Location');
@@ -561,7 +572,13 @@
       }
       const el = $('mapBrowse'); if (!el || mapBrowse) return;
       if (el.offsetParent===null || el.clientHeight===0 || el.clientWidth===0){ setTimeout(initBrowseMap,120); return; }
-      mapBrowse = L.map('mapBrowse');
+      // South Korea bounds: [[south, west], [north, east]]
+      const koreaBounds = [[33.1, 124.6], [38.6, 131.9]];
+      mapBrowse = L.map('mapBrowse', {
+        maxBounds: koreaBounds,
+        maxBoundsViscosity: 1.0,
+        minZoom: 7
+      });
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapBrowse);
       mapBrowse.setView([defaultLat, defaultLng], 15);
       renderBrowse();
