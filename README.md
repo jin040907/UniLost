@@ -38,7 +38,7 @@ This is a web application for integrated lost and found management at Sejong Uni
 - Modern web browsers (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+)
 - Mobile: iOS Safari 14+, Android Chrome 90+
 
-For detailed compatibility information, see [COMPATIBILITY.md](./COMPATIBILITY.md).
+For detailed compatibility information, see [COMPATIBILITY.md](./docs/COMPATIBILITY.md).
 
 ### Installation
 
@@ -109,7 +109,7 @@ Once the server is running, you can access it at `http://localhost:3000`.
 
 **Current Deployment Status**: ✅ [https://unilost.onrender.com](https://unilost.onrender.com)
 
-For instructions on deploying as a web service, refer to [DEPLOY.md](./DEPLOY.md).
+For instructions on deploying as a web service, refer to [DEPLOY.md](./docs/DEPLOY.md).
 
 ### Quick Deployment (Render)
 
