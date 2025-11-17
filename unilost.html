@@ -585,6 +585,11 @@
         maxBoundsViscosity: 1.0
       });
 
+      mapBrowse.setMaxBounds([
+        [33.0, 124.0],
+        [39.5, 132.0]
+      ]);
+
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         noWrap: true,
