@@ -1,0 +1,51 @@
+site_name: UniLost Documentation
+site_description: Integrated Lost and Found Management System for Sejong University
+site_author: Sejong University Open Source Software Introduction Project
+
+# Repository information
+repo_name: jin040907/UniLost
+repo_url: https://github.com/jin040907/UniLost
+edit_uri: edit/main/docs/
+
+# Theme
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+# Navigation
+nav:
+  - Home: index.md
+  - Installation:
+    - Requirements: COMPATIBILITY.md
+    - Database Setup: DATABASE_SETUP.md
+  - Deployment: DEPLOY.md
+  - Development:
+    - Checklist: CHECKLIST.md
+    - Apache License Compliance: APACHE_LICENSE_COMPLIANCE.md
+
+# Markdown extensions
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
