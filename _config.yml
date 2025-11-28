@@ -1,0 +1,71 @@
+# Jekyll Configuration for UniLost
+# Custom theme inspired by Apache Hadoop and current design
+
+title: UniLost
+description: Integrated Lost and Found Management System for Sejong University
+url: https://jin040907.github.io
+baseurl: /UniLost
+
+# GitHub Pages settings
+github:
+  repository_url: https://github.com/jin040907/UniLost
+
+# Site settings
+author: Sejong University Open Source Software Introduction Project
+email: 
+twitter_username: 
+github_username: jin040907
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - package.json
+  - package-lock.json
+  - README.md
+  - LICENSE
+  - .gitignore
+  - .git
+  - docs/build
+  - server.js
+  - db.js
+  - unilost.html
+  - unilost.db
+  - render.yaml
+  - check-critical-functions.sh
+  - js/
+
+# Custom variables (no theme - using custom layouts)
+# theme: custom-unilost  # Not using a gem theme, using custom layouts instead
+color_scheme: primary
+primary_color: "#3b82f6"
+accent_color: "#22c55e"
+
+# Links
+links:
+  documentation: https://unilost.readthedocs.io/
+  github: https://github.com/jin040907/UniLost
+  live_demo: https://unilost.onrender.com
+  discussions: https://github.com/jin040907/UniLost/discussions
+
+# Social links
+social:
+  github: jin040907/UniLost
+
+# Community links
+community:
+  forums: https://github.com/jin040907/UniLost/discussions
+  mailing_list: 
+  slack: 
+  discord: 
+  gitter: 
+

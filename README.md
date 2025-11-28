@@ -14,6 +14,12 @@ This is a web application for integrated lost and found management at Sejong Uni
 
 Comprehensive documentation including installation guides, API reference, configuration options, and more is available on Read the Docs.
 
+## 🌐 Website
+
+**Project Website**: https://jin040907.github.io/UniLost/
+
+Visit our Jekyll-powered website for an overview of the project, features, community information, and more.
+
 ## Key Features
 
 - 🗺️ **Map-based Lost and Found Registration/Search**: Location-based lost and found management using Leaflet maps
@@ -30,6 +36,7 @@ Comprehensive documentation including installation guides, API reference, config
 - **Real-time**: Socket.IO
 - **Frontend**: HTML, JavaScript, Tailwind CSS
 - **Maps**: Leaflet.js, OpenStreetMap
+- **Documentation**: Sphinx (Read the Docs), Jekyll (GitHub Pages)
 
 ## Installation and Running
 
@@ -78,10 +85,24 @@ Once the server is running, you can access it at `http://localhost:3000`.
 ```
 . ├── server.js # Express server main file
 ├── db.js # PostgreSQL/SQLite database module
-├── unilost.html # Frontend HTML file
+├── unilost.html # Frontend HTML file (main application)
 ├── package.json # Project dependencies
 ├── render.yaml # Render deployment configuration
-└── DEPLOY.md # Deployment guide
+│
+├── # Jekyll Website (GitHub Pages)
+├── _config.yml # Jekyll configuration
+├── Gemfile # Ruby dependencies for Jekyll
+├── index.md # Homepage
+├── features.md # Features page
+├── community.md # Community page
+├── contact.md # Contact page
+├── _layouts/ # Jekyll layouts
+├── _includes/ # Jekyll includes
+└── assets/ # CSS and JavaScript assets
+│
+└── docs/ # Documentation (Sphinx)
+    ├── source/ # Sphinx source files
+    └── build/ # Sphinx build output
 ```
 
 ## API Endpoints
