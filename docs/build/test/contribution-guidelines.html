@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contribution Guidelines &mdash; UniLost 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="FAQ" href="faq.html" />
+    <link rel="prev" title="Maintenance and Troubleshooting" href="maintenance-troubleshooting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            UniLost
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About the Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-to-use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical-overview.html">Technical Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration-guide.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maintenance-troubleshooting.html">Maintenance and Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contribution Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-of-conduct">Code of Conduct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coding-standards">Coding Standards</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#javascript-style">JavaScript Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-comments">Code Comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#database-code">Database Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-design">API Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#commit-messages">Commit Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pull-request-process">Pull Request Process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pull-request-template">Pull Request Template</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#review-process">Review Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#areas-for-contribution">Areas for Contribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reporting-issues">Reporting Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#issue-template">Issue Template</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#questions">Questions?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release Notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UniLost</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Contribution Guidelines</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/contribution-guidelines.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="contribution-guidelines">
+<h1>Contribution Guidelines<a class="headerlink" href="#contribution-guidelines" title="Link to this heading"></a></h1>
+<p>Thank you for your interest in contributing to UniLost! This document outlines the process for contributing to the project, including coding standards and submission procedures.</p>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h2>
+<p>Before contributing:</p>
+<ol class="arabic simple">
+<li><p><strong>Fork the Repository</strong>: Create your own fork of the repository</p></li>
+<li><p><strong>Clone Your Fork</strong>: Clone your fork to your local machine</p></li>
+<li><p><strong>Create a Branch</strong>: Create a new branch for your changes</p></li>
+<li><p><strong>Make Changes</strong>: Implement your changes following the coding standards</p></li>
+<li><p><strong>Test Your Changes</strong>: Ensure your changes work correctly</p></li>
+<li><p><strong>Submit a Pull Request</strong>: Create a pull request with a clear description</p></li>
+</ol>
+</section>
+<section id="code-of-conduct">
+<h2>Code of Conduct<a class="headerlink" href="#code-of-conduct" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Be respectful and inclusive</p></li>
+<li><p>Welcome newcomers and help them learn</p></li>
+<li><p>Focus on constructive feedback</p></li>
+<li><p>Respect different viewpoints and experiences</p></li>
+</ul>
+</section>
+<section id="coding-standards">
+<h2>Coding Standards<a class="headerlink" href="#coding-standards" title="Link to this heading"></a></h2>
+<section id="javascript-style">
+<h3>JavaScript Style<a class="headerlink" href="#javascript-style" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Indentation</strong>: Use 2 spaces (no tabs)</p></li>
+<li><p><strong>Semicolons</strong>: Use semicolons at the end of statements</p></li>
+<li><p><strong>Quotes</strong>: Use single quotes for strings</p></li>
+<li><p><strong>Naming</strong>:
+* Variables and functions: <code class="docutils literal notranslate"><span class="pre">camelCase</span></code>
+* Constants: <code class="docutils literal notranslate"><span class="pre">UPPER_SNAKE_CASE</span></code>
+* Classes: <code class="docutils literal notranslate"><span class="pre">PascalCase</span></code></p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">userName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;student1&#39;</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">MAX_RETRIES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">getUserById</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">userDB</span><span class="p">.</span><span class="nx">findById</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="code-comments">
+<h3>Code Comments<a class="headerlink" href="#code-comments" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Write clear, concise comments</p></li>
+<li><p>Explain “why” not “what”</p></li>
+<li><p>Use English for all comments</p></li>
+<li><p>Update comments when code changes</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Check if user has admin privileges before allowing item deletion</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">user</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">isAdmin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mf">403</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Admin privileges required&#39;</span><span class="w"> </span><span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="database-code">
+<h3>Database Code<a class="headerlink" href="#database-code" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Always use parameterized queries to prevent SQL injection</p></li>
+<li><p>Handle errors appropriately</p></li>
+<li><p>Use transactions for multiple related operations</p></li>
+<li><p>Add indexes for frequently queried columns</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ Good: Parameterized query</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s1">&#39;SELECT * FROM users WHERE id = $1&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="nx">userId</span><span class="p">]);</span>
+
+<span class="c1">// ❌ Bad: String concatenation</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="sb">`SELECT * FROM users WHERE id = &#39;</span><span class="si">${</span><span class="nx">userId</span><span class="si">}</span><span class="sb">&#39;`</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="api-design">
+<h3>API Design<a class="headerlink" href="#api-design" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Follow RESTful conventions</p></li>
+<li><p>Use appropriate HTTP status codes</p></li>
+<li><p>Return consistent response formats</p></li>
+<li><p>Include error messages in error responses</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ Good: Consistent error format</span>
+<span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mf">400</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;ID and password required&#39;</span><span class="w"> </span><span class="p">});</span>
+
+<span class="c1">// ✅ Good: Consistent success format</span>
+<span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">ok</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">user</span><span class="w"> </span><span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="commit-messages">
+<h2>Commit Messages<a class="headerlink" href="#commit-messages" title="Link to this heading"></a></h2>
+<p>Write clear, descriptive commit messages:</p>
+<ul class="simple">
+<li><p><strong>Format</strong>: <code class="docutils literal notranslate"><span class="pre">&lt;type&gt;:</span> <span class="pre">&lt;subject&gt;</span></code></p></li>
+<li><p><strong>Types</strong>: <code class="docutils literal notranslate"><span class="pre">feat</span></code>, <code class="docutils literal notranslate"><span class="pre">fix</span></code>, <code class="docutils literal notranslate"><span class="pre">docs</span></code>, <code class="docutils literal notranslate"><span class="pre">style</span></code>, <code class="docutils literal notranslate"><span class="pre">refactor</span></code>, <code class="docutils literal notranslate"><span class="pre">test</span></code>, <code class="docutils literal notranslate"><span class="pre">chore</span></code></p></li>
+<li><p><strong>Subject</strong>: Brief description (50 characters or less)</p></li>
+<li><p><strong>Body</strong>: Detailed explanation (if needed)</p></li>
+</ul>
+<p><strong>Examples:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>feat: Add user profile page
+fix: Resolve database connection timeout issue
+docs: Update API reference documentation
+style: Format code with ESLint
+</pre></div>
+</div>
+</section>
+<section id="pull-request-process">
+<h2>Pull Request Process<a class="headerlink" href="#pull-request-process" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Update Documentation</strong>: Update relevant documentation if needed</p></li>
+<li><p><strong>Add Tests</strong>: Add tests for new features or bug fixes (if applicable)</p></li>
+<li><p><strong>Update CHANGELOG</strong>: Add entry to CHANGELOG if applicable</p></li>
+<li><p><strong>Check Compatibility</strong>: Ensure changes work with both SQLite and PostgreSQL</p></li>
+<li><p><strong>Test Locally</strong>: Test your changes thoroughly before submitting</p></li>
+</ol>
+<section id="pull-request-template">
+<h3>Pull Request Template<a class="headerlink" href="#pull-request-template" title="Link to this heading"></a></h3>
+<p>When creating a pull request, include:</p>
+<ul class="simple">
+<li><p><strong>Description</strong>: Clear description of changes</p></li>
+<li><p><strong>Type</strong>: Type of change (feature, bug fix, documentation, etc.)</p></li>
+<li><p><strong>Testing</strong>: How you tested your changes</p></li>
+<li><p><strong>Screenshots</strong>: Screenshots if UI changes are involved</p></li>
+<li><p><strong>Related Issues</strong>: Link to related issues (if any)</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gu">## Description</span>
+Add user profile page with edit functionality.
+
+<span class="gu">## Type of Change</span>
+<span class="k">- [ ]</span> Bug fix
+<span class="k">- [x]</span> New feature
+<span class="k">- [ ]</span> Documentation update
+<span class="k">- [ ]</span> Code refactoring
+
+<span class="gu">## Testing</span>
+<span class="k">-</span><span class="w"> </span>Tested user profile display
+<span class="k">-</span><span class="w"> </span>Tested profile edit functionality
+<span class="k">-</span><span class="w"> </span>Tested with both student and admin accounts
+
+<span class="gu">## Screenshots</span>
+[Add screenshots if applicable]
+
+<span class="gu">## Related Issues</span>
+Closes <span class="ni">#123</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="review-process">
+<h2>Review Process<a class="headerlink" href="#review-process" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>All pull requests require review before merging</p></li>
+<li><p>Address review comments promptly</p></li>
+<li><p>Be open to feedback and suggestions</p></li>
+<li><p>Keep discussions focused and constructive</p></li>
+</ul>
+</section>
+<section id="development-setup">
+<h2>Development Setup<a class="headerlink" href="#development-setup" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Install Dependencies</strong>: <code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">install</span></code></p></li>
+<li><p><strong>Set Environment Variables</strong>: Configure <code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code>, <code class="docutils literal notranslate"><span class="pre">SESSION_SECRET</span></code>, etc.</p></li>
+<li><p><strong>Run Server</strong>: <code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">start</span></code></p></li>
+<li><p><strong>Test Changes</strong>: Verify your changes work correctly</p></li>
+</ol>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h2>
+<p>Before submitting:</p>
+<ul class="simple">
+<li><p>Test with both SQLite and PostgreSQL</p></li>
+<li><p>Test with different user roles (student, admin)</p></li>
+<li><p>Test error cases and edge cases</p></li>
+<li><p>Test on different browsers (if UI changes)</p></li>
+</ul>
+</section>
+<section id="areas-for-contribution">
+<h2>Areas for Contribution<a class="headerlink" href="#areas-for-contribution" title="Link to this heading"></a></h2>
+<p>We welcome contributions in the following areas:</p>
+<ul class="simple">
+<li><p><strong>Bug Fixes</strong>: Fix reported bugs</p></li>
+<li><p><strong>New Features</strong>: Implement new features</p></li>
+<li><p><strong>Documentation</strong>: Improve documentation</p></li>
+<li><p><strong>Code Quality</strong>: Refactor and improve code</p></li>
+<li><p><strong>Testing</strong>: Add tests</p></li>
+<li><p><strong>Performance</strong>: Optimize performance</p></li>
+<li><p><strong>Security</strong>: Improve security</p></li>
+<li><p><strong>UI/UX</strong>: Improve user interface and experience</p></li>
+</ul>
+</section>
+<section id="reporting-issues">
+<h2>Reporting Issues<a class="headerlink" href="#reporting-issues" title="Link to this heading"></a></h2>
+<p>When reporting issues:</p>
+<ul class="simple">
+<li><p><strong>Use GitHub Issues</strong>: Create an issue on GitHub</p></li>
+<li><p><strong>Provide Details</strong>: Include steps to reproduce, expected behavior, actual behavior</p></li>
+<li><p><strong>Include Environment</strong>: Node.js version, database type, operating system</p></li>
+<li><p><strong>Include Logs</strong>: Relevant error messages or logs</p></li>
+</ul>
+<section id="issue-template">
+<h3>Issue Template<a class="headerlink" href="#issue-template" title="Link to this heading"></a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gu">## Description</span>
+[Clear description of the issue]
+
+<span class="gu">## Steps to Reproduce</span>
+<span class="k">1.</span> Step one
+<span class="k">2.</span> Step two
+<span class="k">3.</span> Step three
+
+<span class="gu">## Expected Behavior</span>
+[What should happen]
+
+<span class="gu">## Actual Behavior</span>
+[What actually happens]
+
+<span class="gu">## Environment</span>
+<span class="k">-</span><span class="w"> </span>Node.js version: [version]
+<span class="k">-</span><span class="w"> </span>Database: [SQLite/PostgreSQL]
+<span class="k">-</span><span class="w"> </span>Operating System: [OS]
+
+<span class="gu">## Logs</span>
+[Relevant error messages or logs]
+</pre></div>
+</div>
+</section>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p>By contributing to UniLost, you agree that your contributions will be licensed under the Apache License 2.0.</p>
+</section>
+<section id="questions">
+<h2>Questions?<a class="headerlink" href="#questions" title="Link to this heading"></a></h2>
+<p>If you have questions about contributing:</p>
+<ul class="simple">
+<li><p>Check existing documentation</p></li>
+<li><p>Review existing issues and pull requests</p></li>
+<li><p>Create a new issue with your question</p></li>
+</ul>
+<p>Thank you for contributing to UniLost!</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="maintenance-troubleshooting.html" class="btn btn-neutral float-left" title="Maintenance and Troubleshooting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Sejong University Open Source Software Introduction Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -75,7 +75,8 @@ async function updateLocationsPostgres() {
 }
 
 function updateLocationsSQLite() {
-  const dbPath = path.join(__dirname, 'unilost.db');
+  // Database file is in app/ directory (parent directory)
+  const dbPath = path.join(__dirname, '..', 'app', 'unilost.db');
   const db = new Database(dbPath);
 
   try {

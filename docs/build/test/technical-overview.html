@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technical Overview &mdash; UniLost 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api-reference.html" />
+    <link rel="prev" title="How to Use" href="how-to-use.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            UniLost
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About the Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-to-use.html">How to Use</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Technical Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#architecture">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#system-architecture-diagram">System Architecture Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#core-components">Core Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#server-server-js">Server (server.js)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#database-module-db-js">Database Module (db.js)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#frontend-unilost-html">Frontend (unilost.html)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#database-schema">Database Schema</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#users-table">Users Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#items-table">Items Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chat-messages-table">Chat Messages Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#thread-messages-table">Thread Messages Table</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#technologies-used">Technologies Used</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#backend-technologies">Backend Technologies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#frontend-technologies">Frontend Technologies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#database-technologies">Database Technologies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#security-features">Security Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-flow">Data Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#item-registration-flow">Item Registration Flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#real-time-chat-flow">Real-time Chat Flow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-considerations">Performance Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scalability">Scalability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration-guide.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maintenance-troubleshooting.html">Maintenance and Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution-guidelines.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release Notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UniLost</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Technical Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/technical-overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="technical-overview">
+<h1>Technical Overview<a class="headerlink" href="#technical-overview" title="Link to this heading"></a></h1>
+<p>This document provides a comprehensive overview of UniLost’s architecture, core components, and underlying technologies.</p>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Link to this heading"></a></h2>
+<p>UniLost follows a client-server architecture with the following components:</p>
+<ul class="simple">
+<li><p><strong>Frontend</strong>: Single-page application (SPA) using HTML, JavaScript, and Tailwind CSS</p></li>
+<li><p><strong>Backend</strong>: Node.js server with Express.js framework</p></li>
+<li><p><strong>Database</strong>: PostgreSQL (production) or SQLite (development)</p></li>
+<li><p><strong>Real-time Communication</strong>: Socket.IO for WebSocket connections</p></li>
+</ul>
+<section id="system-architecture-diagram">
+<h3>System Architecture Diagram<a class="headerlink" href="#system-architecture-diagram" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌─────────────┐
+│   Client    │
+│  (Browser)  │
+└──────┬──────┘
+       │
+       │ HTTP/WebSocket
+       │
+┌──────▼──────────────────┐
+│   Express Server        │
+│   (server.js)           │
+│                         │
+│  ┌──────────────────┐   │
+│  │  REST API        │   │
+│  │  /api/*          │   │
+│  └──────────────────┘   │
+│                         │
+│  ┌──────────────────┐   │
+│  │  Socket.IO       │   │
+│  │  Real-time Chat  │   │
+│  └──────────────────┘   │
+└──────┬──────────────────┘
+       │
+       │ Database Queries
+       │
+┌──────▼──────────────┐
+│   Database Module   │
+│   (db.js)           │
+└──────┬──────────────┘
+       │
+┌──────▼──────────────┐
+│  PostgreSQL/SQLite  │
+└─────────────────────┘
+</pre></div>
+</div>
+</section>
+</section>
+<section id="core-components">
+<h2>Core Components<a class="headerlink" href="#core-components" title="Link to this heading"></a></h2>
+<section id="server-server-js">
+<h3>Server (server.js)<a class="headerlink" href="#server-server-js" title="Link to this heading"></a></h3>
+<p>The main server file handles:</p>
+<ul class="simple">
+<li><p><strong>HTTP Server</strong>: Express.js application serving static files and API endpoints</p></li>
+<li><p><strong>Session Management</strong>: Express-session middleware for user authentication</p></li>
+<li><p><strong>REST API</strong>: Endpoints for authentication, item management, and data retrieval</p></li>
+<li><p><strong>Socket.IO Server</strong>: Real-time communication for chat and item threads</p></li>
+<li><p><strong>Error Handling</strong>: Global error handlers for uncaught exceptions</p></li>
+</ul>
+</section>
+<section id="database-module-db-js">
+<h3>Database Module (db.js)<a class="headerlink" href="#database-module-db-js" title="Link to this heading"></a></h3>
+<p>The database module provides:</p>
+<ul class="simple">
+<li><p><strong>Connection Management</strong>: Handles both PostgreSQL and SQLite connections</p></li>
+<li><p><strong>Database Abstraction</strong>: Unified interface for database operations</p></li>
+<li><p><strong>Table Initialization</strong>: Automatic schema creation and default data</p></li>
+<li><p><strong>Query Functions</strong>: CRUD operations for users, items, chat, and threads</p></li>
+</ul>
+</section>
+<section id="frontend-unilost-html">
+<h3>Frontend (unilost.html)<a class="headerlink" href="#frontend-unilost-html" title="Link to this heading"></a></h3>
+<p>The frontend includes:</p>
+<ul class="simple">
+<li><p><strong>Map Integration</strong>: Leaflet.js for interactive maps</p></li>
+<li><p><strong>UI Components</strong>: Modal dialogs, forms, and navigation</p></li>
+<li><p><strong>Real-time Updates</strong>: Socket.IO client for live chat</p></li>
+<li><p><strong>API Client</strong>: Fetch API for REST endpoint communication</p></li>
+<li><p><strong>Responsive Design</strong>: Tailwind CSS for mobile and desktop layouts</p></li>
+</ul>
+</section>
+</section>
+<section id="database-schema">
+<h2>Database Schema<a class="headerlink" href="#database-schema" title="Link to this heading"></a></h2>
+<section id="users-table">
+<h3>Users Table<a class="headerlink" href="#users-table" title="Link to this heading"></a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">pw_hash</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">is_admin</span><span class="w"> </span><span class="nb">BOOLEAN</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">FALSE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="items-table">
+<h3>Items Table<a class="headerlink" href="#items-table" title="Link to this heading"></a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">category</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+<span class="w">    </span><span class="n">img_data</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lat</span><span class="w"> </span><span class="n">DOUBLE</span><span class="w"> </span><span class="k">PRECISION</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lng</span><span class="w"> </span><span class="n">DOUBLE</span><span class="w"> </span><span class="k">PRECISION</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">radius</span><span class="w"> </span><span class="n">DOUBLE</span><span class="w"> </span><span class="k">PRECISION</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">storage_place</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+<span class="w">    </span><span class="n">created_by</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+<span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">created_by</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">users</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="chat-messages-table">
+<h3>Chat Messages Table<a class="headerlink" href="#chat-messages-table" title="Link to this heading"></a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">chat_messages</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">nick</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="nb">text</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="thread-messages-table">
+<h3>Thread Messages Table<a class="headerlink" href="#thread-messages-table" title="Link to this heading"></a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">thread_messages</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">item_id</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">nick</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="nb">text</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">item_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">items</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">CASCADE</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="technologies-used">
+<h2>Technologies Used<a class="headerlink" href="#technologies-used" title="Link to this heading"></a></h2>
+<section id="backend-technologies">
+<h3>Backend Technologies<a class="headerlink" href="#backend-technologies" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Node.js</strong>: JavaScript runtime environment</p></li>
+<li><p><strong>Express.js</strong>: Web application framework</p></li>
+<li><p><strong>Express-session</strong>: Session management middleware</p></li>
+<li><p><strong>bcrypt</strong>: Password hashing library</p></li>
+<li><p><strong>Socket.IO</strong>: Real-time bidirectional communication</p></li>
+<li><p><strong>pg</strong>: PostgreSQL client for Node.js</p></li>
+<li><p><strong>better-sqlite3</strong>: SQLite database driver</p></li>
+</ul>
+</section>
+<section id="frontend-technologies">
+<h3>Frontend Technologies<a class="headerlink" href="#frontend-technologies" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>HTML5</strong>: Markup language</p></li>
+<li><p><strong>JavaScript (ES6+)</strong>: Programming language</p></li>
+<li><p><strong>Tailwind CSS</strong>: Utility-first CSS framework</p></li>
+<li><p><strong>Leaflet.js</strong>: Interactive map library</p></li>
+<li><p><strong>OpenStreetMap</strong>: Map tile provider</p></li>
+<li><p><strong>Socket.IO Client</strong>: Real-time communication client</p></li>
+</ul>
+</section>
+<section id="database-technologies">
+<h3>Database Technologies<a class="headerlink" href="#database-technologies" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>PostgreSQL</strong>: Production database (distributed)</p></li>
+<li><p><strong>SQLite</strong>: Development database (file-based)</p></li>
+</ul>
+</section>
+</section>
+<section id="security-features">
+<h2>Security Features<a class="headerlink" href="#security-features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Password Hashing</strong>: bcrypt with salt rounds</p></li>
+<li><p><strong>Session Security</strong>: HttpOnly cookies, SameSite protection</p></li>
+<li><p><strong>Input Validation</strong>: Server-side validation for all inputs</p></li>
+<li><p><strong>SQL Injection Prevention</strong>: Parameterized queries</p></li>
+<li><p><strong>XSS Protection</strong>: Input sanitization and output encoding</p></li>
+</ul>
+</section>
+<section id="data-flow">
+<h2>Data Flow<a class="headerlink" href="#data-flow" title="Link to this heading"></a></h2>
+<section id="item-registration-flow">
+<h3>Item Registration Flow<a class="headerlink" href="#item-registration-flow" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>User fills out registration form</p></li>
+<li><p>Frontend sends POST request to <code class="docutils literal notranslate"><span class="pre">/api/items</span></code></p></li>
+<li><p>Server validates input and checks authentication</p></li>
+<li><p>Database module creates new item record</p></li>
+<li><p>Server returns created item data</p></li>
+<li><p>Frontend updates map with new item marker</p></li>
+</ol>
+</section>
+<section id="real-time-chat-flow">
+<h3>Real-time Chat Flow<a class="headerlink" href="#real-time-chat-flow" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Client connects via Socket.IO</p></li>
+<li><p>Client emits <code class="docutils literal notranslate"><span class="pre">chat:join</span></code> event</p></li>
+<li><p>Server loads chat history from database</p></li>
+<li><p>Server emits <code class="docutils literal notranslate"><span class="pre">chat:history</span></code> to client</p></li>
+<li><p>When user sends message, client emits <code class="docutils literal notranslate"><span class="pre">chat:send</span></code></p></li>
+<li><p>Server saves message to database</p></li>
+<li><p>Server broadcasts <code class="docutils literal notranslate"><span class="pre">chat:new</span></code> to all connected clients</p></li>
+</ol>
+</section>
+</section>
+<section id="performance-considerations">
+<h2>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Database Indexing</strong>: Indexes on frequently queried columns</p></li>
+<li><p><strong>Connection Pooling</strong>: PostgreSQL connection pool management</p></li>
+<li><p><strong>Caching</strong>: Session data caching</p></li>
+<li><p><strong>Lazy Loading</strong>: Map markers loaded on demand</p></li>
+<li><p><strong>Pagination</strong>: Chat history limited to recent messages</p></li>
+</ul>
+</section>
+<section id="scalability">
+<h2>Scalability<a class="headerlink" href="#scalability" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Horizontal Scaling</strong>: Stateless server design allows multiple instances</p></li>
+<li><p><strong>Database Scaling</strong>: PostgreSQL supports replication and sharding</p></li>
+<li><p><strong>Load Balancing</strong>: Compatible with reverse proxies (nginx, etc.)</p></li>
+<li><p><strong>CDN Integration</strong>: Static assets can be served from CDN</p></li>
+</ul>
+<p>For API details, see <a class="reference internal" href="api-reference.html"><span class="doc">API Reference</span></a>. For configuration options, see <a class="reference internal" href="configuration-guide.html"><span class="doc">Configuration Guide</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="how-to-use.html" class="btn btn-neutral float-left" title="How to Use" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api-reference.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Sejong University Open Source Software Introduction Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

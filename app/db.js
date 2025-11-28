@@ -42,6 +42,7 @@ if (usePostgres) {
   try {
     const Database = require('better-sqlite3');
     const path = require('path');
+    // Database file location: app/unilost.db (relative to app directory)
     const dbPath = path.join(__dirname, 'unilost.db');
     db = new Database(dbPath);
   } catch (err) {

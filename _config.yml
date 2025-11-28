@@ -37,12 +37,10 @@ exclude:
   - .git
   - docs/build
   - server.js
-  - db.js
-  - unilost.html
-  - unilost.db
+  - app/
+  - scripts/
   - render.yaml
-  - check-critical-functions.sh
-  - js/
+  - test.html
 
 # Custom variables (no theme - using custom layouts)
 # theme: custom-unilost  # Not using a gem theme, using custom layouts instead

@@ -19,6 +19,7 @@ const { Pool } = require('pg');
 const Database = require('better-sqlite3');
 const path = require('path');
 
+// Database file is in app/ directory
 const usePostgres = !!process.env.DATABASE_URL;
 
 // Sample data - Sejong University campus locations
@@ -216,7 +217,8 @@ async function addDummyDataPostgres() {
 }
 
 function addDummyDataSQLite() {
-  const dbPath = path.join(__dirname, 'unilost.db');
+  // Database file is in app/ directory (parent directory)
+  const dbPath = path.join(__dirname, '..', 'app', 'unilost.db');
   const db = new Database(dbPath);
 
   try {

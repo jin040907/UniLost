@@ -1,7 +1,7 @@
 #!/bin/bash
 # 중요한 함수들이 제대로 있는지 확인하는 스크립트
 
-echo "Checking critical functions in unilost.html..."
+echo "Checking critical functions in app/unilost.html..."
 
 CRITICAL_FUNCTIONS=(
   "initRegisterMap"
@@ -14,7 +14,7 @@ CRITICAL_FUNCTIONS=(
 MISSING_FUNCTIONS=()
 
 for func in "${CRITICAL_FUNCTIONS[@]}"; do
-  if ! grep -q "$func" unilost.html; then
+  if ! grep -q "$func" ../app/unilost.html; then
     MISSING_FUNCTIONS+=("$func")
   fi
 done

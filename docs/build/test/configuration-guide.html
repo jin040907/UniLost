@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration Guide &mdash; UniLost 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Maintenance and Troubleshooting" href="maintenance-troubleshooting.html" />
+    <link rel="prev" title="API Reference" href="api-reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            UniLost
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About the Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-to-use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical-overview.html">Technical Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#port">PORT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#session-secret">SESSION_SECRET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#database-url">DATABASE_URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#node-env">NODE_ENV</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#setting-environment-variables">Setting Environment Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#linux-macos">Linux/macOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#database-configuration">Database Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sqlite-configuration">SQLite Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#postgresql-configuration">PostgreSQL Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#session-configuration">Session Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#map-configuration">Map Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#default-users">Default Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#production-configuration-checklist">Production Configuration Checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#render-deployment-configuration">Render Deployment Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maintenance-troubleshooting.html">Maintenance and Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution-guidelines.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release Notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UniLost</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Configuration Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/configuration-guide.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuration-guide">
+<h1>Configuration Guide<a class="headerlink" href="#configuration-guide" title="Link to this heading"></a></h1>
+<p>This guide explains all configuration options, default settings, and customization methods for UniLost.</p>
+<section id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h2>
+<section id="port">
+<h3>PORT<a class="headerlink" href="#port" title="Link to this heading"></a></h3>
+<p>Server port number.</p>
+<ul class="simple">
+<li><p><strong>Default</strong>: <code class="docutils literal notranslate"><span class="pre">3000</span></code></p></li>
+<li><p><strong>Example</strong>: <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">PORT=8080</span></code></p></li>
+<li><p><strong>Usage</strong>: Set the port where the server will listen for connections</p></li>
+</ul>
+</section>
+<section id="session-secret">
+<h3>SESSION_SECRET<a class="headerlink" href="#session-secret" title="Link to this heading"></a></h3>
+<p>Secret key for session encryption. <strong>Required for production environments.</strong></p>
+<ul class="simple">
+<li><p><strong>Default</strong>: <code class="docutils literal notranslate"><span class="pre">demo-lost-and-found-secret</span></code> (development only)</p></li>
+<li><p><strong>Example</strong>: <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">SESSION_SECRET=&quot;your-random-secret-key-here&quot;</span></code></p></li>
+<li><p><strong>Usage</strong>: Used to sign and encrypt session cookies</p></li>
+<li><p><strong>Security</strong>: Use a strong, random string in production (minimum 32 characters)</p></li>
+</ul>
+</section>
+<section id="database-url">
+<h3>DATABASE_URL<a class="headerlink" href="#database-url" title="Link to this heading"></a></h3>
+<p>PostgreSQL connection string. If not set, SQLite will be used.</p>
+<ul class="simple">
+<li><p><strong>Default</strong>: Not set (uses SQLite)</p></li>
+<li><p><strong>Format</strong>: <code class="docutils literal notranslate"><span class="pre">postgresql://user:password&#64;host:port/database</span></code></p></li>
+<li><p><strong>Example</strong>: <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">DATABASE_URL=&quot;postgresql://postgres:mypassword&#64;localhost:5432/unilost&quot;</span></code></p></li>
+<li><p><strong>SSL</strong>: Automatically enabled for non-localhost connections</p></li>
+</ul>
+</section>
+<section id="node-env">
+<h3>NODE_ENV<a class="headerlink" href="#node-env" title="Link to this heading"></a></h3>
+<p>Node.js environment mode.</p>
+<ul class="simple">
+<li><p><strong>Default</strong>: Not set (development mode)</p></li>
+<li><p><strong>Options</strong>: <code class="docutils literal notranslate"><span class="pre">production</span></code>, <code class="docutils literal notranslate"><span class="pre">development</span></code></p></li>
+<li><p><strong>Example</strong>: <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">NODE_ENV=production</span></code></p></li>
+<li><p><strong>Effects</strong>:
+* Production: Disables debug logging, enables optimizations
+* Development: Enables debug logging</p></li>
+</ul>
+</section>
+</section>
+<section id="setting-environment-variables">
+<h2>Setting Environment Variables<a class="headerlink" href="#setting-environment-variables" title="Link to this heading"></a></h2>
+<section id="linux-macos">
+<h3>Linux/macOS<a class="headerlink" href="#linux-macos" title="Link to this heading"></a></h3>
+<p><strong>Temporary (Current Session):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PORT</span><span class="o">=</span><span class="m">3000</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SESSION_SECRET</span><span class="o">=</span><span class="s2">&quot;your-secret&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DATABASE_URL</span><span class="o">=</span><span class="s2">&quot;postgresql://user:pass@host:5432/db&quot;</span>
+</pre></div>
+</div>
+<p><strong>Permanent (Add to ~/.bashrc or ~/.zshrc):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export PORT=3000&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export SESSION_SECRET=&quot;your-secret&quot;&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export DATABASE_URL=&quot;postgresql://user:pass@host:5432/db&quot;&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">source</span><span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+<p><strong>Using .env file (with dotenv package):</strong></p>
+<p>Create a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file in the project root:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>PORT=3000
+SESSION_SECRET=your-secret-key
+DATABASE_URL=postgresql://user:pass@host:5432/db
+NODE_ENV=production
+</pre></div>
+</div>
+</section>
+<section id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Link to this heading"></a></h3>
+<p><strong>Command Prompt:</strong></p>
+<div class="highlight-cmd notranslate"><div class="highlight"><pre><span></span>set PORT=3000
+set SESSION_SECRET=your-secret
+set DATABASE_URL=postgresql://user:pass@host:5432/db
+</pre></div>
+</div>
+<p><strong>PowerShell:</strong></p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$env:PORT</span><span class="p">=</span><span class="n">3000</span>
+<span class="nv">$env:SESSION_SECRET</span><span class="p">=</span><span class="s2">&quot;your-secret&quot;</span>
+<span class="nv">$env:DATABASE_URL</span><span class="p">=</span><span class="s2">&quot;postgresql://user:pass@host:5432/db&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="database-configuration">
+<h2>Database Configuration<a class="headerlink" href="#database-configuration" title="Link to this heading"></a></h2>
+<section id="sqlite-configuration">
+<h3>SQLite Configuration<a class="headerlink" href="#sqlite-configuration" title="Link to this heading"></a></h3>
+<p>SQLite is used by default when <code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code> is not set.</p>
+<ul class="simple">
+<li><p><strong>Database File</strong>: <code class="docutils literal notranslate"><span class="pre">unilost.db</span></code> (created in project root)</p></li>
+<li><p><strong>No Configuration Required</strong>: Works out of the box</p></li>
+<li><p><strong>Limitations</strong>:
+* Single file database
+* Not suitable for production with high concurrency
+* Ephemeral on Render free plan</p></li>
+</ul>
+</section>
+<section id="postgresql-configuration">
+<h3>PostgreSQL Configuration<a class="headerlink" href="#postgresql-configuration" title="Link to this heading"></a></h3>
+<p>For production deployment, use PostgreSQL.</p>
+<p><strong>Connection String Format:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>postgresql://[user]:[password]@[host]:[port]/[database]?[options]
+</pre></div>
+</div>
+<p><strong>Components:</strong></p>
+<ul class="simple">
+<li><p><strong>user</strong>: Database username</p></li>
+<li><p><strong>password</strong>: Database password</p></li>
+<li><p><strong>host</strong>: Database hostname or IP address</p></li>
+<li><p><strong>port</strong>: Database port (default: 5432)</p></li>
+<li><p><strong>database</strong>: Database name</p></li>
+<li><p><strong>options</strong>: Additional connection options</p></li>
+</ul>
+<p><strong>Example Connection Strings:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Local PostgreSQL
+postgresql://postgres:mypassword@localhost:5432/unilost
+
+# Remote PostgreSQL (with SSL)
+postgresql://user:pass@db.example.com:5432/unilost?sslmode=require
+
+# Neon PostgreSQL
+postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require
+</pre></div>
+</div>
+<p><strong>SSL Configuration:</strong></p>
+<p>SSL is automatically enabled for non-localhost connections. To disable SSL:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>postgresql://user:pass@host:5432/db?sslmode=disable
+</pre></div>
+</div>
+</section>
+</section>
+<section id="session-configuration">
+<h2>Session Configuration<a class="headerlink" href="#session-configuration" title="Link to this heading"></a></h2>
+<p>Session settings are configured in <code class="docutils literal notranslate"><span class="pre">server.js</span></code>:</p>
+<ul class="simple">
+<li><p><strong>Cookie Name</strong>: <code class="docutils literal notranslate"><span class="pre">sid</span></code></p></li>
+<li><p><strong>HttpOnly</strong>: <code class="docutils literal notranslate"><span class="pre">true</span></code> (prevents JavaScript access)</p></li>
+<li><p><strong>SameSite</strong>: <code class="docutils literal notranslate"><span class="pre">lax</span></code> (CSRF protection)</p></li>
+<li><p><strong>Max Age</strong>: 6 hours (21600000 milliseconds)</p></li>
+<li><p><strong>Secure</strong>: Automatically set in production (HTTPS only)</p></li>
+</ul>
+<p>To modify session settings, edit <code class="docutils literal notranslate"><span class="pre">server.js</span></code>:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">session</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;sid&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">secret</span><span class="o">:</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SESSION_SECRET</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;demo-secret&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resave</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">saveUninitialized</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">cookie</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">httpOnly</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">sameSite</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;lax&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">maxAge</span><span class="o">:</span><span class="w"> </span><span class="mf">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">6</span><span class="p">,</span><span class="w"> </span><span class="c1">// 6 hours</span>
+<span class="w">    </span><span class="nx">secure</span><span class="o">:</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;production&#39;</span><span class="w"> </span><span class="c1">// HTTPS only in production</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="p">}));</span>
+</pre></div>
+</div>
+</section>
+<section id="map-configuration">
+<h2>Map Configuration<a class="headerlink" href="#map-configuration" title="Link to this heading"></a></h2>
+<p>Map bounds are configured in <code class="docutils literal notranslate"><span class="pre">unilost.html</span></code>:</p>
+<ul class="simple">
+<li><p><strong>South Korea Bounds</strong>:
+* South: 33.1
+* North: 38.6
+* West: 124.6
+* East: 131.9</p></li>
+</ul>
+<p>To modify map bounds, edit <code class="docutils literal notranslate"><span class="pre">unilost.html</span></code>:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">koreaBounds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="mf">33.1</span><span class="p">,</span><span class="w"> </span><span class="mf">124.6</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">38.6</span><span class="p">,</span><span class="w"> </span><span class="mf">131.9</span><span class="p">]];</span>
+<span class="nx">mapRegister</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">L</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;mapRegister&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">maxBounds</span><span class="o">:</span><span class="w"> </span><span class="nx">koreaBounds</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">maxBoundsViscosity</span><span class="o">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">minZoom</span><span class="o">:</span><span class="w"> </span><span class="mf">7</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="default-users">
+<h2>Default Users<a class="headerlink" href="#default-users" title="Link to this heading"></a></h2>
+<p>Default users are created automatically on first database initialization:</p>
+<p><strong>Student Account:</strong>
+* Username: <code class="docutils literal notranslate"><span class="pre">student1</span></code>
+* Password: <code class="docutils literal notranslate"><span class="pre">1234</span></code>
+* Admin: <code class="docutils literal notranslate"><span class="pre">false</span></code></p>
+<p><strong>Administrator Account:</strong>
+* Username: <code class="docutils literal notranslate"><span class="pre">admin1</span></code>
+* Password: <code class="docutils literal notranslate"><span class="pre">admin123</span></code>
+* Admin: <code class="docutils literal notranslate"><span class="pre">true</span></code></p>
+<p>To modify default users, edit <code class="docutils literal notranslate"><span class="pre">db.js</span></code>:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span>
+<span class="w">  </span><span class="s1">&#39;INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4)&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">[</span><span class="s1">&#39;student1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Student 1&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">bcrypt</span><span class="p">.</span><span class="nx">hashSync</span><span class="p">(</span><span class="s1">&#39;1234&#39;</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">),</span><span class="w"> </span><span class="kc">false</span><span class="p">]</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="production-configuration-checklist">
+<h2>Production Configuration Checklist<a class="headerlink" href="#production-configuration-checklist" title="Link to this heading"></a></h2>
+<p>Before deploying to production:</p>
+<ul class="simple">
+<li><p>[ ] Set <code class="docutils literal notranslate"><span class="pre">SESSION_SECRET</span></code> to a strong, random value</p></li>
+<li><p>[ ] Set <code class="docutils literal notranslate"><span class="pre">NODE_ENV=production</span></code></p></li>
+<li><p>[ ] Configure <code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code> for PostgreSQL</p></li>
+<li><p>[ ] Verify SSL is enabled for database connections</p></li>
+<li><p>[ ] Review and update default user passwords</p></li>
+<li><p>[ ] Configure reverse proxy (nginx, etc.) if needed</p></li>
+<li><p>[ ] Set up HTTPS/SSL certificates</p></li>
+<li><p>[ ] Configure firewall rules</p></li>
+<li><p>[ ] Set up database backups</p></li>
+<li><p>[ ] Configure logging and monitoring</p></li>
+</ul>
+</section>
+<section id="render-deployment-configuration">
+<h2>Render Deployment Configuration<a class="headerlink" href="#render-deployment-configuration" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">render.yaml</span></code> file contains deployment settings:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unilost</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node</span>
+<span class="w">    </span><span class="nt">buildCommand</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">npm install</span>
+<span class="w">    </span><span class="nt">startCommand</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node server.js</span>
+<span class="w">    </span><span class="nt">envVars</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NODE_ENV</span>
+<span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SESSION_SECRET</span>
+<span class="w">        </span><span class="nt">generateValue</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+<p>For more deployment information, see <a class="reference internal" href="getting-started.html"><span class="doc">Getting Started</span></a> and <a class="reference internal" href="maintenance-troubleshooting.html"><span class="doc">Maintenance and Troubleshooting</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api-reference.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="maintenance-troubleshooting.html" class="btn btn-neutral float-right" title="Maintenance and Troubleshooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Sejong University Open Source Software Introduction Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

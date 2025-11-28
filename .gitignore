@@ -4,8 +4,8 @@ node_modules/
 # Database
 *.db
 *.db-journal
-# Allow unilost.db to be tracked
-!unilost.db
+# Allow app/unilost.db to be tracked
+!app/unilost.db
 
 # Jekyll
 _site/

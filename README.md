@@ -83,26 +83,40 @@ Once the server is running, you can access it at `http://localhost:3000`.
 ## Project Structure
 
 ```
-. ├── server.js # Express server main file
-├── db.js # PostgreSQL/SQLite database module
-├── unilost.html # Frontend HTML file (main application)
-├── package.json # Project dependencies
-├── render.yaml # Render deployment configuration
+.
+├── app/                          # Application source code
+│   ├── server.js                 # Express server main file
+│   ├── db.js                     # PostgreSQL/SQLite database module
+│   ├── unilost.html              # Frontend HTML file (main application)
+│   └── unilost.db                # SQLite database file (local development)
+│
+├── scripts/                      # Utility scripts
+│   ├── add-dummy-data.js         # Add sample data to database
+│   ├── update-user-names.js      # Update user names
+│   ├── update-item-locations.js  # Update item locations
+│   └── utils/                    # Utility scripts
+│       └── check-critical-functions.sh
+│
+├── docs/                         # Documentation (Sphinx)
+│   ├── source/                   # Sphinx source files
+│   └── build/                    # Sphinx build output
 │
 ├── # Jekyll Website (GitHub Pages)
-├── _config.yml # Jekyll configuration
-├── Gemfile # Ruby dependencies for Jekyll
-├── index.md # Homepage
-├── features.md # Features page
-├── community.md # Community page
-├── contact.md # Contact page
-├── _layouts/ # Jekyll layouts
-├── _includes/ # Jekyll includes
-└── assets/ # CSS and JavaScript assets
+├── _config.yml                   # Jekyll configuration
+├── Gemfile                       # Ruby dependencies for Jekyll
+├── index.md                      # Homepage
+├── features.md                   # Features page
+├── community.md                  # Community page
+├── contact.md                    # Contact page
+├── _layouts/                     # Jekyll layouts
+├── _includes/                    # Jekyll includes
+└── assets/                       # CSS and JavaScript assets
 │
-└── docs/ # Documentation (Sphinx)
-    ├── source/ # Sphinx source files
-    └── build/ # Sphinx build output
+├── server.js                     # Entry point (runs app/server.js)
+├── package.json                  # Node.js dependencies
+├── render.yaml                   # Render deployment configuration
+├── LICENSE                       # Apache License 2.0
+└── README.md                     # Project documentation
 ```
 
 ## API Endpoints
