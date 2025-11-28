@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ &mdash; UniLost 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Release Notes" href="release-notes.html" />
+    <link rel="prev" title="Contribution Guidelines" href="contribution-guidelines.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            UniLost
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About the Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-to-use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical-overview.html">Technical Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration-guide.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maintenance-troubleshooting.html">Maintenance and Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution-guidelines.html">Contribution Guidelines</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#general-questions">General Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-unilost">What is UniLost?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#who-can-use-unilost">Who can use UniLost?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-unilost-free-to-use">Is UniLost free to use?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-questions">Installation Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-are-the-system-requirements">What are the system requirements?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#do-i-need-to-install-postgresql">Do I need to install PostgreSQL?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-do-i-set-up-the-database">How do I set up the database?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage-questions">Usage Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-do-i-log-in">How do I log in?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-do-i-register-a-lost-item">How do I register a lost item?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-do-i-search-for-items">How do I search for items?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-do-i-approve-items-as-an-administrator">How do I approve items as an administrator?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#technical-questions">Technical Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-database-does-unilost-use">What database does UniLost use?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-does-real-time-chat-work">How does real-time chat work?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-i-customize-the-map-bounds">Can I customize the map bounds?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-do-i-change-the-default-port">How do I change the default port?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment-questions">Deployment Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#can-i-deploy-unilost-on-render">Can I deploy UniLost on Render?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#does-render-support-sqlite">Does Render support SQLite?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-do-i-set-up-postgresql-on-render">How do I set up PostgreSQL on Render?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-i-use-other-hosting-services">Can I use other hosting services?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#security-questions">Security Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-are-passwords-stored">How are passwords stored?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-the-session-secure">Is the session secure?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-do-i-change-the-session-secret">How do I change the session secret?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting-questions">Troubleshooting Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-server-won-t-start-what-should-i-do">The server won’t start. What should I do?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#i-can-t-connect-to-the-database-what-s-wrong">I can’t connect to the database. What’s wrong?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-map-isn-t-loading-why">The map isn’t loading. Why?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chat-messages-aren-t-working-what-s-the-issue">Chat messages aren’t working. What’s the issue?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing-questions">Contributing Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-can-i-contribute">How can I contribute?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#do-i-need-to-sign-a-cla">Do I need to sign a CLA?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#license-questions">License Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-license-does-unilost-use">What license does UniLost use?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-i-use-unilost-in-my-own-project">Can I use UniLost in my own project?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#still-have-questions">Still Have Questions?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release Notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UniLost</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">FAQ</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/faq.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="faq">
+<h1>FAQ<a class="headerlink" href="#faq" title="Link to this heading"></a></h1>
+<p>Frequently Asked Questions about UniLost.</p>
+<section id="general-questions">
+<h2>General Questions<a class="headerlink" href="#general-questions" title="Link to this heading"></a></h2>
+<section id="what-is-unilost">
+<h3>What is UniLost?<a class="headerlink" href="#what-is-unilost" title="Link to this heading"></a></h3>
+<p>UniLost is an integrated lost and found management system designed for Sejong University. It provides map-based item registration, real-time chat, and administrative tools for managing lost and found items.</p>
+</section>
+<section id="who-can-use-unilost">
+<h3>Who can use UniLost?<a class="headerlink" href="#who-can-use-unilost" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Students</strong>: Can register lost items, search for found items, and communicate with other users</p></li>
+<li><p><strong>Administrators</strong>: Can approve/reject item registrations, manage storage locations, and oversee the system</p></li>
+</ul>
+</section>
+<section id="is-unilost-free-to-use">
+<h3>Is UniLost free to use?<a class="headerlink" href="#is-unilost-free-to-use" title="Link to this heading"></a></h3>
+<p>Yes, UniLost is open source and free to use. It is licensed under the Apache License 2.0.</p>
+</section>
+</section>
+<section id="installation-questions">
+<h2>Installation Questions<a class="headerlink" href="#installation-questions" title="Link to this heading"></a></h2>
+<section id="what-are-the-system-requirements">
+<h3>What are the system requirements?<a class="headerlink" href="#what-are-the-system-requirements" title="Link to this heading"></a></h3>
+<p><strong>Server:</strong>
+* Node.js 18.0.0 or later (Node.js 20 LTS recommended)
+* npm 9.0.0 or later
+* PostgreSQL (for production) or SQLite (for development)</p>
+<p><strong>Client:</strong>
+* Modern web browsers (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+)</p>
+</section>
+<section id="do-i-need-to-install-postgresql">
+<h3>Do I need to install PostgreSQL?<a class="headerlink" href="#do-i-need-to-install-postgresql" title="Link to this heading"></a></h3>
+<p>No, PostgreSQL is optional. UniLost uses SQLite by default for local development. PostgreSQL is recommended for production deployment.</p>
+</section>
+<section id="how-do-i-set-up-the-database">
+<h3>How do I set up the database?<a class="headerlink" href="#how-do-i-set-up-the-database" title="Link to this heading"></a></h3>
+<p>For SQLite: No setup required. The database file (<code class="docutils literal notranslate"><span class="pre">unilost.db</span></code>) will be created automatically.</p>
+<p>For PostgreSQL: Set the <code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code> environment variable. See <a class="reference internal" href="configuration-guide.html"><span class="doc">Configuration Guide</span></a> for details.</p>
+</section>
+</section>
+<section id="usage-questions">
+<h2>Usage Questions<a class="headerlink" href="#usage-questions" title="Link to this heading"></a></h2>
+<section id="how-do-i-log-in">
+<h3>How do I log in?<a class="headerlink" href="#how-do-i-log-in" title="Link to this heading"></a></h3>
+<p>Use the default accounts:
+* <strong>Student</strong>: <code class="docutils literal notranslate"><span class="pre">student1</span></code> / <code class="docutils literal notranslate"><span class="pre">1234</span></code>
+* <strong>Administrator</strong>: <code class="docutils literal notranslate"><span class="pre">admin1</span></code> / <code class="docutils literal notranslate"><span class="pre">admin123</span></code></p>
+</section>
+<section id="how-do-i-register-a-lost-item">
+<h3>How do I register a lost item?<a class="headerlink" href="#how-do-i-register-a-lost-item" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Log in with your student account</p></li>
+<li><p>Click “Register Lost Item”</p></li>
+<li><p>Fill in item details</p></li>
+<li><p>Click on the map to set the location</p></li>
+<li><p>Click “Register”</p></li>
+</ol>
+</section>
+<section id="how-do-i-search-for-items">
+<h3>How do I search for items?<a class="headerlink" href="#how-do-i-search-for-items" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Browse items on the map</p></li>
+<li><p>Use the category filter to narrow down results</p></li>
+<li><p>Click on item markers to see details</p></li>
+<li><p>Use the item thread to communicate about the item</p></li>
+</ol>
+</section>
+<section id="how-do-i-approve-items-as-an-administrator">
+<h3>How do I approve items as an administrator?<a class="headerlink" href="#how-do-i-approve-items-as-an-administrator" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Log in with your administrator account</p></li>
+<li><p>View pending items</p></li>
+<li><p>Review item details</p></li>
+<li><p>Set storage location</p></li>
+<li><p>Click “Approve” or “Reject”</p></li>
+</ol>
+</section>
+</section>
+<section id="technical-questions">
+<h2>Technical Questions<a class="headerlink" href="#technical-questions" title="Link to this heading"></a></h2>
+<section id="what-database-does-unilost-use">
+<h3>What database does UniLost use?<a class="headerlink" href="#what-database-does-unilost-use" title="Link to this heading"></a></h3>
+<p>UniLost supports both:
+* <strong>SQLite</strong>: Default for local development
+* <strong>PostgreSQL</strong>: Recommended for production</p>
+<p>The database is selected automatically based on the <code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code> environment variable.</p>
+</section>
+<section id="how-does-real-time-chat-work">
+<h3>How does real-time chat work?<a class="headerlink" href="#how-does-real-time-chat-work" title="Link to this heading"></a></h3>
+<p>UniLost uses Socket.IO for real-time communication. Messages are sent via WebSocket connections and stored in the database.</p>
+</section>
+<section id="can-i-customize-the-map-bounds">
+<h3>Can I customize the map bounds?<a class="headerlink" href="#can-i-customize-the-map-bounds" title="Link to this heading"></a></h3>
+<p>Yes, map bounds are configured in <code class="docutils literal notranslate"><span class="pre">unilost.html</span></code>. By default, the map is restricted to South Korea. See <a class="reference internal" href="configuration-guide.html"><span class="doc">Configuration Guide</span></a> for details.</p>
+</section>
+<section id="how-do-i-change-the-default-port">
+<h3>How do I change the default port?<a class="headerlink" href="#how-do-i-change-the-default-port" title="Link to this heading"></a></h3>
+<p>Set the <code class="docutils literal notranslate"><span class="pre">PORT</span></code> environment variable:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PORT</span><span class="o">=</span><span class="m">8080</span>
+node<span class="w"> </span>server.js
+</pre></div>
+</div>
+</section>
+</section>
+<section id="deployment-questions">
+<h2>Deployment Questions<a class="headerlink" href="#deployment-questions" title="Link to this heading"></a></h2>
+<section id="can-i-deploy-unilost-on-render">
+<h3>Can I deploy UniLost on Render?<a class="headerlink" href="#can-i-deploy-unilost-on-render" title="Link to this heading"></a></h3>
+<p>Yes, UniLost is designed to work with Render. See <a class="reference internal" href="getting-started.html"><span class="doc">Getting Started</span></a> for deployment instructions.</p>
+</section>
+<section id="does-render-support-sqlite">
+<h3>Does Render support SQLite?<a class="headerlink" href="#does-render-support-sqlite" title="Link to this heading"></a></h3>
+<p>Render’s free plan has an ephemeral file system, so SQLite files are lost on restart. For production, use PostgreSQL.</p>
+</section>
+<section id="how-do-i-set-up-postgresql-on-render">
+<h3>How do I set up PostgreSQL on Render?<a class="headerlink" href="#how-do-i-set-up-postgresql-on-render" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Create a PostgreSQL database in Render dashboard</p></li>
+<li><p>Link it to your web service</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code> will be set automatically</p></li>
+</ol>
+</section>
+<section id="can-i-use-other-hosting-services">
+<h3>Can I use other hosting services?<a class="headerlink" href="#can-i-use-other-hosting-services" title="Link to this heading"></a></h3>
+<p>Yes, UniLost can be deployed on any Node.js hosting service that supports:
+* Node.js 18+
+* PostgreSQL or SQLite
+* WebSocket connections (for Socket.IO)</p>
+</section>
+</section>
+<section id="security-questions">
+<h2>Security Questions<a class="headerlink" href="#security-questions" title="Link to this heading"></a></h2>
+<section id="how-are-passwords-stored">
+<h3>How are passwords stored?<a class="headerlink" href="#how-are-passwords-stored" title="Link to this heading"></a></h3>
+<p>Passwords are hashed using bcrypt before storage. Plain text passwords are never stored in the database.</p>
+</section>
+<section id="is-the-session-secure">
+<h3>Is the session secure?<a class="headerlink" href="#is-the-session-secure" title="Link to this heading"></a></h3>
+<p>Yes, sessions use:
+* HttpOnly cookies (prevents JavaScript access)
+* SameSite protection (CSRF protection)
+* Secure cookies in production (HTTPS only)</p>
+</section>
+<section id="how-do-i-change-the-session-secret">
+<h3>How do I change the session secret?<a class="headerlink" href="#how-do-i-change-the-session-secret" title="Link to this heading"></a></h3>
+<p>Set the <code class="docutils literal notranslate"><span class="pre">SESSION_SECRET</span></code> environment variable:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">SESSION_SECRET</span><span class="o">=</span><span class="s2">&quot;your-random-secret-key&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting-questions">
+<h2>Troubleshooting Questions<a class="headerlink" href="#troubleshooting-questions" title="Link to this heading"></a></h2>
+<section id="the-server-won-t-start-what-should-i-do">
+<h3>The server won’t start. What should I do?<a class="headerlink" href="#the-server-won-t-start-what-should-i-do" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Check if the port is already in use</p></li>
+<li><p>Verify all dependencies are installed (<code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">install</span></code>)</p></li>
+<li><p>Check for error messages in the console</p></li>
+<li><p>Verify environment variables are set correctly</p></li>
+</ol>
+</section>
+<section id="i-can-t-connect-to-the-database-what-s-wrong">
+<h3>I can’t connect to the database. What’s wrong?<a class="headerlink" href="#i-can-t-connect-to-the-database-what-s-wrong" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Verify <code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code> is set correctly (for PostgreSQL)</p></li>
+<li><p>Check if the database server is running</p></li>
+<li><p>Verify network connectivity</p></li>
+<li><p>Check database credentials</p></li>
+</ol>
+</section>
+<section id="the-map-isn-t-loading-why">
+<h3>The map isn’t loading. Why?<a class="headerlink" href="#the-map-isn-t-loading-why" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Check your internet connection (map tiles are loaded from OpenStreetMap)</p></li>
+<li><p>Check browser console for JavaScript errors</p></li>
+<li><p>Verify Leaflet.js is loaded correctly</p></li>
+</ol>
+</section>
+<section id="chat-messages-aren-t-working-what-s-the-issue">
+<h3>Chat messages aren’t working. What’s the issue?<a class="headerlink" href="#chat-messages-aren-t-working-what-s-the-issue" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Check if Socket.IO server is running</p></li>
+<li><p>Verify WebSocket connections are allowed</p></li>
+<li><p>Check browser console for connection errors</p></li>
+<li><p>Verify CORS is configured correctly</p></li>
+</ol>
+</section>
+</section>
+<section id="contributing-questions">
+<h2>Contributing Questions<a class="headerlink" href="#contributing-questions" title="Link to this heading"></a></h2>
+<section id="how-can-i-contribute">
+<h3>How can I contribute?<a class="headerlink" href="#how-can-i-contribute" title="Link to this heading"></a></h3>
+<p>See <a class="reference internal" href="contribution-guidelines.html"><span class="doc">Contribution Guidelines</span></a> for detailed information on contributing to UniLost.</p>
+</section>
+<section id="do-i-need-to-sign-a-cla">
+<h3>Do I need to sign a CLA?<a class="headerlink" href="#do-i-need-to-sign-a-cla" title="Link to this heading"></a></h3>
+<p>No, by contributing to UniLost, you agree that your contributions will be licensed under the Apache License 2.0.</p>
+</section>
+</section>
+<section id="license-questions">
+<h2>License Questions<a class="headerlink" href="#license-questions" title="Link to this heading"></a></h2>
+<section id="what-license-does-unilost-use">
+<h3>What license does UniLost use?<a class="headerlink" href="#what-license-does-unilost-use" title="Link to this heading"></a></h3>
+<p>UniLost is licensed under the Apache License 2.0. See the LICENSE file for details.</p>
+</section>
+<section id="can-i-use-unilost-in-my-own-project">
+<h3>Can I use UniLost in my own project?<a class="headerlink" href="#can-i-use-unilost-in-my-own-project" title="Link to this heading"></a></h3>
+<p>Yes, you can use UniLost in your own project as long as you comply with the Apache License 2.0 terms.</p>
+</section>
+</section>
+<section id="still-have-questions">
+<h2>Still Have Questions?<a class="headerlink" href="#still-have-questions" title="Link to this heading"></a></h2>
+<p>If you have questions not covered in this FAQ:</p>
+<ol class="arabic simple">
+<li><p>Check the documentation: <a class="reference internal" href="getting-started.html"><span class="doc">Getting Started</span></a>, <a class="reference internal" href="how-to-use.html"><span class="doc">How to Use</span></a>, <a class="reference internal" href="technical-overview.html"><span class="doc">Technical Overview</span></a></p></li>
+<li><p>Review existing GitHub issues</p></li>
+<li><p>Create a new GitHub issue with your question</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="contribution-guidelines.html" class="btn btn-neutral float-left" title="Contribution Guidelines" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="release-notes.html" class="btn btn-neutral float-right" title="Release Notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Sejong University Open Source Software Introduction Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

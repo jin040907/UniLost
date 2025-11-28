@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maintenance and Troubleshooting &mdash; UniLost 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contribution Guidelines" href="contribution-guidelines.html" />
+    <link rel="prev" title="Configuration Guide" href="configuration-guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            UniLost
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About the Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-to-use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical-overview.html">Technical Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration-guide.html">Configuration Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Maintenance and Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#routine-maintenance">Routine Maintenance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#database-maintenance">Database Maintenance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#log-monitoring">Log Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#session-management">Session Management</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#common-issues-and-solutions">Common Issues and Solutions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#port-already-in-use">Port Already in Use</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#database-connection-error">Database Connection Error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-not-found">Module Not Found</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#session-not-persisting">Session Not Persisting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#map-not-loading">Map Not Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#socket-io-connection-issues">Socket.IO Connection Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#database-schema-errors">Database Schema Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-issues">Performance Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#slow-response-times">Slow Response Times</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#high-memory-usage">High Memory Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#security-issues">Security Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#failed-login-attempts">Failed Login Attempts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sql-injection-prevention">SQL Injection Prevention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#xss-prevention">XSS Prevention</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-help">Getting Help</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contribution-guidelines.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release Notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UniLost</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Maintenance and Troubleshooting</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/maintenance-troubleshooting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="maintenance-and-troubleshooting">
+<h1>Maintenance and Troubleshooting<a class="headerlink" href="#maintenance-and-troubleshooting" title="Link to this heading"></a></h1>
+<p>This guide provides procedures for routine maintenance, common issues, and their resolutions.</p>
+<section id="routine-maintenance">
+<h2>Routine Maintenance<a class="headerlink" href="#routine-maintenance" title="Link to this heading"></a></h2>
+<section id="database-maintenance">
+<h3>Database Maintenance<a class="headerlink" href="#database-maintenance" title="Link to this heading"></a></h3>
+<p><strong>PostgreSQL:</strong></p>
+<ul class="simple">
+<li><p><strong>Regular Backups</strong>: Schedule automated backups of your PostgreSQL database</p></li>
+<li><p><strong>Vacuum</strong>: Run <code class="docutils literal notranslate"><span class="pre">VACUUM</span></code> periodically to reclaim storage space</p></li>
+<li><p><strong>Analyze</strong>: Run <code class="docutils literal notranslate"><span class="pre">ANALYZE</span></code> to update query planner statistics</p></li>
+<li><p><strong>Connection Pooling</strong>: Monitor connection pool usage</p></li>
+</ul>
+<p><strong>SQLite:</strong></p>
+<ul class="simple">
+<li><p><strong>Backup Database File</strong>: Regularly copy <code class="docutils literal notranslate"><span class="pre">unilost.db</span></code> to a backup location</p></li>
+<li><p><strong>Vacuum</strong>: Run <code class="docutils literal notranslate"><span class="pre">VACUUM</span></code> to optimize database file size</p></li>
+<li><p><strong>Integrity Check</strong>: Run <code class="docutils literal notranslate"><span class="pre">PRAGMA</span> <span class="pre">integrity_check</span></code> to verify database integrity</p></li>
+</ul>
+<p><strong>Example Backup Script (PostgreSQL):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+pg_dump<span class="w"> </span><span class="nv">$DATABASE_URL</span><span class="w"> </span>&gt;<span class="w"> </span>backup_<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span>.sql
+</pre></div>
+</div>
+<p><strong>Example Backup Script (SQLite):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+cp<span class="w"> </span>unilost.db<span class="w"> </span>backup_<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span>.db
+</pre></div>
+</div>
+</section>
+<section id="log-monitoring">
+<h3>Log Monitoring<a class="headerlink" href="#log-monitoring" title="Link to this heading"></a></h3>
+<p>Monitor server logs for:</p>
+<ul class="simple">
+<li><p><strong>Error Messages</strong>: Check for uncaught exceptions or database errors</p></li>
+<li><p><strong>Performance Issues</strong>: Monitor response times and connection counts</p></li>
+<li><p><strong>Security Events</strong>: Watch for failed login attempts or suspicious activity</p></li>
+</ul>
+<p><strong>View Logs:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># If using PM2</span>
+pm2<span class="w"> </span>logs<span class="w"> </span>unilost
+
+<span class="c1"># If using systemd</span>
+journalctl<span class="w"> </span>-u<span class="w"> </span>unilost<span class="w"> </span>-f
+
+<span class="c1"># Direct output</span>
+node<span class="w"> </span>server.js<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>server.log
+</pre></div>
+</div>
+</section>
+<section id="session-management">
+<h3>Session Management<a class="headerlink" href="#session-management" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Session Cleanup</strong>: Sessions expire after 6 hours automatically</p></li>
+<li><p><strong>Monitor Active Sessions</strong>: Check session store for active sessions</p></li>
+<li><p><strong>Clear Expired Sessions</strong>: Expired sessions are automatically cleaned up</p></li>
+</ul>
+</section>
+</section>
+<section id="common-issues-and-solutions">
+<h2>Common Issues and Solutions<a class="headerlink" href="#common-issues-and-solutions" title="Link to this heading"></a></h2>
+<section id="port-already-in-use">
+<h3>Port Already in Use<a class="headerlink" href="#port-already-in-use" title="Link to this heading"></a></h3>
+<p><strong>Error Message:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Error: listen EADDRINUSE: address already in use :::3000
+</pre></div>
+</div>
+<p><strong>Solution 1: Change Port</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PORT</span><span class="o">=</span><span class="m">3001</span>
+node<span class="w"> </span>server.js
+</pre></div>
+</div>
+<p><strong>Solution 2: Kill Process Using Port</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find process using port 3000</span>
+lsof<span class="w"> </span>-ti:3000
+
+<span class="c1"># Kill the process</span>
+<span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span><span class="k">$(</span>lsof<span class="w"> </span>-ti:3000<span class="k">)</span>
+</pre></div>
+</div>
+</section>
+<section id="database-connection-error">
+<h3>Database Connection Error<a class="headerlink" href="#database-connection-error" title="Link to this heading"></a></h3>
+<p><strong>Error Message:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>❌ PostgreSQL connection pool error: connect ECONNREFUSED
+</pre></div>
+</div>
+<p><strong>Solutions:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Check DATABASE_URL</strong>: Verify the connection string is correct</p></li>
+<li><p><strong>Check Database Server</strong>: Ensure PostgreSQL is running</p></li>
+<li><p><strong>Check Network</strong>: Verify network connectivity to database host</p></li>
+<li><p><strong>Check Credentials</strong>: Verify username and password are correct</p></li>
+<li><p><strong>Check Firewall</strong>: Ensure firewall allows connections on port 5432</p></li>
+</ol>
+<p><strong>Test Connection:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># PostgreSQL</span>
+psql<span class="w"> </span><span class="nv">$DATABASE_URL</span>
+
+<span class="c1"># SQLite</span>
+sqlite3<span class="w"> </span>unilost.db
+</pre></div>
+</div>
+</section>
+<section id="module-not-found">
+<h3>Module Not Found<a class="headerlink" href="#module-not-found" title="Link to this heading"></a></h3>
+<p><strong>Error Message:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Error: Cannot find module &#39;express&#39;
+</pre></div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>install
+</pre></div>
+</div>
+<p><strong>Verify Installation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+<section id="session-not-persisting">
+<h3>Session Not Persisting<a class="headerlink" href="#session-not-persisting" title="Link to this heading"></a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul class="simple">
+<li><p>User gets logged out immediately</p></li>
+<li><p>Session data is lost on page refresh</p></li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Check SESSION_SECRET</strong>: Ensure it’s set and consistent</p></li>
+<li><p><strong>Check Cookie Settings</strong>: Verify cookies are enabled in browser</p></li>
+<li><p><strong>Check HTTPS</strong>: In production, ensure HTTPS is used (secure cookies)</p></li>
+<li><p><strong>Check SameSite</strong>: Verify SameSite cookie setting is appropriate</p></li>
+</ol>
+<p><strong>Debug Session:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add to server.js temporarily</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/debug/session&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">session</span><span class="o">:</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">cookies</span><span class="o">:</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">cookies</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="map-not-loading">
+<h3>Map Not Loading<a class="headerlink" href="#map-not-loading" title="Link to this heading"></a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul class="simple">
+<li><p>Map tiles don’t appear</p></li>
+<li><p>Map shows gray background</p></li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Check Internet Connection</strong>: Map tiles are loaded from OpenStreetMap</p></li>
+<li><p><strong>Check Browser Console</strong>: Look for JavaScript errors</p></li>
+<li><p><strong>Check Leaflet.js</strong>: Verify Leaflet.js is loaded correctly</p></li>
+<li><p><strong>Check CORS</strong>: Ensure no CORS issues with map tile servers</p></li>
+</ol>
+<p><strong>Debug Map:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Check if Leaflet is loaded</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="ow">typeof</span><span class="w"> </span><span class="nx">L</span><span class="p">);</span>
+
+<span class="c1">// Check map instance</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">mapRegister</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="socket-io-connection-issues">
+<h3>Socket.IO Connection Issues<a class="headerlink" href="#socket-io-connection-issues" title="Link to this heading"></a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul class="simple">
+<li><p>Chat messages not sending</p></li>
+<li><p>Real-time updates not working</p></li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Check Socket.IO Server</strong>: Verify server is running</p></li>
+<li><p><strong>Check Client Connection</strong>: Verify Socket.IO client is connected</p></li>
+<li><p><strong>Check CORS</strong>: Ensure CORS is configured correctly</p></li>
+<li><p><strong>Check Firewall</strong>: Ensure WebSocket connections are allowed</p></li>
+</ol>
+<p><strong>Debug Socket.IO:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Server side</span>
+<span class="nx">io</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connection&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">socket</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Client connected:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">socket</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// Client side</span>
+<span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Connected to server&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;disconnect&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Disconnected from server&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="database-schema-errors">
+<h3>Database Schema Errors<a class="headerlink" href="#database-schema-errors" title="Link to this heading"></a></h3>
+<p><strong>Error Message:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Error: relation &quot;users&quot; does not exist
+</pre></div>
+</div>
+<p><strong>Solution:</strong></p>
+<p>The database tables are created automatically on first run. If this error occurs:</p>
+<ol class="arabic simple">
+<li><p><strong>Check Database Connection</strong>: Ensure database is accessible</p></li>
+<li><p><strong>Check Permissions</strong>: Verify database user has CREATE TABLE permissions</p></li>
+<li><p><strong>Manual Initialization</strong>: Run database initialization manually</p></li>
+</ol>
+<p><strong>Manual Initialization:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// In db.js, call initDBPostgres() or initDBSQLite()</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">initDBPostgres</span><span class="p">,</span><span class="w"> </span><span class="nx">initDBSQLite</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./db&#39;</span><span class="p">);</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">usePostgres</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">initDBPostgres</span><span class="p">().</span><span class="nx">then</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Database initialized&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">initDBSQLite</span><span class="p">();</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Database initialized&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-issues">
+<h2>Performance Issues<a class="headerlink" href="#performance-issues" title="Link to this heading"></a></h2>
+<section id="slow-response-times">
+<h3>Slow Response Times<a class="headerlink" href="#slow-response-times" title="Link to this heading"></a></h3>
+<p><strong>Possible Causes:</strong></p>
+<ul class="simple">
+<li><p>Database queries are slow</p></li>
+<li><p>Too many concurrent connections</p></li>
+<li><p>Large image data in database</p></li>
+<li><p>Missing database indexes</p></li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Add Database Indexes</strong>: Ensure indexes exist on frequently queried columns</p></li>
+<li><p><strong>Optimize Queries</strong>: Review and optimize slow queries</p></li>
+<li><p><strong>Connection Pooling</strong>: Adjust PostgreSQL connection pool size</p></li>
+<li><p><strong>Image Optimization</strong>: Compress images before storing</p></li>
+<li><p><strong>Caching</strong>: Implement caching for frequently accessed data</p></li>
+</ol>
+</section>
+<section id="high-memory-usage">
+<h3>High Memory Usage<a class="headerlink" href="#high-memory-usage" title="Link to this heading"></a></h3>
+<p><strong>Possible Causes:</strong></p>
+<ul class="simple">
+<li><p>Memory leaks in code</p></li>
+<li><p>Large session data</p></li>
+<li><p>Too many concurrent connections</p></li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Monitor Memory</strong>: Use tools like <code class="docutils literal notranslate"><span class="pre">node</span> <span class="pre">--inspect</span></code> or <code class="docutils literal notranslate"><span class="pre">clinic.js</span></code></p></li>
+<li><p><strong>Review Code</strong>: Check for memory leaks (unclosed connections, etc.)</p></li>
+<li><p><strong>Limit Sessions</strong>: Reduce session max age if needed</p></li>
+<li><p><strong>Connection Limits</strong>: Limit database connection pool size</p></li>
+</ol>
+</section>
+</section>
+<section id="security-issues">
+<h2>Security Issues<a class="headerlink" href="#security-issues" title="Link to this heading"></a></h2>
+<section id="failed-login-attempts">
+<h3>Failed Login Attempts<a class="headerlink" href="#failed-login-attempts" title="Link to this heading"></a></h3>
+<p><strong>Monitoring:</strong></p>
+<p>Monitor logs for repeated failed login attempts from the same IP address.</p>
+<p><strong>Prevention:</strong></p>
+<ul class="simple">
+<li><p>Implement rate limiting for login endpoints</p></li>
+<li><p>Use CAPTCHA for repeated failures</p></li>
+<li><p>Implement account lockout after multiple failures</p></li>
+</ul>
+</section>
+<section id="sql-injection-prevention">
+<h3>SQL Injection Prevention<a class="headerlink" href="#sql-injection-prevention" title="Link to this heading"></a></h3>
+<p><strong>Current Protection:</strong></p>
+<ul class="simple">
+<li><p>All queries use parameterized statements</p></li>
+<li><p>Input validation on all endpoints</p></li>
+</ul>
+<p><strong>Verification:</strong></p>
+<p>Review all database queries to ensure they use parameterized statements:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ Good: Parameterized query</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s1">&#39;SELECT * FROM users WHERE id = $1&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="nx">userId</span><span class="p">]);</span>
+
+<span class="c1">// ❌ Bad: String concatenation (vulnerable)</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="sb">`SELECT * FROM users WHERE id = &#39;</span><span class="si">${</span><span class="nx">userId</span><span class="si">}</span><span class="sb">&#39;`</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="xss-prevention">
+<h3>XSS Prevention<a class="headerlink" href="#xss-prevention" title="Link to this heading"></a></h3>
+<p><strong>Current Protection:</strong></p>
+<ul class="simple">
+<li><p>Input sanitization</p></li>
+<li><p>Output encoding</p></li>
+</ul>
+<p><strong>Verification:</strong></p>
+<p>Ensure all user input is sanitized before storing and encoded before displaying.</p>
+</section>
+</section>
+<section id="getting-help">
+<h2>Getting Help<a class="headerlink" href="#getting-help" title="Link to this heading"></a></h2>
+<p>If you encounter issues not covered in this guide:</p>
+<ol class="arabic simple">
+<li><p><strong>Check Logs</strong>: Review server and browser console logs</p></li>
+<li><p><strong>Check Documentation</strong>: Review other documentation pages</p></li>
+<li><p><strong>GitHub Issues</strong>: Report issues on the GitHub repository</p></li>
+<li><p><strong>Community</strong>: Reach out to the project maintainers</p></li>
+</ol>
+<p>For more information, see <a class="reference internal" href="configuration-guide.html"><span class="doc">Configuration Guide</span></a> and <a class="reference internal" href="api-reference.html"><span class="doc">API Reference</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="configuration-guide.html" class="btn btn-neutral float-left" title="Configuration Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="contribution-guidelines.html" class="btn btn-neutral float-right" title="Contribution Guidelines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Sejong University Open Source Software Introduction Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

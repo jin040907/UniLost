@@ -8,6 +8,12 @@ This is a web application for integrated lost and found management at Sejong Uni
 
 > ⚠️ Render's free plan enters sleep mode after 15 minutes of inactivity. There may be a slight delay when accessing it for the first time.
 
+## 📚 Documentation
+
+**Full Documentation**: https://unilost.readthedocs.io/
+
+Comprehensive documentation including installation guides, API reference, configuration options, and more is available on Read the Docs.
+
 ## Key Features
 
 - 🗺️ **Map-based Lost and Found Registration/Search**: Location-based lost and found management using Leaflet maps

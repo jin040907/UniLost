@@ -1,0 +1,535 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; UniLost 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration Guide" href="configuration-guide.html" />
+    <link rel="prev" title="Technical Overview" href="technical-overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            UniLost
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About the Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-to-use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical-overview.html">Technical Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#base-url">Base URL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authentication-endpoints">Authentication Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get-api-me">GET /api/me</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#post-api-login">POST /api/login</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#post-api-logout">POST /api/logout</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#item-endpoints">Item Endpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get-api-items">GET /api/items</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-api-items-id">GET /api/items/:id</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#post-api-items">POST /api/items</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#patch-api-items-id">PATCH /api/items/:id</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-api-items-id">DELETE /api/items/:id</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#socket-io-events">Socket.IO Events</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#chat-events">Chat Events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#chat-join">chat:join</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chat-send">chat:send</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#thread-events">Thread Events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#thread-join">thread:join</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#thread-send">thread:send</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#thread-leave">thread:leave</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#error-responses">Error Responses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration-guide.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maintenance-troubleshooting.html">Maintenance and Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution-guidelines.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release-notes.html">Release Notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">UniLost</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api-reference.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<p>This document provides detailed information about all available API endpoints, request/response formats, and usage examples.</p>
+<section id="base-url">
+<h2>Base URL<a class="headerlink" href="#base-url" title="Link to this heading"></a></h2>
+<p>All API endpoints are relative to the base URL:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>http://localhost:3000/api
+</pre></div>
+</div>
+</section>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Link to this heading"></a></h2>
+<p>Most endpoints require authentication via session cookies. The session is established through the login endpoint.</p>
+</section>
+<section id="authentication-endpoints">
+<h2>Authentication Endpoints<a class="headerlink" href="#authentication-endpoints" title="Link to this heading"></a></h2>
+<section id="get-api-me">
+<h3>GET /api/me<a class="headerlink" href="#get-api-me" title="Link to this heading"></a></h3>
+<p>Get information about the currently logged-in user.</p>
+<p><strong>Request:</strong></p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">GET</span> <span class="nn">/api/me</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Cookie</span><span class="o">:</span> <span class="l">sid=session_id_here</span>
+</pre></div>
+</div>
+<p><strong>Response (200 OK):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;student1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Student 1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;isAdmin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (Not Logged In):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="post-api-login">
+<h3>POST /api/login<a class="headerlink" href="#post-api-login" title="Link to this heading"></a></h3>
+<p>Authenticate a user and create a session.</p>
+<p><strong>Request:</strong></p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">POST</span> <span class="nn">/api/login</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;student1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pw&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1234&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (200 OK):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;ok&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;student1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Student 1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;isAdmin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (400 Bad Request):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ID and password required&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (401 Unauthorized):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Invalid password&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="post-api-logout">
+<h3>POST /api/logout<a class="headerlink" href="#post-api-logout" title="Link to this heading"></a></h3>
+<p>Destroy the current session.</p>
+<p><strong>Request:</strong></p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">POST</span> <span class="nn">/api/logout</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Cookie</span><span class="o">:</span> <span class="l">sid=session_id_here</span>
+</pre></div>
+</div>
+<p><strong>Response (200 OK):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;ok&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="item-endpoints">
+<h2>Item Endpoints<a class="headerlink" href="#item-endpoints" title="Link to this heading"></a></h2>
+<section id="get-api-items">
+<h3>GET /api/items<a class="headerlink" href="#get-api-items" title="Link to this heading"></a></h3>
+<p>Retrieve all items, optionally filtered by status.</p>
+<p><strong>Query Parameters:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code> (optional): Filter by status (<code class="docutils literal notranslate"><span class="pre">pending</span></code>, <code class="docutils literal notranslate"><span class="pre">approved</span></code>)</p></li>
+</ul>
+<p><strong>Request:</strong></p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">GET</span> <span class="nn">/api/items?status=approved</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</pre></div>
+</div>
+<p><strong>Response (200 OK):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Lost Black Wallet&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;desc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Black leather wallet with credit cards&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wallet&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;imgData&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data:image/jpeg;base64,...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lat&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">37.5502</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lng&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">127.0750</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;approved&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;storagePlace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Student Affairs Office, 1st Floor, Locker A-3&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-11-17T10:30:00.000Z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;createdBy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;student1&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="get-api-items-id">
+<h3>GET /api/items/:id<a class="headerlink" href="#get-api-items-id" title="Link to this heading"></a></h3>
+<p>Retrieve a specific item by ID.</p>
+<p><strong>Path Parameters:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>: Item ID (integer)</p></li>
+</ul>
+<p><strong>Request:</strong></p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">GET</span> <span class="nn">/api/items/1</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</pre></div>
+</div>
+<p><strong>Response (200 OK):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Lost Black Wallet&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;desc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Black leather wallet with credit cards&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wallet&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;imgData&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data:image/jpeg;base64,...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;lat&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">37.5502</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;lng&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">127.0750</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;approved&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;storagePlace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Student Affairs Office, 1st Floor, Locker A-3&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-11-17T10:30:00.000Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;createdBy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;student1&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (404 Not Found):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Item not found&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="post-api-items">
+<h3>POST /api/items<a class="headerlink" href="#post-api-items" title="Link to this heading"></a></h3>
+<p>Create a new lost item. Requires authentication.</p>
+<p><strong>Request:</strong></p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">POST</span> <span class="nn">/api/items</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<span class="na">Cookie</span><span class="o">:</span> <span class="l">sid=session_id_here</span>
+
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Lost Black Wallet&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;desc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Black leather wallet with credit cards&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wallet&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;imgData&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data:image/jpeg;base64,...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;lat&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">37.5502</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;lng&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">127.0750</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;storagePlace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Student Affairs Office, 1st Floor, Locker A-3&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Required Fields:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">title</span></code>: Item title (string)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lat</span></code>: Latitude (number)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lng</span></code>: Longitude (number)</p></li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">desc</span></code>: Description (string)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cat</span></code>: Category (string)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">imgData</span></code>: Base64 encoded image (string)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">radius</span></code>: Search radius in meters (number, default: 0)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">storagePlace</span></code>: Storage location (string)</p></li>
+</ul>
+<p><strong>Response (200 OK):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Lost Black Wallet&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;desc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Black leather wallet with credit cards&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cat&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wallet&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;imgData&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data:image/jpeg;base64,...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;lat&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">37.5502</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;lng&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">127.0750</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pending&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;storagePlace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Student Affairs Office, 1st Floor, Locker A-3&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-11-17T10:30:00.000Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;createdBy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;student1&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (401 Unauthorized):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Login required&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (400 Bad Request):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Required fields missing&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="patch-api-items-id">
+<h3>PATCH /api/items/:id<a class="headerlink" href="#patch-api-items-id" title="Link to this heading"></a></h3>
+<p>Update an item. Requires administrator privileges.</p>
+<p><strong>Path Parameters:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>: Item ID (integer)</p></li>
+</ul>
+<p><strong>Request:</strong></p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">PATCH</span> <span class="nn">/api/items/1</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<span class="na">Cookie</span><span class="o">:</span> <span class="l">sid=session_id_here</span>
+
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;approved&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;storagePlace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Student Affairs Office, 1st Floor, Locker A-3&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Updatable Fields:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code>: Item status (<code class="docutils literal notranslate"><span class="pre">pending</span></code>, <code class="docutils literal notranslate"><span class="pre">approved</span></code>, <code class="docutils literal notranslate"><span class="pre">rejected</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">storagePlace</span></code>: Storage location (string)</p></li>
+</ul>
+<p><strong>Response (200 OK):</strong></p>
+<p>Returns the updated item object (same format as GET /api/items/:id).</p>
+<p><strong>Response (403 Forbidden):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Admin privileges required&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="delete-api-items-id">
+<h3>DELETE /api/items/:id<a class="headerlink" href="#delete-api-items-id" title="Link to this heading"></a></h3>
+<p>Delete an item. Requires administrator privileges.</p>
+<p><strong>Path Parameters:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>: Item ID (integer)</p></li>
+</ul>
+<p><strong>Request:</strong></p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">DELETE</span> <span class="nn">/api/items/1</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Cookie</span><span class="o">:</span> <span class="l">sid=session_id_here</span>
+</pre></div>
+</div>
+<p><strong>Response (200 OK):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;ok&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (403 Forbidden):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Admin privileges required&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="socket-io-events">
+<h2>Socket.IO Events<a class="headerlink" href="#socket-io-events" title="Link to this heading"></a></h2>
+<section id="chat-events">
+<h3>Chat Events<a class="headerlink" href="#chat-events" title="Link to this heading"></a></h3>
+<section id="chat-join">
+<h4>chat:join<a class="headerlink" href="#chat-join" title="Link to this heading"></a></h4>
+<p>Join the global chat and receive chat history.</p>
+<p><strong>Emit:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;chat:join&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">nick</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;username&#39;</span><span class="w"> </span><span class="p">});</span>
+</pre></div>
+</div>
+<p><strong>Listen:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;chat:history&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">messages</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// messages: Array of chat messages</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="chat-send">
+<h4>chat:send<a class="headerlink" href="#chat-send" title="Link to this heading"></a></h4>
+<p>Send a message to the global chat.</p>
+<p><strong>Emit:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;chat:send&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">nick</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;username&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Hello, everyone!&#39;</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p><strong>Listen:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;chat:new&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">message</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// message: { nick, text, ts }</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="thread-events">
+<h3>Thread Events<a class="headerlink" href="#thread-events" title="Link to this heading"></a></h3>
+<section id="thread-join">
+<h4>thread:join<a class="headerlink" href="#thread-join" title="Link to this heading"></a></h4>
+<p>Join an item-specific thread and receive thread history.</p>
+<p><strong>Emit:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;thread:join&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">itemId</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">nick</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;username&#39;</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p><strong>Listen:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;thread:history&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">itemId</span><span class="p">,</span><span class="w"> </span><span class="nx">msgs</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// msgs: Array of thread messages</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="thread-send">
+<h4>thread:send<a class="headerlink" href="#thread-send" title="Link to this heading"></a></h4>
+<p>Send a message to an item-specific thread.</p>
+<p><strong>Emit:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;thread:send&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">itemId</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">nick</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;username&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Is this still available?&#39;</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p><strong>Listen:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;thread:new&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">itemId</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// msg: { nick, text, ts }</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="thread-leave">
+<h4>thread:leave<a class="headerlink" href="#thread-leave" title="Link to this heading"></a></h4>
+<p>Leave an item-specific thread.</p>
+<p><strong>Emit:</strong></p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;thread:leave&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">itemId</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="error-responses">
+<h2>Error Responses<a class="headerlink" href="#error-responses" title="Link to this heading"></a></h2>
+<p>All endpoints may return the following error responses:</p>
+<ul class="simple">
+<li><p><strong>400 Bad Request</strong>: Invalid request parameters</p></li>
+<li><p><strong>401 Unauthorized</strong>: Authentication required</p></li>
+<li><p><strong>403 Forbidden</strong>: Insufficient permissions</p></li>
+<li><p><strong>404 Not Found</strong>: Resource not found</p></li>
+<li><p><strong>500 Internal Server Error</strong>: Server error</p></li>
+</ul>
+<p>Error response format:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Error message description&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For more information, see <a class="reference internal" href="getting-started.html"><span class="doc">Getting Started</span></a> and <a class="reference internal" href="technical-overview.html"><span class="doc">Technical Overview</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="technical-overview.html" class="btn btn-neutral float-left" title="Technical Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="configuration-guide.html" class="btn btn-neutral float-right" title="Configuration Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Sejong University Open Source Software Introduction Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
