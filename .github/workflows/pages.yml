@@ -26,25 +26,26 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
-          bundler-cache: false
       
-      - name: Install dependencies
+      - name: Install Jekyll and plugins
         run: |
-          gem install bundler
-          bundle config set --local deployment 'false'
-          bundle install
+          gem install jekyll -v "~> 4.3"
+          gem install jekyll-feed -v "~> 0.17"
+          gem install jekyll-sitemap -v "~> 1.4"
+          gem install jekyll-seo-tag -v "~> 2.8"
       
       - name: Setup Pages
-        id: pages
         uses: actions/configure-pages@v4
       
       - name: Build with Jekyll
-        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        run: jekyll build --baseurl "/UniLost"
         env:
           JEKYLL_ENV: production
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
 
   deploy:
     environment:
@@ -56,4 +57,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
