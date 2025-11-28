@@ -101,16 +101,16 @@ Once the server is running, you can access it at `http://localhost:3000`.
 │   ├── source/                   # Sphinx source files
 │   └── build/                    # Sphinx build output
 │
-├── # Jekyll Website (GitHub Pages)
-├── _config.yml                   # Jekyll configuration
-├── Gemfile                       # Ruby dependencies for Jekyll
-├── index.md                      # Homepage
-├── features.md                   # Features page
-├── community.md                  # Community page
-├── contact.md                    # Contact page
-├── _layouts/                     # Jekyll layouts
-├── _includes/                    # Jekyll includes
-└── assets/                       # CSS and JavaScript assets
+├── website/                      # Jekyll Website (GitHub Pages)
+│   ├── _config.yml               # Jekyll configuration
+│   ├── Gemfile                   # Ruby dependencies for Jekyll
+│   ├── index.md                  # Homepage
+│   ├── features.md               # Features page
+│   ├── community.md              # Community page
+│   ├── contact.md                # Contact page
+│   ├── _layouts/                 # Jekyll layouts
+│   ├── _includes/                # Jekyll includes
+│   └── assets/                   # CSS and JavaScript assets
 │
 ├── server.js                     # Entry point (runs app/server.js)
 ├── package.json                  # Node.js dependencies

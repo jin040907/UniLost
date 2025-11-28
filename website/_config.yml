@@ -24,26 +24,14 @@ plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
 
-# Note: Jekyll files have been moved to website/ folder
-# This _config.yml is kept for reference but website/_config.yml is used for builds
+# Destination directory
+destination: _site
 
 # Exclude from processing
 exclude:
   - Gemfile
   - Gemfile.lock
-  - node_modules
-  - package.json
-  - package-lock.json
-  - README.md
-  - LICENSE
-  - .gitignore
-  - .git
-  - docs/build
-  - server.js
-  - app/
-  - scripts/
-  - website/_site
-  - render.yaml
+  - _site
 
 # Custom variables (no theme - using custom layouts)
 # theme: custom-unilost  # Not using a gem theme, using custom layouts instead
