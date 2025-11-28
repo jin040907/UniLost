@@ -8,7 +8,7 @@ This is a web application for integrated lost and found management at Sejong Uni
 
 Visit our Jekyll-powered website for an overview of the project, features, community information, and more.
 
-## 🌐 Live Demo
+## 🚀 Live Demo
 
 **Deployed Website**: https://unilost.onrender.com
 
