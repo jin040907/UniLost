@@ -2,6 +2,12 @@
 
 This is a web application for integrated lost and found management at Sejong University. It provides map-based lost item registration/search, real-time chat, and an administrator approval system.
 
+## 🌐 Website
+
+**Project Website**: https://jin040907.github.io/UniLost/
+
+Visit our Jekyll-powered website for an overview of the project, features, community information, and more.
+
 ## 🌐 Live Demo
 
 **Deployed Website**: https://unilost.onrender.com
@@ -13,12 +19,6 @@ This is a web application for integrated lost and found management at Sejong Uni
 **Full Documentation**: https://unilost.readthedocs.io/
 
 Comprehensive documentation including installation guides, API reference, configuration options, and more is available on Read the Docs.
-
-## 🌐 Website
-
-**Project Website**: https://jin040907.github.io/UniLost/
-
-Visit our Jekyll-powered website for an overview of the project, features, community information, and more.
 
 ## Key Features
 
