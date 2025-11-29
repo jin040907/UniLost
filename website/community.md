@@ -274,7 +274,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
 
   <!-- Contributing -->
   <section class="mb-16">
-    <div class="bg-gradient-to-r from-accent-50 to-primary-50 rounded-xl shadow-lg p-8 md:p-12 border border-accent-100">
+    <div class="bg-white rounded-xl shadow-lg p-8 md:p-12 border border-slate-200">
       <div class="flex items-center gap-4 mb-6">
         <div class="text-5xl">🤝</div>
         <div>
@@ -284,7 +284,8 @@ description: Join the UniLost community - discussions, support, and collaboratio
       </div>
       
       <div class="grid md:grid-cols-3 gap-6 mt-8">
-        <div class="bg-white rounded-lg p-6 border border-slate-200">
+        <div class="border border-slate-200 rounded-lg p-6 hover:shadow-md transition-shadow text-center">
+          <div class="text-4xl mb-4">💻</div>
           <h3 class="text-xl font-bold text-slate-900 mb-3">Code Contributions</h3>
           <p class="text-slate-600 mb-4">
             Submit pull requests, fix bugs, and add new features.
@@ -294,7 +295,8 @@ description: Join the UniLost community - discussions, support, and collaboratio
           </a>
         </div>
         
-        <div class="bg-white rounded-lg p-6 border border-slate-200">
+        <div class="border border-slate-200 rounded-lg p-6 hover:shadow-md transition-shadow text-center">
+          <div class="text-4xl mb-4">📚</div>
           <h3 class="text-xl font-bold text-slate-900 mb-3">Documentation</h3>
           <p class="text-slate-600 mb-4">
             Improve documentation, write tutorials, or translate content.
@@ -304,7 +306,8 @@ description: Join the UniLost community - discussions, support, and collaboratio
           </a>
         </div>
         
-        <div class="bg-white rounded-lg p-6 border border-slate-200">
+        <div class="border border-slate-200 rounded-lg p-6 hover:shadow-md transition-shadow text-center">
+          <div class="text-4xl mb-4">👥</div>
           <h3 class="text-xl font-bold text-slate-900 mb-3">Community Support</h3>
           <p class="text-slate-600 mb-4">
             Help others, answer questions, and share your knowledge.
@@ -316,7 +319,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
       </div>
       
       <div class="mt-8 text-center">
-        <a href="{{ site.links.github }}/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-4 rounded-lg bg-accent-600 text-white font-semibold hover:bg-accent-700 transition-colors">
+        <a href="{{ site.links.github }}/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-4 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors">
           Read Contribution Guidelines
         </a>
       </div>
