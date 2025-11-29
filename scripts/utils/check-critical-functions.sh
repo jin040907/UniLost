@@ -1,5 +1,5 @@
 #!/bin/bash
-# 중요한 함수들이 제대로 있는지 확인하는 스크립트
+# Script to verify that critical functions are present
 
 echo "Checking critical functions in app/unilost.html..."
 

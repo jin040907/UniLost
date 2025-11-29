@@ -33,7 +33,7 @@ Thumbs.db
 # Test files
 test.html
 
-# Documentation (Word files - 필요시 주석 해제)
+# Documentation (Word files - uncomment if needed)
 # *.docx
 
 # Logs

@@ -1,7 +1,7 @@
 {
   "name": "unilost",
   "version": "1.0.0",
-  "description": "교내 분실물 통합 관리 시스템 - 지도 기반 분실물 등록/검색 및 실시간 채팅 기능",
+  "description": "Integrated Lost and Found Management System - Map-based item registration/search and real-time chat features",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

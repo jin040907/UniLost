@@ -1110,9 +1110,9 @@
         try{ 
           const text=await f.text(); 
           const arr=JSON.parse(text); 
-          if(!Array.isArray(arr)) throw new Error('형식 오류');
+          if(!Array.isArray(arr)) throw new Error('Invalid format');
           
-          // 각 항목을 API를 통해 등록
+          // Register each item through the API
           for (const item of arr) {
             try {
               await fetch('/api/items', {
