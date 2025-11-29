@@ -23,8 +23,8 @@ SQLite is perfect for local development and testing. It requires no setup and wo
 
 2. **Initial Data**
    - Default users are automatically created on first run:
-     - **Student Account**: `student1` / `1234`
-     - **Administrator Account**: `admin1` / `admin123`
+     - **Student Accounts**: `student1` ~ `student10` / `1234`
+     - **Administrator Accounts**: `admin1` ~ `admin10` / `admin123`
 
 3. **Database File**
    - Location: `unilost.db` in the project root
@@ -138,8 +138,8 @@ postgresql://postgres.[REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/p
 When using PostgreSQL for the first time:
 - Tables are automatically created
 - Default users are automatically added:
-  - **Student Account**: `student1` / `1234`
-  - **Administrator Account**: `admin1` / `admin123`
+  - **Student Accounts**: `student1` ~ `student10` / `1234`
+  - **Administrator Accounts**: `admin1` ~ `admin10` / `admin123`
 
 ---
 

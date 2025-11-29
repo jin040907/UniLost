@@ -77,8 +77,8 @@ Once the server is running, you can access it at `http://localhost:3000`.
 
 ### Default Accounts
 
-- **Student Account**: `student1` / `1234`
-- **Administrator Account**: `admin1` / `admin123`
+- **Student Accounts**: `student1` ~ `student10` / `1234`
+- **Administrator Accounts**: `admin1` ~ `admin10` / `admin123`
 
 ## Project Structure
 

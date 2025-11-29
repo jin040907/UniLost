@@ -116,14 +116,20 @@ async function initDBPostgres() {
     // Add default users (only if none exist)
     const userCount = await client.query('SELECT COUNT(*) as count FROM users');
     if (parseInt(userCount.rows[0].count) === 0) {
-      await client.query(
-        'INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4)',
-        ['student1', 'Student 1', bcrypt.hashSync('1234', 10), false]
-      );
-      await client.query(
-        'INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4)',
-        ['admin1', 'Admin 1', bcrypt.hashSync('admin123', 10), true]
-      );
+      // Create student accounts (student1 ~ student10)
+      for (let i = 1; i <= 10; i++) {
+        await client.query(
+          'INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4)',
+          [`student${i}`, `Student ${i}`, bcrypt.hashSync('1234', 10), false]
+        );
+      }
+      // Create admin accounts (admin1 ~ admin10)
+      for (let i = 1; i <= 10; i++) {
+        await client.query(
+          'INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4)',
+          [`admin${i}`, `Admin ${i}`, bcrypt.hashSync('admin123', 10), true]
+        );
+      }
       // Default users created
     }
   } finally {
@@ -197,8 +203,14 @@ function initDBSQLite() {
   const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get();
   if (userCount.count === 0) {
     const insertUser = db.prepare('INSERT INTO users (id, name, pw_hash, is_admin) VALUES (?, ?, ?, ?)');
-    insertUser.run('student1', 'Student 1', bcrypt.hashSync('1234', 10), 0);
-    insertUser.run('admin1', 'Admin 1', bcrypt.hashSync('admin123', 10), 1);
+    // Create student accounts (student1 ~ student10)
+    for (let i = 1; i <= 10; i++) {
+      insertUser.run(`student${i}`, `Student ${i}`, bcrypt.hashSync('1234', 10), 0);
+    }
+    // Create admin accounts (admin1 ~ admin10)
+    for (let i = 1; i <= 10; i++) {
+      insertUser.run(`admin${i}`, `Admin ${i}`, bcrypt.hashSync('admin123', 10), 1);
+    }
   }
 }
 

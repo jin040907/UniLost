@@ -64,8 +64,8 @@ Database Schema
 Default Accounts
 ~~~~~~~~~~~~~~~~
 
-* **Student**: ``student1`` / ``1234``
-* **Administrator**: ``admin1`` / ``admin123``
+* **Student Accounts**: ``student1`` ~ ``student10`` / ``1234``
+* **Administrator Accounts**: ``admin1`` ~ ``admin10`` / ``admin123``
 
 Known Issues
 ~~~~~~~~~~~~

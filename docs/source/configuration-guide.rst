@@ -211,13 +211,13 @@ Default Users
 
 Default users are created automatically on first database initialization:
 
-**Student Account:**
-* Username: ``student1``
+**Student Accounts:**
+* Usernames: ``student1`` ~ ``student10``
 * Password: ``1234``
 * Admin: ``false``
 
-**Administrator Account:**
-* Username: ``admin1``
+**Administrator Accounts:**
+* Usernames: ``admin1`` ~ ``admin10``
 * Password: ``admin123``
 * Admin: ``true``
 
@@ -225,10 +225,13 @@ To modify default users, edit ``db.js``:
 
 .. code-block:: javascript
 
-   await client.query(
-     'INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4)',
-     ['student1', 'Student 1', bcrypt.hashSync('1234', 10), false]
-   );
+   // Create student accounts (student1 ~ student10)
+   for (let i = 1; i <= 10; i++) {
+     await client.query(
+       'INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4)',
+       [`student${i}`, `Student ${i}`, bcrypt.hashSync('1234', 10), false]
+     );
+   }
 
 Production Configuration Checklist
 ----------------------------------

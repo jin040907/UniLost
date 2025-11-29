@@ -125,12 +125,12 @@ Default Accounts
 
 The system comes with default accounts for testing:
 
-* **Student Account**:
-  * Username: ``student1``
+* **Student Accounts**:
+  * Usernames: ``student1`` ~ ``student10``
   * Password: ``1234``
 
-* **Administrator Account**:
-  * Username: ``admin1``
+* **Administrator Accounts**:
+  * Usernames: ``admin1`` ~ ``admin10``
   * Password: ``admin123``
 
 Verification
