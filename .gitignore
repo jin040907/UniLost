@@ -36,6 +36,9 @@ test.html
 # Documentation (Word files - uncomment if needed)
 # *.docx
 
+# Sphinx build output
+docs/build/
+
 # Logs
 *.log
 npm-debug.log*

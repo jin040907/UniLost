@@ -51,7 +51,7 @@ Comprehensive documentation including installation guides, API reference, config
 - Modern web browsers (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+)
 - Mobile: iOS Safari 14+, Android Chrome 90+
 
-For detailed compatibility information, see [COMPATIBILITY.md](./docs/COMPATIBILITY.md).
+For detailed documentation, see the [Full Documentation](https://unilost.readthedocs.io/).
 
 ### Installation
 
@@ -150,7 +150,7 @@ Once the server is running, you can access it at `http://localhost:3000`.
 
 **Current Deployment Status**: ✅ [https://unilost.onrender.com](https://unilost.onrender.com)
 
-For instructions on deploying as a web service, refer to [DEPLOY.md](./docs/DEPLOY.md).
+For deployment instructions, see the [Deployment Guide](https://unilost.readthedocs.io/en/latest/getting-started.html#deployment) in the documentation.
 
 ### Quick Deployment (Render)
 

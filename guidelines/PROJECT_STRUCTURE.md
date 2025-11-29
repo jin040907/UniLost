@@ -26,20 +26,32 @@ This document describes the organization of the UniLost project files.
 │   │   ├── getting-started.rst
 │   │   ├── api-reference.rst
 │   │   └── ...
-│   └── build/                    # Sphinx build output (generated)
+│   ├── build/                    # Sphinx build output (generated, gitignored)
+│   ├── Makefile                  # Sphinx build commands
+│   ├── make.bat                  # Sphinx build commands (Windows)
+│   └── requirements.txt          # Python dependencies for Sphinx
 │
-├── _layouts/                     # Jekyll layouts
-│   └── default.html
+├── guidelines/                   # Project guidelines and structure docs
+│   ├── PROJECT_STRUCTURE.md      # This file
+│   └── index.md                  # Additional guidelines
 │
-├── _includes/                    # Jekyll includes
-│   ├── header.html
-│   └── footer.html
-│
-├── assets/                       # Jekyll assets
-│   ├── css/
-│   │   └── main.css
-│   └── js/
-│       └── main.js
+├── website/                      # Jekyll Website (GitHub Pages)
+│   ├── _config.yml               # Jekyll configuration
+│   ├── Gemfile                   # Ruby dependencies for Jekyll
+│   ├── index.md                  # Homepage
+│   ├── features.md               # Features page
+│   ├── community.md              # Community page
+│   ├── contact.md                # Contact page
+│   ├── _layouts/                 # Jekyll layouts
+│   │   └── default.html
+│   ├── _includes/                # Jekyll includes
+│   │   ├── header.html
+│   │   └── footer.html
+│   └── assets/                   # Jekyll assets
+│       ├── css/
+│       │   └── main.css
+│       └── js/
+│           └── main.js
 │
 ├── .github/                      # GitHub configuration
 │   └── workflows/
@@ -85,9 +97,16 @@ This document describes the organization of the UniLost project files.
 ### Documentation (`docs/`)
 
 - **`source/`**: Sphinx documentation source files (reStructuredText format).
-- **`build/`**: Generated Sphinx documentation (excluded from Git).
+- **`build/`**: Generated Sphinx documentation (excluded from Git via .gitignore).
+- **`Makefile`**: Sphinx build commands (Unix/Linux/macOS).
+- **`make.bat`**: Sphinx build commands (Windows).
+- **`requirements.txt`**: Python dependencies for building Sphinx documentation.
 
-### Jekyll Website (Root)
+### Guidelines (`guidelines/`)
+
+- **`PROJECT_STRUCTURE.md`**: This file - describes the project structure.
+
+### Jekyll Website (`website/`)
 
 - **`_config.yml`**: Jekyll configuration file.
 - **`index.md`**: Homepage with mission statement and project overview.
@@ -154,7 +173,10 @@ bundle exec jekyll serve
 
 - The `app/` directory contains all application source code.
 - The `scripts/` directory contains utility scripts for database management.
-- Jekyll files remain in the root directory for GitHub Pages compatibility.
+- The `docs/` directory contains only Sphinx-related files for documentation.
+- The `guidelines/` directory contains project structure and guideline documents.
+- The `website/` directory contains Jekyll files for GitHub Pages.
 - The root `server.js` is a thin wrapper that runs `app/server.js`.
 - Database file (`unilost.db`) is located in `app/` directory.
+- Sphinx build output (`docs/build/`) is excluded from Git via `.gitignore`.
 
