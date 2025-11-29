@@ -113,9 +113,10 @@
 
 **Deployment:**
 
-- Render (hosting)
-- GitHub Pages (website)
+- Render (application hosting)
+- GitHub Pages (project website)
 - Read the Docs (documentation)
+- GitHub Discussions (community)
 
 ### 시각적 자료
 
@@ -151,12 +152,13 @@
 
 ### 시각적 자료
 
-- 지도 인터페이스 스크린샷
+- 지도 인터페이스 스크린샷 (Sejong University campus)
 - 애니메이션 GIF 또는 비디오:
   - 지도 클릭하여 아이템 등록
   - 지도에서 아이템 보기
   - 필터링/검색
 - 핀으로 아이템 위치를 표시한 캠퍼스 지도
+- South Korea boundary restrictions 시각화
 
 ### 발표 가이드
 
@@ -205,7 +207,7 @@
 
 - Item approval/rejection workflow
 - Storage location management
-- User management
+- User management (student1~10, admin1~10)
 - Quality control for registered items
 
 ### 시각적 자료
@@ -294,29 +296,31 @@
 **Deployment:**
 
 - Live Demo: https://unilost.onrender.com
-- GitHub Pages: https://jin040907.github.io/UniLost/
-- Read the Docs: https://unilost.readthedocs.io/
+- Project Website: https://jin040907.github.io/UniLost/
+- Documentation: https://unilost.readthedocs.io/
 
-**Documentation:**
+**Documentation & Community:**
 
 - Comprehensive Sphinx documentation
-- Installation guides
-- API reference
-- Contribution guidelines
+- Jekyll-powered project website
+- GitHub Discussions: https://github.com/jin040907/UniLost/discussions
+- Installation guides, API reference, contribution guidelines
 
 ### 시각적 자료
 
 - 스크린샷:
-  - 라이브 웹사이트
-  - 문서 사이트
-  - GitHub 저장소
+  - 라이브 애플리케이션 (Render)
+  - 프로젝트 웹사이트 (GitHub Pages)
+  - 문서 사이트 (Read the Docs)
+  - GitHub 저장소 및 Discussions
 - QR 코드 (선택사항, 쉬운 접근용)
 
 ### 발표 가이드
 
-- 프로젝트가 완전히 배포되었음을 보여주기
-- 포괄적인 문서화 강조
-- 오픈소스 특성 언급
+- 프로젝트가 완전히 배포되었음을 보여주기 (애플리케이션, 웹사이트, 문서)
+- 포괄적인 문서화 강조 (Sphinx + Jekyll)
+- 활성 커뮤니티 (GitHub Discussions) 언급
+- 오픈소스 특성 및 라이센스 언급
 
 ---
 
@@ -328,16 +332,18 @@
 
 ### 슬라이드 본문 내용 (영어)
 
-**Achievements:**
+**Current Status (v0.9.0):**
 
 - Fully functional web application
-- Deployed and accessible online
-- Comprehensive documentation
+- Deployed and accessible online (Render, GitHub Pages)
+- Comprehensive documentation (Sphinx, Jekyll)
+- Active community (GitHub Discussions)
 - Open-source project (Apache License 2.0)
-- Scalable architecture
+- Scalable architecture (PostgreSQL/SQLite)
 
 **Future Enhancements:**
 
+- Version 1.0.0 stable release
 - Mobile app development
 - Push notifications
 - Image recognition for items
@@ -351,9 +357,10 @@
 
 ### 발표 가이드
 
-- 달성한 내용 요약
-- 잠재적 영향 논의
-- 향후 가능성 언급
+- 현재 버전 (v0.9.0) 달성 내용 요약
+- 배포 상태 및 접근성 강조
+- 커뮤니티 활성화 상태 언급
+- 잠재적 영향 및 향후 로드맵 논의
 
 ---
 
@@ -368,7 +375,9 @@
 **Contact Information:**
 
 - GitHub Repository: https://github.com/jin040907/UniLost
+- GitHub Discussions: https://github.com/jin040907/UniLost/discussions
 - Live Demo: https://unilost.onrender.com
+- Project Website: https://jin040907.github.io/UniLost/
 - Documentation: https://unilost.readthedocs.io/
 
 **Questions?**
@@ -376,14 +385,15 @@
 ### 시각적 자료
 
 - 프로젝트 로고
-- 연락처 정보
-- 저장소 QR 코드 (선택사항)
+- 모든 링크 (Repository, Discussions, Demo, Website, Documentation)
+- QR 코드 (선택사항, 주요 링크용)
 - 깔끔하고 전문적인 마무리 슬라이드
 
 ### 발표 가이드
 
 - 청중에게 감사 인사
-- 질문 초대
+- 모든 접근 경로 안내 (Repository, Discussions, Demo, Website, Documentation)
+- 질문 초대 및 커뮤니티 참여 권유
 - 연락처 정보 제공
 
 ---
@@ -398,8 +408,10 @@
 - [ ] 관리자 대시보드
 - [ ] 모바일 뷰
 - [ ] 로그인 페이지
-- [ ] 문서 사이트
+- [ ] 문서 사이트 (Read the Docs)
+- [ ] 프로젝트 웹사이트 (GitHub Pages)
 - [ ] GitHub 저장소 페이지
+- [ ] GitHub Discussions 페이지
 
 ### 필요한 다이어그램:
 
@@ -447,6 +459,9 @@
 - 중복 아이템을 어떻게 처리하나요?
 - 글로벌 채팅과 스레드 채팅의 차이는 무엇인가요?
 - 관리자는 어떻게 아이템을 검증하나요?
+- 현재 버전 (v0.9.0)과 v1.0.0의 차이는 무엇인가요?
+- GitHub Discussions는 어떻게 활용하고 있나요?
+- 프로젝트 웹사이트와 문서 사이트의 차이는 무엇인가요?
 
 ---
 
