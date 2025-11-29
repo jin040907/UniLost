@@ -3,13 +3,32 @@ Release Notes
 
 This document provides a history of releases, highlighting new features, improvements, and bug fixes.
 
-Version 1.0.0 (2024-11-17)
+Version 0.9.0 (2025-11-18)
 ---------------------------
 
-Initial Release
-~~~~~~~~~~~~~~~
+Pre-release Version
+~~~~~~~~~~~~~~~~~~~
 
-This is the first stable release of UniLost.
+Beta release with core features implemented.
+
+* Core functionality testing
+* Map integration
+* Real-time chat system
+* User authentication
+* Database support (PostgreSQL/SQLite)
+* Administrator approval system
+
+Version 0.0.1 (2025-11-05)
+---------------------------
+
+Initial Development Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+First tagged release of the project.
+
+* Project initialization
+* Basic structure setup
+* Initial development milestone
 
 New Features
 ~~~~~~~~~~~~

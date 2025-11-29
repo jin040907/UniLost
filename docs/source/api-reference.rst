@@ -152,7 +152,7 @@ Retrieve all items, optionally filtered by status.
        "radius": 50,
        "status": "approved",
        "storagePlace": "Student Affairs Office, 1st Floor, Locker A-3",
-       "created_at": "2024-11-17T10:30:00.000Z",
+       "created_at": "2025-01-17T10:30:00.000Z",
        "createdBy": "student1"
      }
    ]
@@ -187,7 +187,7 @@ Retrieve a specific item by ID.
      "radius": 50,
      "status": "approved",
      "storagePlace": "Student Affairs Office, 1st Floor, Locker A-3",
-     "created_at": "2024-11-17T10:30:00.000Z",
+     "created_at": "2025-01-17T10:30:00.000Z",
      "createdBy": "student1"
    }
 
@@ -252,7 +252,7 @@ Create a new lost item. Requires authentication.
      "radius": 50,
      "status": "pending",
      "storagePlace": "Student Affairs Office, 1st Floor, Locker A-3",
-     "created_at": "2024-11-17T10:30:00.000Z",
+     "created_at": "2025-01-17T10:30:00.000Z",
      "createdBy": "student1"
    }
 
