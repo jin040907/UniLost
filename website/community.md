@@ -53,7 +53,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
             </li>
           </ul>
           <a href="{{ site.links.discussions }}" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors">
-            Join Discussions →
+            Join GitHub Discussions →
           </a>
         </div>
         
@@ -99,7 +99,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
       </div>
       
       <div class="grid md:grid-cols-2 gap-6 mt-8">
-        <div class="bg-white rounded-lg p-6 border border-slate-200">
+        <div class="bg-white rounded-lg p-6 border border-slate-200 flex flex-col">
           <h3 class="text-xl font-bold text-slate-900 mb-3">Announcements</h3>
           <p class="text-slate-600 mb-4">
             Receive important updates about new releases, security updates, and major changes to UniLost.
@@ -118,7 +118,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
               <span>Major feature announcements</span>
             </li>
           </ul>
-          <div class="bg-primary-50 rounded-lg p-4 border border-primary-200">
+          <div class="bg-primary-50 rounded-lg p-4 border border-primary-200 mt-auto">
             <p class="text-sm font-semibold text-slate-900 mb-3">Contact the Team:</p>
             <ul class="space-y-2 text-sm text-slate-700">
               <li>
@@ -141,7 +141,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
           </div>
         </div>
         
-        <div class="bg-white rounded-lg p-6 border border-slate-200">
+        <div class="bg-white rounded-lg p-6 border border-slate-200 flex flex-col">
           <h3 class="text-xl font-bold text-slate-900 mb-3">Support & Discussion</h3>
           <p class="text-slate-600 mb-4">
             Join discussions about usage, troubleshooting, and best practices.
@@ -160,7 +160,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
               <span>Community discussions</span>
             </li>
           </ul>
-          <div class="bg-primary-50 rounded-lg p-4 border border-primary-200">
+          <div class="bg-primary-50 rounded-lg p-4 border border-primary-200 mt-auto">
             <p class="text-sm font-semibold text-slate-900 mb-3">Contact the Team:</p>
             <ul class="space-y-2 text-sm text-slate-700">
               <li>
@@ -266,7 +266,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
           </li>
         </ul>
         <a href="{{ site.links.discussions }}" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors">
-          Visit GitHub Discussions →
+          Join GitHub Discussions →
         </a>
       </div>
     </div>
@@ -313,7 +313,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
             Help others, answer questions, and share your knowledge.
           </p>
           <a href="{{ site.links.discussions }}" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:text-primary-700 font-semibold">
-            Join Discussions →
+            Join GitHub Discussions →
           </a>
         </div>
       </div>

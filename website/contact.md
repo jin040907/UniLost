@@ -76,7 +76,7 @@ description: Get in touch with the UniLost team
         </li>
       </ul>
       <a href="{{ site.links.discussions }}" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors">
-        Join Discussions →
+        Join GitHub Discussions →
       </a>
     </div>
   </div>
