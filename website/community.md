@@ -318,9 +318,9 @@ description: Join the UniLost community - discussions, support, and collaboratio
         </div>
       </div>
       
-      <div class="mt-8 text-center">
-        <a href="{{ site.links.github }}/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-4 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors">
-          Read Contribution Guidelines
+      <div class="mt-8">
+        <a href="{{ site.links.github }}/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors">
+          Read Contribution Guidelines →
         </a>
       </div>
     </div>
