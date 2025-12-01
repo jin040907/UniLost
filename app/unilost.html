@@ -1064,7 +1064,7 @@
     socket.on('connect', ()=>{ setConnBadge('connected'); setThreadConnBadge('connected'); socket.emit('chat:join', { nick: $('chatNick')?.value?.trim()|| (ME?.name||'Anonymous') }); });
     socket.io.on('reconnect_attempt', ()=>{ setConnBadge('reconnecting'); setThreadConnBadge('reconnecting'); });
     socket.on('disconnect', ()=>{ setConnBadge('disconnected'); setThreadConnBadge('disconnected'); });
-    socket.on('chat:history', (msgs=[])=>{ const wrap=$('chatLog'); if(wrap){ wrap.innerHTML=''; msgs.forEach(msg => appendChatRow(msg, true)); wrap.scrollTop=0; } });
+    socket.on('chat:history', (msgs=[])=>{ const wrap=$('chatLog'); if(wrap){ wrap.innerHTML=''; msgs.slice().reverse().forEach(msg => appendChatRow(msg, true)); wrap.scrollTop=0; } });
     socket.on('chat:new', (msg)=> { appendChatRow(msg, true); });
     socket.on('thread:history', ({itemId, msgs=[]})=>{ 
       if(itemId!==currentThreadId) return; 
