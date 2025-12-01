@@ -180,7 +180,7 @@
       display: none;
     }
     #mobileMenuOverlay {
-      display: none;
+      display: none !important;
     }
     @media (max-width: 767px) {
       #desktopNav {
@@ -192,8 +192,12 @@
       #mobileMenu {
         display: block;
       }
-      #mobileMenuOverlay {
-        display: block;
+      /* Overlay should only be shown when menu is open, controlled by JavaScript */
+      #mobileMenuOverlay.hidden {
+        display: none !important;
+      }
+      #mobileMenuOverlay:not(.hidden) {
+        display: block !important;
       }
     }
     @media (min-width: 768px) {
@@ -1168,6 +1172,9 @@
 
   // ===== Start =====
   function start(){
+    // Ensure mobile menu is closed on page load
+    closeMobileMenu();
+    
     // Global error handler - prevent page blocking
     window.addEventListener('error', (e)=>{
       console.error('Global error:', e);
