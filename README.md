@@ -98,8 +98,8 @@ Once the server is running, you can access it at `http://localhost:3000`.
 │       └── check-critical-functions.sh
 │
 ├── docs/                         # Documentation (Sphinx)
-│   ├── source/                   # Sphinx source files
-│   └── build/                    # Sphinx build output
+│   ├── source/                   # Sphinx source files (.rst)
+│   └── build/                    # Sphinx build output (gitignored)
 │
 ├── website/                      # Jekyll Website (GitHub Pages)
 │   ├── _config.yml               # Jekyll configuration
@@ -112,11 +112,24 @@ Once the server is running, you can access it at `http://localhost:3000`.
 │   ├── _includes/                # Jekyll includes
 │   └── assets/                   # CSS and JavaScript assets
 │
+├── guidelines/                   # Project guidelines and documentation
+│   ├── APACHE_LICENSE_COMPLIANCE.md
+│   ├── CHECKLIST.md
+│   ├── COMPATIBILITY.md
+│   ├── DATABASE_SETUP.md
+│   ├── DEPLOY.md
+│   ├── PROJECT_STRUCTURE.md
+│   └── UniLost_Deliverable.docx
+│
 ├── server.js                     # Entry point (runs app/server.js)
 ├── package.json                  # Node.js dependencies
 ├── render.yaml                   # Render deployment configuration
 ├── LICENSE                       # Apache License 2.0
-└── README.md                     # Project documentation
+├── README.md                     # Project documentation
+├── CODE_OF_CONDUCT.md            # Code of conduct
+├── CONTRIBUTING.md               # Contribution guidelines
+├── PRESENTATION_OUTLINE.md       # Presentation guide
+└── .gitignore                    # Git ignore rules
 ```
 
 ## API Endpoints

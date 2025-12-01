@@ -31,9 +31,14 @@ This document describes the organization of the UniLost project files.
 │   ├── make.bat                  # Sphinx build commands (Windows)
 │   └── requirements.txt          # Python dependencies for Sphinx
 │
-├── guidelines/                   # Project guidelines and structure docs
-│   ├── PROJECT_STRUCTURE.md      # This file
-│   └── index.md                  # Additional guidelines
+├── guidelines/                   # Project guidelines and documentation
+│   ├── APACHE_LICENSE_COMPLIANCE.md
+│   ├── CHECKLIST.md
+│   ├── COMPATIBILITY.md
+│   ├── DATABASE_SETUP.md
+│   ├── DEPLOY.md
+│   ├── PROJECT_STRUCTURE.md
+│   └── UniLost_Deliverable.docx
 │
 ├── website/                      # Jekyll Website (GitHub Pages)
 │   ├── _config.yml               # Jekyll configuration
@@ -61,21 +66,32 @@ This document describes the organization of the UniLost project files.
 ├── package.json                  # Node.js dependencies
 ├── package-lock.json             # Node.js lock file
 ├── render.yaml                   # Render deployment configuration
-├── Gemfile                       # Ruby dependencies for Jekyll
-├── Gemfile.lock                  # Ruby lock file (local only)
-├── _config.yml                   # Jekyll configuration
-│
-├── index.md                      # Jekyll homepage
-├── features.md                   # Jekyll features page
-├── community.md                  # Jekyll community page
-├── contact.md                    # Jekyll contact page
-│
-├── README.md                     # Project documentation
 ├── LICENSE                       # Apache License 2.0
+├── README.md                     # Project documentation
 ├── CODE_OF_CONDUCT.md            # Code of conduct
 ├── CONTRIBUTING.md               # Contribution guidelines
+├── PRESENTATION_OUTLINE.md       # Presentation guide
+├── .gitignore                    # Git ignore rules
 │
-└── .gitignore                    # Git ignore rules
+├── guidelines/                   # Project guidelines and documentation
+│   ├── APACHE_LICENSE_COMPLIANCE.md
+│   ├── CHECKLIST.md
+│   ├── COMPATIBILITY.md
+│   ├── DATABASE_SETUP.md
+│   ├── DEPLOY.md
+│   ├── PROJECT_STRUCTURE.md
+│   └── UniLost_Deliverable.docx
+│
+├── website/                      # Jekyll Website (GitHub Pages)
+│   ├── _config.yml               # Jekyll configuration
+│   ├── Gemfile                   # Ruby dependencies for Jekyll
+│   ├── index.md                  # Homepage
+│   ├── features.md               # Features page
+│   ├── community.md              # Community page
+│   ├── contact.md                # Contact page
+│   ├── _layouts/                 # Jekyll layouts
+│   ├── _includes/                # Jekyll includes
+│   └── assets/                   # CSS and JavaScript assets
 ```
 
 ## File Descriptions
@@ -105,6 +121,12 @@ This document describes the organization of the UniLost project files.
 ### Guidelines (`guidelines/`)
 
 - **`PROJECT_STRUCTURE.md`**: This file - describes the project structure.
+- **`APACHE_LICENSE_COMPLIANCE.md`**: Apache License 2.0 compliance guidelines.
+- **`CHECKLIST.md`**: Pre-deployment checklist.
+- **`COMPATIBILITY.md`**: Browser and environment compatibility information.
+- **`DATABASE_SETUP.md`**: Database setup and configuration guide.
+- **`DEPLOY.md`**: Deployment guide for various platforms.
+- **`UniLost_Deliverable.docx`**: Project deliverable document (Word format).
 
 ### Jekyll Website (`website/`)
 

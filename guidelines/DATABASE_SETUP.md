@@ -6,7 +6,7 @@ This guide explains how to set up and use databases with UniLost. The applicatio
 
 UniLost automatically selects the database based on the `DATABASE_URL` environment variable:
 
-- **No `DATABASE_URL` set** → Uses SQLite (`unilost.db`)
+- **No `DATABASE_URL` set** → Uses SQLite (`app/unilost.db`)
 - **`DATABASE_URL` set** → Uses PostgreSQL
 
 ---
@@ -19,7 +19,7 @@ SQLite is perfect for local development and testing. It requires no setup and wo
 
 1. **No configuration needed!**
    - Simply run the server: `node server.js`
-   - The application will automatically create `unilost.db` if it doesn't exist
+   - The application will automatically create `app/unilost.db` if it doesn't exist
 
 2. **Initial Data**
    - Default users are automatically created on first run:
@@ -27,7 +27,7 @@ SQLite is perfect for local development and testing. It requires no setup and wo
      - **Administrator Accounts**: `admin1` ~ `admin10` / `admin123`
 
 3. **Database File**
-   - Location: `unilost.db` in the project root
+   - Location: `app/unilost.db` (in the app directory)
    - The file is included in the repository with sample data
    - You can delete it to start fresh (it will be recreated automatically)
 
@@ -196,7 +196,7 @@ The application uses the following tables:
 
 1. Remove or unset `DATABASE_URL` environment variable
 2. Restart the server
-3. The application will use SQLite (`unilost.db`)
+3. The application will use SQLite (`app/unilost.db`)
 4. **Note:** Existing PostgreSQL data will not be accessible
 
 ---
@@ -207,7 +207,7 @@ The application uses the following tables:
 
 **Error: "SQLite connection failed"**
 - Check if `better-sqlite3` is installed: `npm install`
-- Check file permissions for `unilost.db`
+- Check file permissions for `app/unilost.db`
 
 **Data disappears on Render**
 - This is expected on Render free plan (ephemeral file system)

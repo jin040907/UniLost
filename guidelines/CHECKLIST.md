@@ -34,7 +34,7 @@ This checklist helps ensure your project is ready for GitHub upload and deployme
 ### Before Uploading to GitHub
 
 1. **Verify Database File Exclusion**
-   - `unilost.db` is automatically excluded because it's included in `.gitignore`. ✅
+   - `app/unilost.db` is tracked in Git (for development), but other `.db` files are excluded via `.gitignore`. ✅
 
 2. **Environment Variable Settings**
    - The `SESSION_SECRET` environment variable must be set during deployment.
