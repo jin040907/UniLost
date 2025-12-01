@@ -107,6 +107,14 @@
       #mapBrowse   { height: 60vh; min-height: 300px; }
     }
     .u-ellipsis  { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    @media (max-width: 639px) {
+      .u-ellipsis {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        word-break: break-word;
+      }
+    }
     /* Drawer always above map */
     .leaflet-container { z-index: 0; }
     
@@ -157,10 +165,19 @@
     }
     .input-field {
       width: 100%;
+      max-width: 100%;
       border: 1px solid #cbd5e1;
       border-radius: 0.5rem;
-      padding: 0.625rem 1rem;
+      padding: 0.625rem 0.75rem;
       transition: all 0.2s;
+      box-sizing: border-box;
+      font-size: 0.875rem;
+    }
+    @media (min-width: 640px) {
+      .input-field {
+        padding: 0.625rem 1rem;
+        font-size: 1rem;
+      }
     }
     .input-field:focus {
       outline: none;
@@ -172,8 +189,13 @@
       border-radius: 0.75rem;
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       border: 1px solid #e2e8f0;
-      padding: 1rem;
+      padding: 0.75rem;
       transition: box-shadow 0.2s;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
     @media (min-width: 640px) {
       .card {
@@ -293,13 +315,13 @@
   <!-- Drawer Backdrop (darken map) -->
   <div id="drawerBackdrop" class="fixed inset-0 bg-black/30 hidden z-[1100]"></div>
 
-  <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8 space-y-4 sm:space-y-8">
+  <main class="max-w-7xl mx-auto px-2 sm:px-4 py-3 sm:py-8 space-y-3 sm:space-y-8 w-full overflow-x-hidden">
     <!-- Register Item -->
-    <section id="tabRegister" class="grid md:grid-cols-2 gap-4 sm:gap-6">
-      <div class="card space-y-4 sm:space-y-5">
-        <div>
-          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-1">Register Item</h2>
-          <p class="text-xs sm:text-sm text-slate-500">Register lost or found items</p>
+    <section id="tabRegister" class="grid md:grid-cols-2 gap-3 sm:gap-6 w-full">
+      <div class="card space-y-4 sm:space-y-5 w-full max-w-full">
+        <div class="min-w-0">
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-1 break-words">Register Item</h2>
+          <p class="text-xs sm:text-sm text-slate-500 break-words">Register lost or found items</p>
         </div>
 
         <div class="grid gap-3">
@@ -360,20 +382,20 @@
         <p id="guardNotice" class="text-xs text-rose-600 hidden">※ Please login to register.</p>
       </div>
 
-      <div class="card">
-        <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-slate-900">Verify Location on Map</h3>
-        <div id="mapRegister" class="rounded-xl overflow-hidden border border-slate-200"></div>
-        <p class="mt-2 sm:mt-3 text-xs text-slate-500">Click <b>Find Address</b> after entering address, or click on the map to set coordinates.</p>
+      <div class="card w-full max-w-full">
+        <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-slate-900 break-words">Verify Location on Map</h3>
+        <div id="mapRegister" class="rounded-xl overflow-hidden border border-slate-200 w-full"></div>
+        <p class="mt-2 sm:mt-3 text-xs text-slate-500 break-words">Click <b>Find Address</b> after entering address, or click on the map to set coordinates.</p>
       </div>
     </section>
 
     <!-- Search/Map -->
-    <section id="tabBrowse" class="hidden">
-      <div class="grid md:grid-cols-3 gap-4 sm:gap-6">
-        <div class="md:col-span-1 card space-y-3 sm:space-y-4">
-          <div>
-            <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">Search Items</h2>
-            <p class="text-xs sm:text-sm text-slate-500">Search by keyword or category</p>
+    <section id="tabBrowse" class="hidden w-full">
+      <div class="grid md:grid-cols-3 gap-3 sm:gap-6 w-full">
+        <div class="md:col-span-1 card space-y-3 sm:space-y-4 w-full max-w-full">
+          <div class="min-w-0">
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1 break-words">Search Items</h2>
+            <p class="text-xs sm:text-sm text-slate-500 break-words">Search by keyword or category</p>
           </div>
           <input id="qText" class="input-field" placeholder="Keyword (e.g., wallet, blue, AirPods)" />
           <select id="qCategory" class="input-field">
@@ -397,10 +419,10 @@
           </div>
         </div>
 
-        <div class="md:col-span-2 card relative">
-          <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-slate-900">Map & List</h3>
-          <div id="mapBrowse" class="rounded-xl overflow-hidden border border-slate-200"></div>
-          <ul id="listResults" class="mt-4 divide-y divide-slate-200"></ul>
+        <div class="md:col-span-2 card relative w-full max-w-full">
+          <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-slate-900 break-words">Map & List</h3>
+          <div id="mapBrowse" class="rounded-xl overflow-hidden border border-slate-200 w-full"></div>
+          <ul id="listResults" class="mt-3 sm:mt-4 divide-y divide-slate-200 w-full"></ul>
         </div>
       </div>
 
@@ -441,47 +463,47 @@
     </section>
 
     <!-- Admin -->
-    <section id="tabAdmin" class="hidden">
-      <div class="card">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2 mb-4 sm:mb-6">
-          <div>
-            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-1">Admin Approval</h2>
-            <p class="text-xs sm:text-sm text-slate-500">Review and approve item registration requests</p>
+    <section id="tabAdmin" class="hidden w-full">
+      <div class="card w-full max-w-full">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-2 mb-3 sm:mb-6">
+          <div class="min-w-0 flex-1">
+            <h2 class="text-lg sm:text-2xl font-bold text-slate-900 mb-1 break-words">Admin Approval</h2>
+            <p class="text-xs sm:text-sm text-slate-500 break-words">Review and approve item registration requests</p>
           </div>
-          <div class="flex flex-col sm:flex-row gap-2 items-start sm:items-center text-xs sm:text-sm">
-            <span class="text-slate-600">Admin login required</span>
-            <span id="adminStatus" class="text-xs px-2 py-1 rounded-lg bg-slate-100 text-slate-600">No permission</span>
+          <div class="flex flex-col sm:flex-row gap-1.5 sm:gap-2 items-start sm:items-center text-xs sm:text-sm flex-shrink-0">
+            <span class="text-slate-600 whitespace-nowrap">Admin login required</span>
+            <span id="adminStatus" class="text-xs px-2 py-1 rounded-lg bg-slate-100 text-slate-600 whitespace-nowrap">No permission</span>
           </div>
         </div>
-        <div class="grid md:grid-cols-2 gap-4 sm:gap-6">
-          <div>
-            <h3 class="font-semibold mb-2 sm:mb-3 text-slate-900 text-base sm:text-lg">Pending (Unapproved)</h3>
-            <ul id="pendingList" class="divide-y divide-slate-200"></ul>
+        <div class="grid md:grid-cols-2 gap-3 sm:gap-6">
+          <div class="min-w-0">
+            <h3 class="font-semibold mb-2 sm:mb-3 text-slate-900 text-sm sm:text-lg">Pending (Unapproved)</h3>
+            <ul id="pendingList" class="divide-y divide-slate-200 space-y-2"></ul>
           </div>
-          <div>
-            <h3 class="font-semibold mb-2 sm:mb-3 text-slate-900 text-base sm:text-lg">Approved</h3>
-            <ul id="approvedList" class="divide-y divide-slate-200"></ul>
+          <div class="min-w-0">
+            <h3 class="font-semibold mb-2 sm:mb-3 text-slate-900 text-sm sm:text-lg">Approved</h3>
+            <ul id="approvedList" class="divide-y divide-slate-200 space-y-2"></ul>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Global Chat -->
-    <section id="tabChat" class="hidden">
-      <div class="grid md:grid-cols-3 gap-4 sm:gap-6">
-        <div class="md:col-span-1 card space-y-3 sm:space-y-4">
-          <div>
-            <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">Student/Admin Chat</h2>
-            <p class="text-xs sm:text-sm text-slate-500">Communicate with all users in real-time</p>
+    <section id="tabChat" class="hidden w-full">
+      <div class="grid md:grid-cols-3 gap-3 sm:gap-6 w-full">
+        <div class="md:col-span-1 card space-y-3 sm:space-y-4 w-full max-w-full">
+          <div class="min-w-0">
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1 break-words">Student/Admin Chat</h2>
+            <p class="text-xs sm:text-sm text-slate-500 break-words">Communicate with all users in real-time</p>
           </div>
           <input id="chatNick" class="input-field text-sm" placeholder="Nickname (anonymous if empty)" />
           <textarea id="chatMsg" rows="3" class="input-field text-sm" placeholder="Message"></textarea>
           <button id="btnSend" class="px-4 py-2 rounded-lg bg-primary-600 text-white text-sm sm:text-base font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 w-full">Send (Enter)</button>
           <div class="text-xs"><span id="chatConn" class="px-2 py-1 rounded-lg bg-slate-100 text-slate-600">Connecting...</span></div>
         </div>
-        <div class="md:col-span-2 card">
-          <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-slate-900">Chat Log</h3>
-          <div id="chatLog" class="h-[50vh] sm:h-[60vh] overflow-auto space-y-2 border border-slate-200 rounded-xl p-3 sm:p-4 bg-slate-50"></div>
+        <div class="md:col-span-2 card w-full max-w-full">
+          <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-slate-900 break-words">Chat Log</h3>
+          <div id="chatLog" class="h-[50vh] sm:h-[60vh] overflow-auto space-y-2 border border-slate-200 rounded-xl p-3 sm:p-4 bg-slate-50 w-full"></div>
         </div>
       </div>
     </section>
@@ -813,13 +835,13 @@
       const ul=$('listResults'); ul.innerHTML='';
       filtered.forEach(it=>{
         const li=document.createElement('li');
-        li.className='py-2 flex gap-3 items-center cursor-pointer hover:bg-slate-50 px-2 rounded';
+        li.className='py-2 flex gap-2 sm:gap-3 items-start cursor-pointer hover:bg-slate-50 px-2 rounded w-full max-w-full break-words';
         li.innerHTML=`
-          <img src="${it.imgData||''}" class="w-12 h-12 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'}" alt="">
-          <div class="flex-1 min-w-0">
-            <div class="font-medium u-ellipsis">${it.title}<span class="text-xs text-slate-500"> (${it.cat}${it.storagePlace?` · Storage:${it.storagePlace}`:''})</span></div>
-            <div class="text-xs text-slate-500 u-ellipsis">${it.desc||''}</div>
-            <div class="text-[10px] text-slate-400">${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
+          <img src="${it.imgData||''}" class="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'} flex-shrink-0" alt="">
+          <div class="flex-1 min-w-0 w-full">
+            <div class="font-medium text-sm sm:text-base break-words">${it.title}<span class="text-xs text-slate-500"> (${it.cat}${it.storagePlace?` · Storage:${it.storagePlace}`:''})</span></div>
+            <div class="text-xs text-slate-500 break-words mt-0.5">${it.desc||''}</div>
+            <div class="text-[10px] text-slate-400 mt-0.5 break-words">${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
           </div>`;
         li.addEventListener('click', ()=>{ 
           if (mapBrowse) {
@@ -932,29 +954,29 @@
 
     const mkRow=(it, pendingMode)=>{
       const li=document.createElement('li');
-      li.className='py-2 sm:py-3 flex flex-col gap-2';
+      li.className='py-2 sm:py-3 flex flex-col gap-2 w-full max-w-full break-words';
       li.innerHTML=`
-        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:items-center">
-          <div class="flex gap-2 sm:gap-3 items-center flex-1 min-w-0">
-            <img src="${it.imgData||''}" class="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'} flex-shrink-0" alt="">
-            <div class="flex-1 min-w-0">
-              <div class="font-medium text-sm sm:text-base u-ellipsis">${it.title} <span class="text-xs text-slate-500">(${it.cat})</span></div>
-              <div class="text-xs text-slate-500 u-ellipsis">${it.desc||''}</div>
-              <div class="text-[10px] text-slate-400">#${it.id} • ${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:items-center w-full">
+          <div class="flex gap-2 sm:gap-3 items-start flex-1 min-w-0 w-full">
+            <img src="${it.imgData||''}" class="w-10 h-10 sm:w-14 sm:h-14 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'} flex-shrink-0" alt="">
+            <div class="flex-1 min-w-0 w-full">
+              <div class="font-medium text-sm sm:text-base break-words">${it.title} <span class="text-xs text-slate-500">(${it.cat})</span></div>
+              <div class="text-xs text-slate-500 break-words mt-0.5">${it.desc||''}</div>
+              <div class="text-[10px] text-slate-400 mt-0.5 break-words">#${it.id} • ${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
             </div>
           </div>
           ${pendingMode ? `
-            <div class="flex gap-2 ${admin?'':'hidden'} need-admin flex-shrink-0">
+            <div class="flex gap-1.5 sm:gap-2 ${admin?'':'hidden'} need-admin flex-shrink-0">
               <button data-action='approve' data-id='${it.id}' class='px-2 sm:px-3 py-1.5 rounded-lg bg-primary-600 text-white text-xs sm:text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 whitespace-nowrap'>Approve</button>
               <button data-action='reject'  data-id='${it.id}' class='px-2 sm:px-3 py-1.5 rounded-lg bg-primary-600 text-white text-xs sm:text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 whitespace-nowrap'>Delete</button>
             </div>` : ''}
         </div>
-        <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-xs sm:text-sm">
-          <div class="text-slate-700 font-medium whitespace-nowrap">Storage Place:</div>
-          <div class="flex-1 min-w-0">
-            <input class="w-full input-field text-xs sm:text-sm py-1.5 admin-storage" data-id='${it.id}' value='${it.storagePlace||''}' placeholder="e.g., Student Affairs Office, 1st Floor, Locker A-3" ${admin?'':'disabled'}/>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-xs sm:text-sm w-full">
+          <div class="text-slate-700 font-medium whitespace-nowrap flex-shrink-0">Storage Place:</div>
+          <div class="flex-1 min-w-0 w-full">
+            <input class="w-full max-w-full input-field text-xs sm:text-sm py-1.5 admin-storage" data-id='${it.id}' value='${it.storagePlace||''}' placeholder="e.g., Student Affairs Office, 1st Floor, Locker A-3" ${admin?'':'disabled'}/>
           </div>
-          <button class="px-3 py-1.5 rounded-lg bg-primary-600 text-white text-xs sm:text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 btn-storage-save ${admin?'':'hidden'} need-admin whitespace-nowrap flex-shrink-0" data-id='${it.id}'>Save</button>
+          <button class="px-2 sm:px-3 py-1.5 rounded-lg bg-primary-600 text-white text-xs sm:text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 btn-storage-save ${admin?'':'hidden'} need-admin whitespace-nowrap flex-shrink-0 w-full sm:w-auto" data-id='${it.id}'>Save</button>
         </div>`;
       return li;
     };
