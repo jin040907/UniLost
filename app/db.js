@@ -401,7 +401,7 @@ const chatDBPostgres = {
       'SELECT * FROM chat_messages ORDER BY created_at DESC LIMIT $1',
       [limit]
     );
-    return result.rows.reverse(); // Sort by newest first
+    return result.rows; // Newest first (DESC order)
   },
   create: async (nick, text) => {
     const result = await pool.query(
@@ -422,7 +422,7 @@ const chatDBPostgres = {
 const chatDBSQLite = {
   findAll: (limit = 200) => {
     const messages = db.prepare('SELECT * FROM chat_messages ORDER BY created_at DESC LIMIT ?').all(limit);
-    return messages.reverse(); // Sort by oldest first (same as PostgreSQL)
+    return messages; // Newest first (DESC order)
   },
   create: (nick, text) => {
     const stmt = db.prepare('INSERT INTO chat_messages (nick, text) VALUES (?, ?)');
