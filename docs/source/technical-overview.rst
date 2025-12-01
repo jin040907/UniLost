@@ -21,35 +21,48 @@ System Architecture Diagram
    ┌─────────────┐
    │   Client    │
    │  (Browser)  │
+   │             │
+   │  Leaflet.js │
    └──────┬──────┘
           │
-          │ HTTP/WebSocket
-          │
-   ┌──────▼──────────────────┐
-   │   Express Server        │
-   │   (server.js)           │
-   │                         │
-   │  ┌──────────────────┐   │
-   │  │  REST API        │   │
-   │  │  /api/*          │   │
-   │  └──────────────────┘   │
-   │                         │
-   │  ┌──────────────────┐   │
-   │  │  Socket.IO       │   │
-   │  │  Real-time Chat  │   │
-   │  └──────────────────┘   │
-   └──────┬──────────────────┘
-          │
-          │ Database Queries
-          │
-   ┌──────▼──────────────┐
-   │   Database Module   │
-   │   (db.js)           │
-   └──────┬──────────────┘
-          │
-   ┌──────▼──────────────┐
-   │  PostgreSQL/SQLite  │
-   └─────────────────────┘
+          ├─────────────────────────┐
+          │                         │
+          │ HTTP/WebSocket          │ Direct HTTP Requests
+          │                         │ (Map Tiles, Geocoding)
+          │                         │
+   ┌──────▼──────────────────┐     │
+   │   Express Server        │     │
+   │   (server.js)           │     │
+   │                         │     │
+   │  ┌──────────────────┐   │     │
+   │  │  REST API        │   │     │
+   │  │  /api/*          │   │     │
+   │  └──────────────────┘   │     │
+   │                         │     │
+   │  ┌──────────────────┐   │     │
+   │  │  Socket.IO       │   │     │
+   │  │  Real-time Chat  │   │     │
+   │  └──────────────────┘   │     │
+   └──────┬──────────────────┘     │
+          │                         │
+          │ Database Queries        │
+          │                         │
+   ┌──────▼──────────────┐          │
+   │   Database Module   │          │
+   │   (db.js)           │          │
+   └──────┬──────────────┘          │
+          │                         │
+   ┌──────▼──────────────┐          │
+   │  PostgreSQL/SQLite  │          │
+   └─────────────────────┘          │
+                                    │
+                          ┌─────────▼──────────────┐
+                          │  External Services     │
+                          │                        │
+                          │  OpenStreetMap         │
+                          │  - Tile Server         │
+                          │  - Nominatim API       │
+                          └────────────────────────┘
 
 Core Components
 ---------------
