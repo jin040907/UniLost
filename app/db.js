@@ -421,7 +421,8 @@ const chatDBPostgres = {
 // Chat message-related functions (SQLite)
 const chatDBSQLite = {
   findAll: (limit = 200) => {
-    return db.prepare('SELECT * FROM chat_messages ORDER BY created_at DESC LIMIT ?').all(limit);
+    const messages = db.prepare('SELECT * FROM chat_messages ORDER BY created_at DESC LIMIT ?').all(limit);
+    return messages.reverse(); // Sort by oldest first (same as PostgreSQL)
   },
   create: (nick, text) => {
     const stmt = db.prepare('INSERT INTO chat_messages (nick, text) VALUES (?, ?)');

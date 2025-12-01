@@ -100,8 +100,12 @@
   <style>
     html, body { height: 100%; }
     body { margin: 0; }
-    #mapRegister { height: 70vh; min-height: 320px; width: 100%; }
-    #mapBrowse   { height: 60vh; min-height: 300px; width: 100%; }
+    #mapRegister { height: 50vh; min-height: 250px; width: 100%; }
+    #mapBrowse   { height: 45vh; min-height: 250px; width: 100%; }
+    @media (min-width: 640px) {
+      #mapRegister { height: 70vh; min-height: 320px; }
+      #mapBrowse   { height: 60vh; min-height: 300px; }
+    }
     .u-ellipsis  { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     /* Drawer always above map */
     .leaflet-container { z-index: 0; }
@@ -168,8 +172,13 @@
       border-radius: 0.75rem;
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       border: 1px solid #e2e8f0;
-      padding: 1.5rem;
+      padding: 1rem;
       transition: box-shadow 0.2s;
+    }
+    @media (min-width: 640px) {
+      .card {
+        padding: 1.5rem;
+      }
     }
     .card:hover {
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -284,13 +293,13 @@
   <!-- Drawer Backdrop (darken map) -->
   <div id="drawerBackdrop" class="fixed inset-0 bg-black/30 hidden z-[1100]"></div>
 
-  <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+  <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8 space-y-4 sm:space-y-8">
     <!-- Register Item -->
-    <section id="tabRegister" class="grid md:grid-cols-2 gap-6">
-      <div class="card space-y-5">
+    <section id="tabRegister" class="grid md:grid-cols-2 gap-4 sm:gap-6">
+      <div class="card space-y-4 sm:space-y-5">
         <div>
-          <h2 class="text-2xl font-bold text-slate-900 mb-1">Register Item</h2>
-          <p class="text-sm text-slate-500">Register lost or found items</p>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-1">Register Item</h2>
+          <p class="text-xs sm:text-sm text-slate-500">Register lost or found items</p>
         </div>
 
         <div class="grid gap-3">
@@ -312,17 +321,17 @@
 
         <div class="grid gap-2">
           <label class="text-sm font-medium text-slate-700">Auto Classification Result</label>
-          <div class="flex gap-2">
+          <div class="flex flex-col sm:flex-row gap-2">
             <input id="inCategory" class="flex-1 input-field" placeholder="Waiting for auto classification…" />
-            <button id="btnClassify" class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 whitespace-nowrap">Auto Classify</button>
+            <button id="btnClassify" class="px-3 sm:px-4 py-2 rounded-lg bg-primary-600 text-white text-sm sm:text-base font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 whitespace-nowrap">Auto Classify</button>
           </div>
         </div>
 
         <div class="grid gap-2">
           <label class="text-sm font-medium text-slate-700">Location (Address)</label>
-          <div class="flex gap-2">
+          <div class="flex flex-col sm:flex-row gap-2">
             <input id="inAddress" class="flex-1 input-field" placeholder="e.g., Sejong University, Building Name, Address" />
-            <button id="btnGeocode" class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 whitespace-nowrap">Find Address</button>
+            <button id="btnGeocode" class="px-3 sm:px-4 py-2 rounded-lg bg-primary-600 text-white text-sm sm:text-base font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 whitespace-nowrap">Find Address</button>
           </div>
           <div class="text-xs text-slate-500">Or <b>click on the map</b> to set location</div>
           <div class="grid grid-cols-2 gap-2">
@@ -331,9 +340,9 @@
           </div>
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2">
           <label class="text-sm font-medium text-slate-700">Accuracy Radius (meters)</label>
-          <input id="inRadius" type="number" min="0" value="50" class="w-32 input-field" />
+          <input id="inRadius" type="number" min="0" value="50" class="w-full sm:w-32 input-field" />
         </div>
 
         <!-- New: Storage place on registration -->
@@ -343,28 +352,28 @@
                  placeholder="e.g., Student Affairs Office, 1st Floor, Locker A-3" />
         </div>
 
-        <div class="flex gap-3 pt-2">
-          <button id="btnSubmit" class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 flex-1">Submit Request</button>
-          <button id="btnResetForm" class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200">Reset</button>
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2">
+          <button id="btnSubmit" class="px-4 py-2 rounded-lg bg-primary-600 text-white text-sm sm:text-base font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 flex-1">Submit Request</button>
+          <button id="btnResetForm" class="px-4 py-2 rounded-lg bg-primary-600 text-white text-sm sm:text-base font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200">Reset</button>
         </div>
 
         <p id="guardNotice" class="text-xs text-rose-600 hidden">※ Please login to register.</p>
       </div>
 
       <div class="card">
-        <h3 class="text-lg font-semibold mb-3 text-slate-900">Verify Location on Map</h3>
+        <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-slate-900">Verify Location on Map</h3>
         <div id="mapRegister" class="rounded-xl overflow-hidden border border-slate-200"></div>
-        <p class="mt-3 text-xs text-slate-500">Click <b>Find Address</b> after entering address, or click on the map to set coordinates.</p>
+        <p class="mt-2 sm:mt-3 text-xs text-slate-500">Click <b>Find Address</b> after entering address, or click on the map to set coordinates.</p>
       </div>
     </section>
 
     <!-- Search/Map -->
     <section id="tabBrowse" class="hidden">
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="md:col-span-1 card space-y-4">
+      <div class="grid md:grid-cols-3 gap-4 sm:gap-6">
+        <div class="md:col-span-1 card space-y-3 sm:space-y-4">
           <div>
-            <h2 class="text-xl font-bold text-slate-900 mb-1">Search Items</h2>
-            <p class="text-sm text-slate-500">Search by keyword or category</p>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">Search Items</h2>
+            <p class="text-xs sm:text-sm text-slate-500">Search by keyword or category</p>
           </div>
           <input id="qText" class="input-field" placeholder="Keyword (e.g., wallet, blue, AirPods)" />
           <select id="qCategory" class="input-field">
@@ -377,19 +386,19 @@
             <input id="qOnlyApproved" type="checkbox" checked class="w-4 h-4 text-primary-600 rounded focus:ring-primary-500">
             <label for="qOnlyApproved" class="text-slate-700">Approved items only</label>
           </div>
-          <button id="btnSearch" class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 w-full">Search</button>
+          <button id="btnSearch" class="px-4 py-2 rounded-lg bg-primary-600 text-white text-sm sm:text-base font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 w-full">Search</button>
           <div class="text-xs text-slate-500">Click an item in the list to focus map & open drawer.</div>
           <hr class="my-2 border-slate-200" />
-          <div class="flex gap-2">
-            <button id="btnExport" class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 flex-1 text-sm">Export JSON</button>
-            <label class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 flex-1 text-sm text-center cursor-pointer">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button id="btnExport" class="px-3 sm:px-4 py-2 rounded-lg bg-primary-600 text-white text-xs sm:text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 flex-1">Export JSON</button>
+            <label class="px-3 sm:px-4 py-2 rounded-lg bg-primary-600 text-white text-xs sm:text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 flex-1 text-center cursor-pointer">
               Import JSON<input id="inImport" type="file" accept="application/json" class="hidden" />
             </label>
           </div>
         </div>
 
         <div class="md:col-span-2 card relative">
-          <h3 class="text-lg font-semibold mb-3 text-slate-900">Map & List</h3>
+          <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-slate-900">Map & List</h3>
           <div id="mapBrowse" class="rounded-xl overflow-hidden border border-slate-200"></div>
           <ul id="listResults" class="mt-4 divide-y divide-slate-200"></ul>
         </div>
@@ -434,23 +443,23 @@
     <!-- Admin -->
     <section id="tabAdmin" class="hidden">
       <div class="card">
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2 mb-4 sm:mb-6">
           <div>
-            <h2 class="text-2xl font-bold text-slate-900 mb-1">Admin Approval</h2>
-            <p class="text-sm text-slate-500">Review and approve item registration requests</p>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-1">Admin Approval</h2>
+            <p class="text-xs sm:text-sm text-slate-500">Review and approve item registration requests</p>
           </div>
-          <div class="flex gap-2 items-center text-sm">
+          <div class="flex flex-col sm:flex-row gap-2 items-start sm:items-center text-xs sm:text-sm">
             <span class="text-slate-600">Admin login required</span>
-            <span id="adminStatus" class="text-xs px-2 py-1 rounded-lg bg-slate-100 text-slate-600 ml-1">No permission</span>
+            <span id="adminStatus" class="text-xs px-2 py-1 rounded-lg bg-slate-100 text-slate-600">No permission</span>
           </div>
         </div>
-        <div class="grid md:grid-cols-2 gap-6">
+        <div class="grid md:grid-cols-2 gap-4 sm:gap-6">
           <div>
-            <h3 class="font-semibold mb-3 text-slate-900 text-lg">Pending (Unapproved)</h3>
+            <h3 class="font-semibold mb-2 sm:mb-3 text-slate-900 text-base sm:text-lg">Pending (Unapproved)</h3>
             <ul id="pendingList" class="divide-y divide-slate-200"></ul>
           </div>
           <div>
-            <h3 class="font-semibold mb-3 text-slate-900 text-lg">Approved</h3>
+            <h3 class="font-semibold mb-2 sm:mb-3 text-slate-900 text-base sm:text-lg">Approved</h3>
             <ul id="approvedList" class="divide-y divide-slate-200"></ul>
           </div>
         </div>
@@ -459,20 +468,20 @@
 
     <!-- Global Chat -->
     <section id="tabChat" class="hidden">
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="md:col-span-1 card space-y-4">
+      <div class="grid md:grid-cols-3 gap-4 sm:gap-6">
+        <div class="md:col-span-1 card space-y-3 sm:space-y-4">
           <div>
-            <h2 class="text-xl font-bold text-slate-900 mb-1">Student/Admin Chat</h2>
-            <p class="text-sm text-slate-500">Communicate with all users in real-time</p>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-1">Student/Admin Chat</h2>
+            <p class="text-xs sm:text-sm text-slate-500">Communicate with all users in real-time</p>
           </div>
-          <input id="chatNick" class="input-field" placeholder="Nickname (anonymous if empty)" />
-          <textarea id="chatMsg" rows="3" class="input-field" placeholder="Message"></textarea>
-          <button id="btnSend" class="px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 w-full">Send (Enter)</button>
+          <input id="chatNick" class="input-field text-sm" placeholder="Nickname (anonymous if empty)" />
+          <textarea id="chatMsg" rows="3" class="input-field text-sm" placeholder="Message"></textarea>
+          <button id="btnSend" class="px-4 py-2 rounded-lg bg-primary-600 text-white text-sm sm:text-base font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 w-full">Send (Enter)</button>
           <div class="text-xs"><span id="chatConn" class="px-2 py-1 rounded-lg bg-slate-100 text-slate-600">Connecting...</span></div>
         </div>
         <div class="md:col-span-2 card">
-          <h3 class="text-lg font-semibold mb-3 text-slate-900">Chat Log</h3>
-          <div id="chatLog" class="h-[60vh] overflow-auto space-y-2 border border-slate-200 rounded-xl p-4 bg-slate-50"></div>
+          <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-slate-900">Chat Log</h3>
+          <div id="chatLog" class="h-[50vh] sm:h-[60vh] overflow-auto space-y-2 border border-slate-200 rounded-xl p-3 sm:p-4 bg-slate-50"></div>
         </div>
       </div>
     </section>
@@ -923,27 +932,29 @@
 
     const mkRow=(it, pendingMode)=>{
       const li=document.createElement('li');
-      li.className='py-3 flex flex-col gap-2';
+      li.className='py-2 sm:py-3 flex flex-col gap-2';
       li.innerHTML=`
-        <div class="flex gap-3 items-center">
-          <img src="${it.imgData||''}" class="w-14 h-14 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'}" alt="">
-          <div class="flex-1 min-w-0">
-            <div class="font-medium u-ellipsis">${it.title} <span class="text-xs text-slate-500">(${it.cat})</span></div>
-            <div class="text-xs text-slate-500 u-ellipsis">${it.desc||''}</div>
-            <div class="text-[10px] text-slate-400">#${it.id} • ${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:items-center">
+          <div class="flex gap-2 sm:gap-3 items-center flex-1 min-w-0">
+            <img src="${it.imgData||''}" class="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-lg bg-slate-100 ${it.imgData?'':'hidden'} flex-shrink-0" alt="">
+            <div class="flex-1 min-w-0">
+              <div class="font-medium text-sm sm:text-base u-ellipsis">${it.title} <span class="text-xs text-slate-500">(${it.cat})</span></div>
+              <div class="text-xs text-slate-500 u-ellipsis">${it.desc||''}</div>
+              <div class="text-[10px] text-slate-400">#${it.id} • ${it.status} • ${new Date(it.created_at).toLocaleString()}</div>
+            </div>
           </div>
           ${pendingMode ? `
-            <div class="flex gap-2 ${admin?'':'hidden'} need-admin">
-              <button data-action='approve' data-id='${it.id}' class='px-3 py-1.5 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200'>Approve</button>
-              <button data-action='reject'  data-id='${it.id}' class='px-3 py-1.5 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200'>Delete</button>
+            <div class="flex gap-2 ${admin?'':'hidden'} need-admin flex-shrink-0">
+              <button data-action='approve' data-id='${it.id}' class='px-2 sm:px-3 py-1.5 rounded-lg bg-primary-600 text-white text-xs sm:text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 whitespace-nowrap'>Approve</button>
+              <button data-action='reject'  data-id='${it.id}' class='px-2 sm:px-3 py-1.5 rounded-lg bg-primary-600 text-white text-xs sm:text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 whitespace-nowrap'>Delete</button>
             </div>` : ''}
         </div>
-        <div class="flex items-center gap-2 text-sm">
-          <div class="text-slate-700 font-medium">Storage Place:</div>
-          <div class="flex-1">
-            <input class="w-full input-field text-sm py-1.5 admin-storage" data-id='${it.id}' value='${it.storagePlace||''}' placeholder="e.g., Student Affairs Office, 1st Floor, Locker A-3" ${admin?'':'disabled'}/>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-xs sm:text-sm">
+          <div class="text-slate-700 font-medium whitespace-nowrap">Storage Place:</div>
+          <div class="flex-1 min-w-0">
+            <input class="w-full input-field text-xs sm:text-sm py-1.5 admin-storage" data-id='${it.id}' value='${it.storagePlace||''}' placeholder="e.g., Student Affairs Office, 1st Floor, Locker A-3" ${admin?'':'disabled'}/>
           </div>
-          <button class="px-3 py-1.5 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 btn-storage-save ${admin?'':'hidden'} need-admin" data-id='${it.id}'>Save</button>
+          <button class="px-3 py-1.5 rounded-lg bg-primary-600 text-white text-xs sm:text-sm font-medium hover:bg-primary-700 shadow-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200 btn-storage-save ${admin?'':'hidden'} need-admin whitespace-nowrap flex-shrink-0" data-id='${it.id}'>Save</button>
         </div>`;
       return li;
     };
