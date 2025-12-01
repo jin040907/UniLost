@@ -503,7 +503,7 @@
         </div>
         <div class="md:col-span-2 card w-full max-w-full">
           <h3 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-slate-900 break-words">Chat Log</h3>
-          <div id="chatLog" class="h-[50vh] sm:h-[60vh] overflow-auto space-y-2 border border-slate-200 rounded-xl p-3 sm:p-4 bg-slate-50 w-full"></div>
+          <div id="chatLog" class="h-[50vh] sm:h-[60vh] overflow-auto space-y-2 border border-slate-200 rounded-xl p-3 sm:p-4 bg-slate-50 w-full flex flex-col-reverse"></div>
         </div>
       </div>
     </section>
@@ -1054,7 +1054,7 @@
     else if(state==='reconnecting'){ el.textContent='Reconnecting…'; el.className='inline-block text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-700'; }
     else { el.textContent='Connecting...'; el.className='inline-block text-xs px-2 py-0.5 rounded bg-slate-200'; }
   }
-  function appendChatRow({nick,text,ts}){ const wrap=$('chatLog'); if(!wrap) return; const row=document.createElement('div'); row.className='border rounded-xl px-3 py-2'; row.innerHTML=`<div class='text-sm font-medium'>${nick||'Anonymous'}</div><div class='text-sm whitespace-pre-wrap'>${(text||'').slice(0,2000)}</div><div class='text-[10px] text-slate-500 mt-1'>${new Date(ts).toLocaleString()}</div>`; wrap.appendChild(row); wrap.scrollTop=wrap.scrollHeight; }
+  function appendChatRow({nick,text,ts}){ const wrap=$('chatLog'); if(!wrap) return; const row=document.createElement('div'); row.className='border rounded-xl px-3 py-2'; row.innerHTML=`<div class='text-sm font-medium'>${nick||'Anonymous'}</div><div class='text-sm whitespace-pre-wrap'>${(text||'').slice(0,2000)}</div><div class='text-[10px] text-slate-500 mt-1'>${new Date(ts).toLocaleString()}</div>`; wrap.insertBefore(row, wrap.firstChild); wrap.scrollTop=0; }
   function appendThreadRow({nick,text,ts}){ const wrap=$('threadLog'); if(!wrap) return; const row=document.createElement('div'); row.className='border rounded-xl px-3 py-2'; row.innerHTML=`<div class='text-sm font-medium'>${nick||'Anonymous'}</div><div class='text-sm whitespace-pre-wrap'>${(text||'').slice(0,2000)}</div><div class='text-[10px] text-slate-500 mt-1'>${new Date(ts).toLocaleString()}</div>`; wrap.appendChild(row); wrap.scrollTop=wrap.scrollHeight; }
   function initChat(){
     if (window.io===undefined){ socketScript.onload = initChat; return; }
@@ -1064,7 +1064,7 @@
     socket.on('connect', ()=>{ setConnBadge('connected'); setThreadConnBadge('connected'); socket.emit('chat:join', { nick: $('chatNick')?.value?.trim()|| (ME?.name||'Anonymous') }); });
     socket.io.on('reconnect_attempt', ()=>{ setConnBadge('reconnecting'); setThreadConnBadge('reconnecting'); });
     socket.on('disconnect', ()=>{ setConnBadge('disconnected'); setThreadConnBadge('disconnected'); });
-    socket.on('chat:history', (msgs=[])=>{ const wrap=$('chatLog'); if(wrap){ wrap.innerHTML=''; msgs.forEach(appendChatRow); } });
+    socket.on('chat:history', (msgs=[])=>{ const wrap=$('chatLog'); if(wrap){ wrap.innerHTML=''; msgs.reverse().forEach(appendChatRow); wrap.scrollTop=0; } });
     socket.on('chat:new', (msg)=> appendChatRow(msg));
     socket.on('thread:history', ({itemId, msgs=[]})=>{ 
       if(itemId!==currentThreadId) return; 
