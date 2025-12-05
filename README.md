@@ -84,11 +84,20 @@ Once the server is running, you can access it at `http://localhost:3000`.
 
 ```
 .
+├── .github/                      # GitHub configuration
+│   ├── ISSUE_TEMPLATE/          # Issue templates
+│   │   ├── bug_report.md
+│   │   └── feature_request.md
+│   └── workflows/               # GitHub Actions workflows
+│       └── pages.yml            # GitHub Pages deployment
+│
 ├── app/                          # Application source code
 │   ├── server.js                 # Express server main file
 │   ├── db.js                     # PostgreSQL/SQLite database module
 │   ├── unilost.html              # Frontend HTML file (main application)
 │   └── unilost.db                # SQLite database file (local development)
+│
+├── assets/                       # Project assets (images, etc.)
 │
 ├── scripts/                      # Utility scripts
 │   ├── add-dummy-data.js         # Add sample data to database
@@ -99,7 +108,10 @@ Once the server is running, you can access it at `http://localhost:3000`.
 │
 ├── docs/                         # Documentation (Sphinx)
 │   ├── source/                   # Sphinx source files (.rst)
-│   └── build/                    # Sphinx build output (gitignored)
+│   ├── build/                    # Sphinx build output (gitignored)
+│   ├── Makefile                  # Sphinx build commands (Unix)
+│   ├── make.bat                  # Sphinx build commands (Windows)
+│   └── requirements.txt          # Python dependencies for Sphinx
 │
 ├── website/                      # Jekyll Website (GitHub Pages)
 │   ├── _config.yml               # Jekyll configuration
@@ -109,8 +121,15 @@ Once the server is running, you can access it at `http://localhost:3000`.
 │   ├── community.md              # Community page
 │   ├── contact.md                # Contact page
 │   ├── _layouts/                 # Jekyll layouts
+│   │   └── default.html
 │   ├── _includes/                # Jekyll includes
+│   │   ├── header.html
+│   │   └── footer.html
 │   └── assets/                   # CSS and JavaScript assets
+│       ├── css/
+│       │   └── main.css
+│       └── js/
+│           └── main.js
 │
 ├── guidelines/                   # Project guidelines and documentation
 │   ├── APACHE_LICENSE_COMPLIANCE.md
@@ -123,13 +142,17 @@ Once the server is running, you can access it at `http://localhost:3000`.
 │
 ├── server.js                     # Entry point (runs app/server.js)
 ├── package.json                  # Node.js dependencies
+├── package-lock.json             # NPM lock file
 ├── render.yaml                   # Render deployment configuration
+├── _config.yml                   # Jekyll configuration (root, for reference)
+├── .readthedocs.yaml             # Read the Docs configuration
+├── .gitignore                    # Git ignore rules
 ├── LICENSE                       # Apache License 2.0
 ├── README.md                     # Project documentation
+├── SECURITY.md                   # Security policy
 ├── CODE_OF_CONDUCT.md            # Code of conduct
 ├── CONTRIBUTING.md               # Contribution guidelines
-├── PRESENTATION_OUTLINE.md       # Presentation guide
-└── .gitignore                    # Git ignore rules
+└── PRESENTATION_OUTLINE.md       # Presentation guide
 ```
 
 ## API Endpoints
