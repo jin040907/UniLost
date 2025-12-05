@@ -123,12 +123,13 @@
 
 ### 슬라이드 본문 내용 (영어)
 
-- **Jihyang Ha** - Project Management & Technical Leadership (Architecture design, final decisions, deployment strategy)
-- **Jin Choi** - Full-stack Development (Backend API, real-time chat system, map-based features, database design, testing)
-- **Myeongju Jeong** - Documentation & Project Management (README, Sphinx docs, Jekyll website, Git workflow, contribution guidelines)
-- **Seoeun Bae** - UI/UX Design & Branding (Logo design, responsive interface, user experience optimization, project identity)
+- **Jihyang Ha** - Project Management & Final Decisions
+- **Jin Choi** - Full-stack Development
+- **Myeongju Jeong** - Documentation & Project Management
+- **Seoeun Bae** - UI/UX Design & Branding
 
 **Collaborative Approach:**
+
 - Agile development methodology
 - Regular code reviews and pair programming
 - Open-source contribution workflow
@@ -467,23 +468,27 @@
 ### 슬라이드 본문 내용 (영어)
 
 **Technical Skills:**
+
 - Full-stack development (Node.js, Express.js, PostgreSQL/SQLite)
 - Real-time communication (Socket.IO)
 - Map integration (Leaflet.js, OpenStreetMap)
 - RESTful API design
 
 **Open Source Practices:**
+
 - Collaborative development and code review
 - Comprehensive documentation (Sphinx, Jekyll)
 - Community engagement and contribution guidelines
 - Deployment and CI/CD
 
 **Project Management:**
+
 - Agile development and team collaboration
 - User-centered design approach
 - Problem-solving and iterative improvement
 
 **Lessons Learned:**
+
 - Importance of clear documentation
 - Value of community feedback
 - Benefits of open-source collaboration
