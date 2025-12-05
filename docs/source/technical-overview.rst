@@ -76,7 +76,7 @@ The main server file handles:
 * **Session Management**: Express-session middleware for user authentication
 * **REST API**: Endpoints for authentication, item management, and data retrieval
 * **Socket.IO Server**: Real-time communication for chat and item threads
-* **Error Handling**: Global error handlers for uncaught exceptions
+* **Error Handling**: Structured error handling system with custom error classes and environment-aware logging
 
 Database Module (db.js)
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -87,6 +87,17 @@ The database module provides:
 * **Database Abstraction**: Unified interface for database operations
 * **Table Initialization**: Automatic schema creation and default data
 * **Query Functions**: CRUD operations for users, items, chat, and threads
+* **Error Handling**: Comprehensive error handling with proper error types and logging
+
+Error Handling Module (utils/errorHandler.js)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The error handling module provides:
+
+* **Custom Error Classes**: DatabaseError, ValidationError, AuthenticationError, AuthorizationError, NotFoundError
+* **Structured Logging**: Environment-aware logging (detailed in development, structured in production)
+* **Error Normalization**: Automatic conversion of unknown errors to appropriate error types
+* **HTTP Response Handling**: Proper status codes and safe error messages for clients
 
 Frontend (unilost.html)
 ~~~~~~~~~~~~~~~~~~~~~~~

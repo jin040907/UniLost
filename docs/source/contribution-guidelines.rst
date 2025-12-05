@@ -183,12 +183,33 @@ Development Setup
 Testing
 -------
 
-Before submitting:
+UniLost includes comprehensive unit and integration tests. Before submitting:
+
+**Run the test suite:**
+.. code-block:: bash
+
+   # Run all tests
+   npm test
+
+   # Run tests in watch mode
+   npm run test:watch
+
+   # Run tests with coverage
+   npm run test:coverage
+
+   # Run only unit tests
+   npm run test:unit
+
+   # Run only integration tests
+   npm run test:integration
+
+**Manual Testing Checklist:**
 
 * Test with both SQLite and PostgreSQL
 * Test with different user roles (student, admin)
 * Test error cases and edge cases
 * Test on different browsers (if UI changes)
+* Ensure all tests pass before submitting
 
 Areas for Contribution
 ----------------------

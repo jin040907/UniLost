@@ -143,6 +143,38 @@ To verify the installation:
 3. **Test Login**: Log in with one of the default accounts
 4. **Check Database**: Verify that the database tables are created
 
+Running Tests
+-------------
+
+UniLost includes comprehensive unit and integration tests. To run the test suite:
+
+**Run all tests:**
+.. code-block:: bash
+
+   npm test
+
+**Run tests in watch mode:**
+.. code-block:: bash
+
+   npm run test:watch
+
+**Run tests with coverage report:**
+.. code-block:: bash
+
+   npm run test:coverage
+
+**Run only unit tests:**
+.. code-block:: bash
+
+   npm run test:unit
+
+**Run only integration tests:**
+.. code-block:: bash
+
+   npm run test:integration
+
+Tests are automatically run on every push and pull request via GitHub Actions CI/CD pipeline.
+
 Troubleshooting
 ---------------
 

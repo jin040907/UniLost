@@ -27,6 +27,16 @@ const http = require('http');
 const { Server } = require('socket.io');
 const bcrypt = require('bcrypt');
 const { userDB, itemDB, chatDB, threadDB, usePostgres } = require('./db');
+const {
+  DatabaseError,
+  ValidationError,
+  AuthenticationError,
+  AuthorizationError,
+  NotFoundError,
+  handleError,
+  normalizeError,
+  logError
+} = require('./utils/errorHandler');
 
 const app = express();
 const server = http.createServer(app);
@@ -71,13 +81,19 @@ app.get('/api/me', (req, res) => {
 app.post('/api/login', async (req, res) => {
   try {
     const { id, pw } = req.body || {};
-    if (!id || !pw) return res.status(400).json({ error: 'ID and password required' });
+    if (!id || !pw) {
+      throw new ValidationError('ID and password are required');
+    }
     
     const user = await userDB.findById(id);
-    if (!user) return res.status(400).json({ error: 'User not found' });
+    if (!user) {
+      throw new AuthenticationError('Invalid credentials');
+    }
     
     const ok = bcrypt.compareSync(pw, user.pw_hash);
-    if (!ok) return res.status(401).json({ error: 'Invalid password' });
+    if (!ok) {
+      throw new AuthenticationError('Invalid credentials');
+    }
 
     req.session.user = { 
       id: user.id, 
@@ -86,13 +102,23 @@ app.post('/api/login', async (req, res) => {
     };
     res.json({ ok: true, user: req.session.user });
   } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ error: 'Login failed' });
+    const normalizedError = normalizeError(err, 'Login');
+    handleError(normalizedError, res, 'Login', { userId: req.body?.id });
   }
 });
 
 app.post('/api/logout', (req, res) => {
-  req.session.destroy(() => res.json({ ok: true }));
+  try {
+    req.session.destroy((err) => {
+      if (err) {
+        logError(err, 'Logout', { sessionId: req.sessionID });
+        return res.status(500).json({ error: 'Failed to logout' });
+      }
+      res.json({ ok: true });
+    });
+  } catch (err) {
+    handleError(normalizeError(err, 'Logout'), res, 'Logout');
+  }
 });
 
 // --- Lost Item API ---
@@ -122,15 +148,22 @@ app.get('/api/items', async (req, res) => {
     }));
     res.json(formatted);
   } catch (err) {
-    console.error('Item fetch error:', err);
-    res.status(500).json({ error: 'Failed to fetch items' });
+    const normalizedError = normalizeError(err, 'Fetch Items');
+    handleError(normalizedError, res, 'GET /api/items', { status: req.query.status });
   }
 });
 
 app.get('/api/items/:id', async (req, res) => {
   try {
-    const item = await itemDB.findById(parseInt(req.params.id));
-    if (!item) return res.status(404).json({ error: 'Item not found' });
+    const itemId = parseInt(req.params.id);
+    if (isNaN(itemId)) {
+      throw new ValidationError('Invalid item ID', 'id');
+    }
+
+    const item = await itemDB.findById(itemId);
+    if (!item) {
+      throw new NotFoundError('Item');
+    }
     
     const formatted = {
       id: item.id,
@@ -148,20 +181,27 @@ app.get('/api/items/:id', async (req, res) => {
     };
     res.json(formatted);
   } catch (err) {
-    console.error('Item fetch error:', err);
-    res.status(500).json({ error: 'Failed to fetch item' });
+    const normalizedError = normalizeError(err, 'Fetch Item');
+    handleError(normalizedError, res, 'GET /api/items/:id', { itemId: req.params.id });
   }
 });
 
 app.post('/api/items', async (req, res) => {
   try {
     if (!req.session.user) {
-      return res.status(401).json({ error: 'Login required' });
+      throw new AuthenticationError('Login required');
     }
     
     const { title, desc, cat, imgData, lat, lng, radius, storagePlace } = req.body;
-    if (!title || !lat || !lng) {
-      return res.status(400).json({ error: 'Required fields missing' });
+    if (!title || lat === undefined || lng === undefined) {
+      throw new ValidationError('Title, latitude, and longitude are required');
+    }
+
+    // Validate numeric values
+    const parsedLat = parseFloat(lat);
+    const parsedLng = parseFloat(lng);
+    if (isNaN(parsedLat) || isNaN(parsedLng)) {
+      throw new ValidationError('Latitude and longitude must be valid numbers');
     }
 
     const item = await itemDB.create({
@@ -169,8 +209,8 @@ app.post('/api/items', async (req, res) => {
       description: desc,
       category: cat,
       imgData,
-      lat: parseFloat(lat),
-      lng: parseFloat(lng),
+      lat: parsedLat,
+      lng: parsedLng,
       radius: radius ? parseFloat(radius) : 0,
       status: 'pending',
       storagePlace,
@@ -192,33 +232,42 @@ app.post('/api/items', async (req, res) => {
       createdBy: item.createdBy
     };
 
-    res.json(formatted);
+    res.status(201).json(formatted);
   } catch (err) {
-    console.error('Item creation error:', err);
-    res.status(500).json({ error: 'Failed to create item' });
+    const normalizedError = normalizeError(err, 'Create Item');
+    handleError(normalizedError, res, 'POST /api/items', { 
+      userId: req.session?.user?.id,
+      hasTitle: !!req.body?.title 
+    });
   }
 });
 
 app.patch('/api/items/:id', async (req, res) => {
   try {
     if (!req.session.user || !req.session.user.isAdmin) {
-      return res.status(403).json({ error: 'Admin privileges required' });
+      throw new AuthorizationError('Admin privileges required');
     }
 
     const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      throw new ValidationError('Invalid item ID', 'id');
+    }
+
     const updates = {};
     
     if (req.body.status !== undefined) updates.status = req.body.status;
     if (req.body.storagePlace !== undefined) updates.storagePlace = req.body.storagePlace;
 
     if (Object.keys(updates).length === 0) {
-      return res.status(400).json({ error: 'No fields to update' });
+      throw new ValidationError('No fields to update');
     }
 
     await itemDB.update(id, updates);
     const item = await itemDB.findById(id);
     
-    if (!item) return res.status(404).json({ error: 'Item not found' });
+    if (!item) {
+      throw new NotFoundError('Item');
+    }
 
     const formatted = {
       id: item.id,
@@ -237,23 +286,41 @@ app.patch('/api/items/:id', async (req, res) => {
 
     res.json(formatted);
   } catch (err) {
-    console.error('Item update error:', err);
-    res.status(500).json({ error: 'Failed to update item' });
+    const normalizedError = normalizeError(err, 'Update Item');
+    handleError(normalizedError, res, 'PATCH /api/items/:id', { 
+      itemId: req.params.id,
+      userId: req.session?.user?.id,
+      isAdmin: req.session?.user?.isAdmin 
+    });
   }
 });
 
 app.delete('/api/items/:id', async (req, res) => {
   try {
     if (!req.session.user || !req.session.user.isAdmin) {
-      return res.status(403).json({ error: 'Admin privileges required' });
+      throw new AuthorizationError('Admin privileges required');
     }
 
     const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      throw new ValidationError('Invalid item ID', 'id');
+    }
+
+    // Check if item exists before deletion
+    const item = await itemDB.findById(id);
+    if (!item) {
+      throw new NotFoundError('Item');
+    }
+
     await itemDB.delete(id);
     res.json({ ok: true });
   } catch (err) {
-    console.error('Item deletion error:', err);
-    res.status(500).json({ error: 'Failed to delete item' });
+    const normalizedError = normalizeError(err, 'Delete Item');
+    handleError(normalizedError, res, 'DELETE /api/items/:id', { 
+      itemId: req.params.id,
+      userId: req.session?.user?.id,
+      isAdmin: req.session?.user?.isAdmin 
+    });
   }
 });
 
@@ -273,8 +340,10 @@ io.on('connection', (socket) => {
       }));
       socket.emit('chat:history', formatted);
     } catch (err) {
-      console.error('Chat history load error:', err);
+      const normalizedError = normalizeError(err, 'Load Chat History');
+      logError(normalizedError, 'Socket: chat:join', { socketId: socket.id, nick });
       socket.emit('chat:history', []);
+      socket.emit('error', { message: 'Failed to load chat history' });
     }
   });
 
@@ -283,6 +352,11 @@ io.on('connection', (socket) => {
       const nick = (msg.nick || 'Anonymous').toString().slice(0, 50);
       const text = (msg.text || '').toString().slice(0, 2000);
       
+      if (!text.trim()) {
+        socket.emit('error', { message: 'Message cannot be empty' });
+        return;
+      }
+
       const saved = await chatDB.create(nick, text);
       io.emit('chat:new', {
         nick: saved.nick,
@@ -290,13 +364,18 @@ io.on('connection', (socket) => {
         ts: saved.ts
       });
     } catch (err) {
-      console.error('Chat message save error:', err);
+      const normalizedError = normalizeError(err, 'Save Chat Message');
+      logError(normalizedError, 'Socket: chat:send', { socketId: socket.id, nick: msg?.nick });
+      socket.emit('error', { message: 'Failed to send message' });
     }
   });
 
   // Item-specific thread chat
   socket.on('thread:join', async ({ itemId, nick }) => {
-    if (!itemId) return;
+    if (!itemId) {
+      socket.emit('error', { message: 'Item ID is required' });
+      return;
+    }
     const roomName = `item:${itemId}`;
     socket.join(roomName);
     debugLog(`👤 Thread joined: itemId=${itemId}, room=${roomName}, socketId=${socket.id}`);
@@ -309,8 +388,10 @@ io.on('connection', (socket) => {
       }));
       socket.emit('thread:history', { itemId, msgs: formatted });
     } catch (err) {
-      console.error('Thread history load error:', err);
+      const normalizedError = normalizeError(err, 'Load Thread History');
+      logError(normalizedError, 'Socket: thread:join', { socketId: socket.id, itemId, nick });
       socket.emit('thread:history', { itemId, msgs: [] });
+      socket.emit('error', { message: 'Failed to load thread history' });
     }
   });
 
@@ -320,11 +401,19 @@ io.on('connection', (socket) => {
   });
 
   socket.on('thread:send', async ({ itemId, nick, text, ts }) => {
-    if (!itemId || !text) return;
+    if (!itemId || !text) {
+      socket.emit('error', { message: 'Item ID and message text are required' });
+      return;
+    }
     try {
       const safeNick = (nick || 'Anonymous').toString().slice(0, 50);
       const safeText = text.toString().slice(0, 2000);
       
+      if (!safeText.trim()) {
+        socket.emit('error', { message: 'Message cannot be empty' });
+        return;
+      }
+
       const saved = await threadDB.create(itemId, safeNick, safeText);
       const roomName = `item:${itemId}`;
       const message = { 
@@ -340,7 +429,9 @@ io.on('connection', (socket) => {
       io.to(roomName).emit('thread:new', message);
       debugLog(`📨 Thread message sent: itemId=${itemId}, room=${roomName}, nick=${safeNick}`);
     } catch (err) {
-      console.error('Thread message save error:', err);
+      const normalizedError = normalizeError(err, 'Save Thread Message');
+      logError(normalizedError, 'Socket: thread:send', { socketId: socket.id, itemId, nick });
+      socket.emit('error', { message: 'Failed to send thread message' });
     }
   });
 });
@@ -351,21 +442,35 @@ const HOST = '0.0.0.0'; // Accessible from all network interfaces
 
 // Error handling
 server.on('error', (err) => {
-  console.error('❌ Server error:', err);
+  logError(err, 'Server', { port: PORT, code: err.code });
   if (err.code === 'EADDRINUSE') {
-    console.error(`Port ${PORT} is already in use.`);
+    console.error(`Port ${PORT} is already in use. Please use a different port.`);
   }
   process.exit(1);
 });
 
 process.on('uncaughtException', (err) => {
-  console.error('❌ Uncaught exception:', err);
-  process.exit(1);
+  logError(err, 'Uncaught Exception', { 
+    name: err.name,
+    message: err.message,
+    stack: err.stack 
+  });
+  // Give time for error to be logged before exit
+  setTimeout(() => {
+    process.exit(1);
+  }, 100);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('❌ Unhandled promise rejection:', reason);
-  process.exit(1);
+  const error = reason instanceof Error ? reason : new Error(String(reason));
+  logError(error, 'Unhandled Promise Rejection', { 
+    promise: promise.toString(),
+    reason: String(reason)
+  });
+  // In production, we might want to continue running, but for now exit
+  setTimeout(() => {
+    process.exit(1);
+  }, 100);
 });
 
 server.listen(PORT, HOST, () => {

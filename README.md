@@ -120,13 +120,16 @@ Tests are automatically run on every push and pull request via GitHub Actions CI
 │   │   ├── bug_report.md
 │   │   └── feature_request.md
 │   └── workflows/               # GitHub Actions workflows
-│       └── pages.yml            # GitHub Pages deployment
+│       ├── pages.yml            # GitHub Pages deployment
+│       └── test.yml             # Test automation (CI/CD)
 │
 ├── app/                          # Application source code
 │   ├── server.js                 # Express server main file
 │   ├── db.js                     # PostgreSQL/SQLite database module
 │   ├── unilost.html              # Frontend HTML file (main application)
-│   └── unilost.db                # SQLite database file (local development)
+│   ├── unilost.db                # SQLite database file (local development)
+│   └── utils/                    # Utility modules
+│       └── errorHandler.js       # Error handling utilities
 │
 ├── assets/                       # Project assets (images, etc.)
 │
@@ -170,6 +173,13 @@ Tests are automatically run on every push and pull request via GitHub Actions CI
 │   ├── DEPLOY.md
 │   ├── PROJECT_STRUCTURE.md
 │   └── UniLost_Deliverable.docx
+│
+├── tests/                        # Test suite
+│   ├── unit/                     # Unit tests
+│   │   └── db.test.js           # Database module tests
+│   ├── integration/              # Integration tests
+│   │   └── api.test.js          # API endpoint tests
+│   └── README.md                 # Test documentation
 │
 ├── server.js                     # Entry point (runs app/server.js)
 ├── package.json                  # Node.js dependencies

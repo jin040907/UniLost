@@ -11,8 +11,20 @@
     "test:integration": "jest tests/integration",
     "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "lost-and-found",
+    "campus",
+    "university",
+    "map-based",
+    "real-time-chat",
+    "express",
+    "nodejs",
+    "postgresql",
+    "sqlite",
+    "socket.io",
+    "leaflet"
+  ],
+  "author": "Sejong University Open Source Software Introduction Project",
   "license": "Apache-2.0",
   "engines": {
     "node": ">=18.0.0",

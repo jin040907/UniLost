@@ -17,6 +17,7 @@
 // db.js - PostgreSQL database module
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
+const { DatabaseError, logError, normalizeError } = require('./utils/errorHandler');
 
 // Database connection configuration
 // Use DATABASE_URL environment variable if available, otherwise fallback to SQLite for local development
@@ -35,7 +36,11 @@ if (usePostgres) {
   });
 
   pool.on('error', (err) => {
-    console.error('❌ PostgreSQL connection pool error:', err);
+    const dbError = new DatabaseError('PostgreSQL connection pool error', err);
+    logError(dbError, 'Database Connection Pool', {
+      code: err.code,
+      message: err.message
+    });
   });
 } else {
   // SQLite for local development (optional)
@@ -46,15 +51,23 @@ if (usePostgres) {
     const dbPath = path.join(__dirname, 'unilost.db');
     db = new Database(dbPath);
   } catch (err) {
-    console.error('❌ SQLite connection failed:', err);
-    throw new Error('DATABASE_URL environment variable must be set or SQLite must be available.');
+    const dbError = new DatabaseError(
+      'SQLite connection failed. DATABASE_URL environment variable must be set or SQLite must be available.',
+      err
+    );
+    logError(dbError, 'SQLite Connection', {
+      code: err.code,
+      message: err.message
+    });
+    throw dbError;
   }
 }
 
 // Database initialization (PostgreSQL)
 async function initDBPostgres() {
-  const client = await pool.connect();
+  let client;
   try {
+    client = await pool.connect();
     // Users table
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
@@ -132,15 +145,26 @@ async function initDBPostgres() {
       }
       // Default users created
     }
+  } catch (err) {
+    const dbError = new DatabaseError('PostgreSQL database initialization failed', err);
+    logError(dbError, 'Database Initialization (PostgreSQL)', {
+      code: err.code,
+      constraint: err.constraint,
+      detail: err.detail
+    });
+    throw dbError;
   } finally {
-    client.release();
+    if (client) {
+      client.release();
+    }
   }
 }
 
 // Database initialization (SQLite - for local development)
 function initDBSQLite() {
-  // Users table
-  db.exec(`
+  try {
+    // Users table
+    db.exec(`
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
@@ -212,60 +236,117 @@ function initDBSQLite() {
       insertUser.run(`admin${i}`, `Admin ${i}`, bcrypt.hashSync('admin123', 10), 1);
     }
   }
+  } catch (err) {
+    const dbError = new DatabaseError('SQLite database initialization failed', err);
+    logError(dbError, 'Database Initialization (SQLite)', {
+      code: err.code,
+      message: err.message
+    });
+    throw dbError;
+  }
 }
 
 // User-related functions (PostgreSQL)
 const userDBPostgres = {
   findById: async (id) => {
-    const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
-    return result.rows[0] || null;
+    try {
+      const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+      return result.rows[0] || null;
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find user by ID', err);
+      logError(dbError, 'UserDB.findById (PostgreSQL)', { userId: id });
+      throw dbError;
+    }
   },
   findAll: async () => {
-    const result = await pool.query('SELECT id, name, is_admin FROM users');
-    return result.rows;
+    try {
+      const result = await pool.query('SELECT id, name, is_admin FROM users');
+      return result.rows;
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find all users', err);
+      logError(dbError, 'UserDB.findAll (PostgreSQL)');
+      throw dbError;
+    }
   },
   create: async (id, name, pwHash, isAdmin = false) => {
-    const result = await pool.query(
-      'INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4) RETURNING *',
-      [id, name, pwHash, isAdmin]
-    );
-    return result.rows[0];
+    try {
+      const result = await pool.query(
+        'INSERT INTO users (id, name, pw_hash, is_admin) VALUES ($1, $2, $3, $4) RETURNING *',
+        [id, name, pwHash, isAdmin]
+      );
+      return result.rows[0];
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to create user', err);
+      logError(dbError, 'UserDB.create (PostgreSQL)', { userId: id, isAdmin });
+      throw dbError;
+    }
   }
 };
 
 // User-related functions (SQLite)
 const userDBSQLite = {
   findById: (id) => {
-    const result = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
-    return result || null;
+    try {
+      const result = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+      return result || null;
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find user by ID', err);
+      logError(dbError, 'UserDB.findById (SQLite)', { userId: id });
+      throw dbError;
+    }
   },
   findAll: () => {
-    return db.prepare('SELECT id, name, is_admin FROM users').all();
+    try {
+      return db.prepare('SELECT id, name, is_admin FROM users').all();
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find all users', err);
+      logError(dbError, 'UserDB.findAll (SQLite)');
+      throw dbError;
+    }
   },
   create: (id, name, pwHash, isAdmin = 0) => {
-    const stmt = db.prepare('INSERT INTO users (id, name, pw_hash, is_admin) VALUES (?, ?, ?, ?)');
-    return stmt.run(id, name, pwHash, isAdmin);
+    try {
+      const stmt = db.prepare('INSERT INTO users (id, name, pw_hash, is_admin) VALUES (?, ?, ?, ?)');
+      return stmt.run(id, name, pwHash, isAdmin);
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to create user', err);
+      logError(dbError, 'UserDB.create (SQLite)', { userId: id, isAdmin });
+      throw dbError;
+    }
   }
 };
 
 // Lost item-related functions (PostgreSQL)
 const itemDBPostgres = {
   findAll: async (status = null) => {
-    if (status) {
-      const result = await pool.query(
-        'SELECT * FROM items WHERE status = $1 ORDER BY created_at DESC',
-        [status]
-      );
+    try {
+      if (status) {
+        const result = await pool.query(
+          'SELECT * FROM items WHERE status = $1 ORDER BY created_at DESC',
+          [status]
+        );
+        return result.rows;
+      }
+      const result = await pool.query('SELECT * FROM items ORDER BY created_at DESC');
       return result.rows;
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find all items', err);
+      logError(dbError, 'ItemDB.findAll (PostgreSQL)', { status });
+      throw dbError;
     }
-    const result = await pool.query('SELECT * FROM items ORDER BY created_at DESC');
-    return result.rows;
   },
   findById: async (id) => {
-    const result = await pool.query('SELECT * FROM items WHERE id = $1', [id]);
-    return result.rows[0] || null;
+    try {
+      const result = await pool.query('SELECT * FROM items WHERE id = $1', [id]);
+      return result.rows[0] || null;
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find item by ID', err);
+      logError(dbError, 'ItemDB.findById (PostgreSQL)', { itemId: id });
+      throw dbError;
+    }
   },
   create: async (data) => {
+    try {
     const result = await pool.query(`
       INSERT INTO items (title, description, category, img_data, lat, lng, radius, status, storage_place, created_by)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
@@ -297,8 +378,14 @@ const itemDBPostgres = {
       created_at: row.created_at,
       createdBy: row.created_by
     };
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to create item', err);
+      logError(dbError, 'ItemDB.create (PostgreSQL)', { title: data?.title, createdBy: data?.createdBy });
+      throw dbError;
+    }
   },
   update: async (id, data) => {
+    try {
     const fields = [];
     const values = [];
     let paramIndex = 1;
@@ -334,25 +421,49 @@ const itemDBPostgres = {
       created_at: row.created_at,
       createdBy: row.created_by
     };
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to update item', err);
+      logError(dbError, 'ItemDB.update (PostgreSQL)', { itemId: id, updates: Object.keys(data) });
+      throw dbError;
+    }
   },
   delete: async (id) => {
-    await pool.query('DELETE FROM items WHERE id = $1', [id]);
-    return { ok: true };
+    try {
+      await pool.query('DELETE FROM items WHERE id = $1', [id]);
+      return { ok: true };
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to delete item', err);
+      logError(dbError, 'ItemDB.delete (PostgreSQL)', { itemId: id });
+      throw dbError;
+    }
   }
 };
 
 // Lost item-related functions (SQLite)
 const itemDBSQLite = {
   findAll: (status = null) => {
-    if (status) {
-      return db.prepare('SELECT * FROM items WHERE status = ? ORDER BY created_at DESC').all(status);
+    try {
+      if (status) {
+        return db.prepare('SELECT * FROM items WHERE status = ? ORDER BY created_at DESC').all(status);
+      }
+      return db.prepare('SELECT * FROM items ORDER BY created_at DESC').all();
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find all items', err);
+      logError(dbError, 'ItemDB.findAll (SQLite)', { status });
+      throw dbError;
     }
-    return db.prepare('SELECT * FROM items ORDER BY created_at DESC').all();
   },
   findById: (id) => {
-    return db.prepare('SELECT * FROM items WHERE id = ?').get(id);
+    try {
+      return db.prepare('SELECT * FROM items WHERE id = ?').get(id);
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find item by ID', err);
+      logError(dbError, 'ItemDB.findById (SQLite)', { itemId: id });
+      throw dbError;
+    }
   },
   create: (data) => {
+    try {
     const stmt = db.prepare(`
       INSERT INTO items (title, description, category, img_data, lat, lng, radius, status, storage_place, created_by)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -370,8 +481,14 @@ const itemDBSQLite = {
       data.createdBy || null
     );
     return { id: result.lastInsertRowid, ...data };
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to create item', err);
+      logError(dbError, 'ItemDB.create (SQLite)', { title: data?.title, createdBy: data?.createdBy });
+      throw dbError;
+    }
   },
   update: (id, data) => {
+    try {
     const fields = [];
     const values = [];
     Object.keys(data).forEach(key => {
@@ -387,95 +504,154 @@ const itemDBSQLite = {
     values.push(id);
     const stmt = db.prepare(`UPDATE items SET ${fields.join(', ')} WHERE id = ?`);
     return stmt.run(...values);
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to update item', err);
+      logError(dbError, 'ItemDB.update (SQLite)', { itemId: id, updates: Object.keys(data) });
+      throw dbError;
+    }
   },
   delete: (id) => {
-    const stmt = db.prepare('DELETE FROM items WHERE id = ?');
-    return stmt.run(id);
+    try {
+      const stmt = db.prepare('DELETE FROM items WHERE id = ?');
+      return stmt.run(id);
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to delete item', err);
+      logError(dbError, 'ItemDB.delete (SQLite)', { itemId: id });
+      throw dbError;
+    }
   }
 };
 
 // Chat message-related functions (PostgreSQL)
 const chatDBPostgres = {
   findAll: async (limit = 200) => {
-    const result = await pool.query(
-      'SELECT * FROM chat_messages ORDER BY created_at DESC LIMIT $1',
-      [limit]
-    );
-    return result.rows; // Newest first (DESC order)
+    try {
+      const result = await pool.query(
+        'SELECT * FROM chat_messages ORDER BY created_at DESC LIMIT $1',
+        [limit]
+      );
+      return result.rows; // Newest first (DESC order)
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find all chat messages', err);
+      logError(dbError, 'ChatDB.findAll (PostgreSQL)', { limit });
+      throw dbError;
+    }
   },
   create: async (nick, text) => {
-    const result = await pool.query(
-      'INSERT INTO chat_messages (nick, text) VALUES ($1, $2) RETURNING *',
-      [nick, text]
-    );
-    const row = result.rows[0];
-    return {
-      id: row.id,
-      nick: row.nick,
-      text: row.text,
-      ts: row.created_at.toISOString()
-    };
+    try {
+      const result = await pool.query(
+        'INSERT INTO chat_messages (nick, text) VALUES ($1, $2) RETURNING *',
+        [nick, text]
+      );
+      const row = result.rows[0];
+      return {
+        id: row.id,
+        nick: row.nick,
+        text: row.text,
+        ts: row.created_at.toISOString()
+      };
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to create chat message', err);
+      logError(dbError, 'ChatDB.create (PostgreSQL)', { nick });
+      throw dbError;
+    }
   }
 };
 
 // Chat message-related functions (SQLite)
 const chatDBSQLite = {
   findAll: (limit = 200) => {
-    const messages = db.prepare('SELECT * FROM chat_messages ORDER BY created_at DESC LIMIT ?').all(limit);
-    return messages; // Newest first (DESC order)
+    try {
+      const messages = db.prepare('SELECT * FROM chat_messages ORDER BY created_at DESC LIMIT ?').all(limit);
+      return messages; // Newest first (DESC order)
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find all chat messages', err);
+      logError(dbError, 'ChatDB.findAll (SQLite)', { limit });
+      throw dbError;
+    }
   },
   create: (nick, text) => {
-    const stmt = db.prepare('INSERT INTO chat_messages (nick, text) VALUES (?, ?)');
-    const result = stmt.run(nick, text);
-    return {
-      id: result.lastInsertRowid,
-      nick,
-      text,
-      ts: new Date().toISOString()
-    };
+    try {
+      const stmt = db.prepare('INSERT INTO chat_messages (nick, text) VALUES (?, ?)');
+      const result = stmt.run(nick, text);
+      return {
+        id: result.lastInsertRowid,
+        nick,
+        text,
+        ts: new Date().toISOString()
+      };
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to create chat message', err);
+      logError(dbError, 'ChatDB.create (SQLite)', { nick });
+      throw dbError;
+    }
   }
 };
 
 // Thread message-related functions (PostgreSQL)
 const threadDBPostgres = {
   findByItemId: async (itemId, limit = 200) => {
-    const result = await pool.query(
-      'SELECT * FROM thread_messages WHERE item_id = $1 ORDER BY created_at ASC LIMIT $2',
-      [itemId, limit]
-    );
-    return result.rows;
+    try {
+      const result = await pool.query(
+        'SELECT * FROM thread_messages WHERE item_id = $1 ORDER BY created_at ASC LIMIT $2',
+        [itemId, limit]
+      );
+      return result.rows;
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find thread messages by item ID', err);
+      logError(dbError, 'ThreadDB.findByItemId (PostgreSQL)', { itemId, limit });
+      throw dbError;
+    }
   },
   create: async (itemId, nick, text) => {
-    const result = await pool.query(
-      'INSERT INTO thread_messages (item_id, nick, text) VALUES ($1, $2, $3) RETURNING *',
-      [itemId, nick, text]
-    );
-    const row = result.rows[0];
-    return {
-      id: row.id,
-      itemId: row.item_id,
-      nick: row.nick,
-      text: row.text,
-      ts: row.created_at.toISOString()
-    };
+    try {
+      const result = await pool.query(
+        'INSERT INTO thread_messages (item_id, nick, text) VALUES ($1, $2, $3) RETURNING *',
+        [itemId, nick, text]
+      );
+      const row = result.rows[0];
+      return {
+        id: row.id,
+        itemId: row.item_id,
+        nick: row.nick,
+        text: row.text,
+        ts: row.created_at.toISOString()
+      };
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to create thread message', err);
+      logError(dbError, 'ThreadDB.create (PostgreSQL)', { itemId, nick });
+      throw dbError;
+    }
   }
 };
 
 // Thread message-related functions (SQLite)
 const threadDBSQLite = {
   findByItemId: (itemId, limit = 200) => {
-    return db.prepare('SELECT * FROM thread_messages WHERE item_id = ? ORDER BY created_at ASC LIMIT ?').all(itemId, limit);
+    try {
+      return db.prepare('SELECT * FROM thread_messages WHERE item_id = ? ORDER BY created_at ASC LIMIT ?').all(itemId, limit);
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to find thread messages by item ID', err);
+      logError(dbError, 'ThreadDB.findByItemId (SQLite)', { itemId, limit });
+      throw dbError;
+    }
   },
   create: (itemId, nick, text) => {
-    const stmt = db.prepare('INSERT INTO thread_messages (item_id, nick, text) VALUES (?, ?, ?)');
-    const result = stmt.run(itemId, nick, text);
-    return {
-      id: result.lastInsertRowid,
-      itemId,
-      nick,
-      text,
-      ts: new Date().toISOString()
-    };
+    try {
+      const stmt = db.prepare('INSERT INTO thread_messages (item_id, nick, text) VALUES (?, ?, ?)');
+      const result = stmt.run(itemId, nick, text);
+      return {
+        id: result.lastInsertRowid,
+        itemId,
+        nick,
+        text,
+        ts: new Date().toISOString()
+      };
+    } catch (err) {
+      const dbError = new DatabaseError('Failed to create thread message', err);
+      logError(dbError, 'ThreadDB.create (SQLite)', { itemId, nick });
+      throw dbError;
+    }
   }
 };
 
@@ -494,8 +670,12 @@ const threadDB = usePostgres ? threadDBPostgres : threadDBSQLite;
       initDBSQLite();
     }
   } catch (err) {
-    console.error('❌ Database initialization failed:', err);
-    throw err;
+    const normalizedError = normalizeError(err, 'Database Initialization');
+    logError(normalizedError, 'Database Initialization', {
+      databaseType: usePostgres ? 'PostgreSQL' : 'SQLite',
+      hasDatabaseUrl: !!process.env.DATABASE_URL
+    });
+    throw normalizedError;
   }
 })();
 

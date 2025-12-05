@@ -462,10 +462,23 @@ All endpoints may return the following error responses:
 
 Error response format:
 
+**Production:**
 .. code-block:: json
 
    {
      "error": "Error message description"
+   }
+
+**Development (additional details):**
+.. code-block:: json
+
+   {
+     "error": "Error message description",
+     "details": {
+       "name": "ErrorType",
+       "stack": "...",
+       "field": "fieldName"  // if applicable
+     }
    }
 
 For more information, see :doc:`getting-started` and :doc:`technical-overview`.
