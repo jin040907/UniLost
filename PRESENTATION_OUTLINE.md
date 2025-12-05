@@ -125,7 +125,7 @@
 
 - **Jihyang Ha** - Project Management & Final Decisions
 - **Jin Choi** - Full-stack Development
-- **Myeongju Jeong** - Documentation & Project Management
+- **Myeongju Jeong** - Documentation & Version Management
 - **Seoeun Bae** - UI/UX Design & Branding
 
 **Collaborative Approach:**
