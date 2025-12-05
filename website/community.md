@@ -126,11 +126,11 @@ description: Join the UniLost community - discussions, support, and collaboratio
             <span>Technical support and troubleshooting</span>
           </li>
         </ul>
-        <div class="flex flex-col sm:flex-row gap-3">
-          <a href="https://groups.google.com/g/unilost" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors text-center">
+        <div class="flex flex-col gap-2">
+          <a href="https://groups.google.com/g/unilost" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors">
             Join Google Groups →
           </a>
-          <a href="mailto:unilost@googlegroups.com" class="inline-block px-6 py-3 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors text-center">
+          <a href="mailto:unilost@googlegroups.com" class="inline-block px-6 py-3 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors">
             Email: unilost@googlegroups.com
           </a>
         </div>
