@@ -120,6 +120,40 @@ description: Get in touch with the UniLost team
         Join GitHub Discussions →
       </a>
     </div>
+
+    <!-- Contact the Team -->
+    <div class="bg-white rounded-xl shadow-lg p-8 border border-slate-200">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="text-4xl">👥</div>
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900">Contact the Team</h2>
+          <p class="text-slate-600">Get in touch with our contributors</p>
+        </div>
+      </div>
+      <p class="text-slate-700 mb-6 leading-relaxed">
+        Have questions or want to collaborate? Reach out to our team members directly.
+      </p>
+      <div class="bg-primary-50 rounded-lg p-4 border border-primary-200">
+        <ul class="space-y-3 text-slate-700">
+          <li>
+            <strong>Jin Choi:</strong> 
+            <a href="mailto:23011844@sju.ac.kr" class="text-primary-600 hover:text-primary-700 underline">23011844@sju.ac.kr</a>
+          </li>
+          <li>
+            <strong>Myeongju Jeong:</strong> 
+            <a href="mailto:23011848@sju.ac.kr" class="text-primary-600 hover:text-primary-700 underline">23011848@sju.ac.kr</a>
+          </li>
+          <li>
+            <strong>Seoeun Bae:</strong> 
+            <a href="mailto:tjdms0212@naver.com" class="text-primary-600 hover:text-primary-700 underline">tjdms0212@naver.com</a>
+          </li>
+          <li>
+            <strong>Jihyang Ha:</strong> 
+            <a href="mailto:3312wlgid@naver.com" class="text-primary-600 hover:text-primary-700 underline">3312wlgid@naver.com</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <!-- Contact Form Section -->

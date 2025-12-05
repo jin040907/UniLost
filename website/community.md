@@ -139,6 +139,12 @@ description: Join the UniLost community - discussions, support, and collaboratio
       <div class="grid md:grid-cols-2 gap-6 mt-8">
         <div class="bg-white rounded-lg p-6 border border-slate-200 flex flex-col">
           <h3 class="text-xl font-bold text-slate-900 mb-3">Announcements</h3>
+          <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 mb-4">
+            <p class="text-sm text-slate-600">
+              <strong>Coming Soon:</strong> This mailing list is not yet ready. We're working on setting it up. 
+              Please use Google Groups or GitHub Discussions for now.
+            </p>
+          </div>
           <p class="text-slate-600 mb-4">
             Receive important updates about new releases, security updates, and major changes to UniLost.
           </p>
@@ -181,6 +187,12 @@ description: Join the UniLost community - discussions, support, and collaboratio
         
         <div class="bg-white rounded-lg p-6 border border-slate-200 flex flex-col">
           <h3 class="text-xl font-bold text-slate-900 mb-3">Support & Discussion</h3>
+          <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 mb-4">
+            <p class="text-sm text-slate-600">
+              <strong>Coming Soon:</strong> This mailing list is not yet ready. We're working on setting it up. 
+              Please use Google Groups or GitHub Discussions for now.
+            </p>
+          </div>
           <p class="text-slate-600 mb-4">
             Join discussions about usage, troubleshooting, and best practices.
           </p>
