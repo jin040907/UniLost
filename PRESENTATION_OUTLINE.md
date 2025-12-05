@@ -123,11 +123,10 @@
 
 ### 슬라이드 본문 내용 (영어)
 
-- [팀원 1 이름] - [역할/책임, 예: Frontend Development, UI/UX Design]
-- [팀원 2 이름] - [역할/책임, 예: Backend Development, Database Design]
-- [팀원 3 이름] - [역할/책임, 예: Full-stack Development, API Integration]
-- [팀원 4 이름] - [역할/책임, 예: Documentation, Testing]
-- [팀원 5 이름] - [역할/책임, 예: Deployment, DevOps]
+- **Jihyang Ha** - Project Management & Technical Leadership (Architecture design, final decisions, deployment strategy)
+- **Jin Choi** - Full-stack Development (Backend API, real-time chat system, map-based features, database design, testing)
+- **Myeongju Jeong** - Documentation & Project Management (README, Sphinx docs, Jekyll website, Git workflow, contribution guidelines)
+- **Seoeun Bae** - UI/UX Design & Branding (Logo design, responsive interface, user experience optimization, project identity)
 
 **Collaborative Approach:**
 - Agile development methodology
