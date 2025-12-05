@@ -420,7 +420,7 @@
 
 ### 슬라이드 제목 (영어)
 
-**Limitations & Future Enhancements**
+**Future Roadmap**
 
 ### 슬라이드 본문 내용 (영어)
 
