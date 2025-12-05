@@ -341,6 +341,18 @@
 - Open-source project (Apache License 2.0)
 - Scalable architecture (PostgreSQL/SQLite)
 
+**Limitations:**
+
+- Render free plan: Sleeps after 15 minutes of inactivity (slow first request)
+- SQLite data may be lost on cloud platforms (PostgreSQL recommended for production)
+- Internet Explorer 11 and below: Not supported
+- Offline mode: Not supported (requires server connection)
+- Image upload: Base64 encoding only (no direct file upload)
+- Email notifications: Not implemented
+- Advanced search: Limited to category filtering
+- Mobile app: Web-only (no native mobile applications)
+- Map bounds: Restricted to South Korea boundaries
+
 **Future Enhancements:**
 
 - Version 1.0.0 stable release
