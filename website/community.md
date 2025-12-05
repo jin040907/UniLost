@@ -162,27 +162,6 @@ description: Join the UniLost community - discussions, support, and collaboratio
               <span>Major feature announcements</span>
             </li>
           </ul>
-          <div class="bg-primary-50 rounded-lg p-4 border border-primary-200 mt-auto">
-            <p class="text-sm font-semibold text-slate-900 mb-3">Contact the Team:</p>
-            <ul class="space-y-2 text-sm text-slate-700">
-              <li>
-                <strong>Jin Choi:</strong> 
-                <a href="mailto:23011844@sju.ac.kr" class="text-primary-600 hover:text-primary-700 underline">23011844@sju.ac.kr</a>
-              </li>
-              <li>
-                <strong>Myeongju Jeong:</strong> 
-                <a href="mailto:23011848@sju.ac.kr" class="text-primary-600 hover:text-primary-700 underline">23011848@sju.ac.kr</a>
-              </li>
-              <li>
-                <strong>Seoeun Bae:</strong> 
-                <a href="mailto:tjdms0212@naver.com" class="text-primary-600 hover:text-primary-700 underline">tjdms0212@naver.com</a>
-              </li>
-              <li>
-                <strong>Jihyang Ha:</strong> 
-                <a href="mailto:3312wlgid@naver.com" class="text-primary-600 hover:text-primary-700 underline">3312wlgid@naver.com</a>
-              </li>
-            </ul>
-          </div>
         </div>
         
         <div class="bg-white rounded-lg p-6 border border-slate-200 flex flex-col">
@@ -210,27 +189,6 @@ description: Join the UniLost community - discussions, support, and collaboratio
               <span>Community discussions</span>
             </li>
           </ul>
-          <div class="bg-primary-50 rounded-lg p-4 border border-primary-200 mt-auto">
-            <p class="text-sm font-semibold text-slate-900 mb-3">Contact the Team:</p>
-            <ul class="space-y-2 text-sm text-slate-700">
-              <li>
-                <strong>Jin Choi:</strong> 
-                <a href="mailto:23011844@sju.ac.kr" class="text-primary-600 hover:text-primary-700 underline">23011844@sju.ac.kr</a>
-              </li>
-              <li>
-                <strong>Myeongju Jeong:</strong> 
-                <a href="mailto:23011848@sju.ac.kr" class="text-primary-600 hover:text-primary-700 underline">23011848@sju.ac.kr</a>
-              </li>
-              <li>
-                <strong>Seoeun Bae:</strong> 
-                <a href="mailto:tjdms0212@naver.com" class="text-primary-600 hover:text-primary-700 underline">tjdms0212@naver.com</a>
-              </li>
-              <li>
-                <strong>Jihyang Ha:</strong> 
-                <a href="mailto:3312wlgid@naver.com" class="text-primary-600 hover:text-primary-700 underline">3312wlgid@naver.com</a>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
