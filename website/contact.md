@@ -45,12 +45,12 @@ description: Get in touch with the UniLost team
           <span>General inquiries and support</span>
         </li>
       </ul>
-      <div class="flex flex-col gap-2">
-        <a href="https://groups.google.com/g/unilost" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors text-center">
+      <div class="flex flex-col gap-2 items-start">
+        <a href="https://groups.google.com/g/unilost" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors">
           Join Google Groups →
         </a>
-        <a href="mailto:unilost@googlegroups.com" class="text-center text-primary-600 hover:text-primary-700 font-semibold">
-          unilost@googlegroups.com
+        <a href="mailto:unilost@googlegroups.com" class="inline-block px-6 py-3 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors">
+          Email: unilost@googlegroups.com
         </a>
       </div>
     </div>
