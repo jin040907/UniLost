@@ -47,6 +47,14 @@ Live Demo
 
 > ⚠️ Render's free plan enters sleep mode after 15 minutes of inactivity. There may be a slight delay when accessing it for the first time.
 
+Contact & Community
+-------------------
+
+* **Google Group**: `unilost@googlegroups.com <mailto:unilost@googlegroups.com>`_ | `Join our mailing list <https://groups.google.com/g/unilost>`_
+* **GitHub Discussions**: https://github.com/jin040907/UniLost/discussions
+* **GitHub Issues**: https://github.com/jin040907/UniLost/issues
+* **Project Website**: https://jin040907.github.io/UniLost/
+
 License
 -------
 

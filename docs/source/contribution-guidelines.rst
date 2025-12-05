@@ -254,6 +254,8 @@ If you have questions about contributing:
 * Check existing documentation
 * Review existing issues and pull requests
 * Create a new issue with your question
+* Join our Google Group: `unilost@googlegroups.com <mailto:unilost@googlegroups.com>`_ or visit `https://groups.google.com/g/unilost <https://groups.google.com/g/unilost>`_
+* Join GitHub Discussions: https://github.com/jin040907/UniLost/discussions
 
 Thank you for contributing to UniLost!
 

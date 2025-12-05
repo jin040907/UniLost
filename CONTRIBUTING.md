@@ -26,7 +26,7 @@ This project is governed by the [UniLost Code of Conduct](https://github.com/jin
 
 By participating, you agree to uphold these rules.
 
-If you observe inappropriate behavior, please report it to: **unilost2025@gmail.com**
+If you observe inappropriate behavior, please report it to: **unilost2025@gmail.com** or **unilost@googlegroups.com**
 
 ---
 
@@ -62,7 +62,7 @@ A high-quality bug report includes:
 #### How Do I Submit a Good Bug Report?
 
 - Open a GitHub Issue
-- Do **not** report security issues publicly—email them to **unilost2025@gmail.com**
+- Do **not** report security issues publicly—email them to **unilost2025@gmail.com** or **unilost@googlegroups.com**
 - Provide reproducible steps so maintainers can validate the issue
 
 ---

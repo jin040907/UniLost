@@ -186,6 +186,14 @@ For deployment instructions, see the [Deployment Guide](https://unilost.readthed
 - Example: `postgresql://user:password@host:5432/database`
 - If not available, use SQLite for local development.
 
+## Contact & Community
+
+- **Google Group**: [Join our mailing list](https://groups.google.com/g/unilost) or email [unilost@googlegroups.com](mailto:unilost@googlegroups.com)
+- **GitHub Discussions**: [Join discussions](https://github.com/jin040907/UniLost/discussions)
+- **GitHub Issues**: [Report issues](https://github.com/jin040907/UniLost/issues)
+- **Project Website**: [Visit our website](https://jin040907.github.io/UniLost/)
+- **Documentation**: [Read the docs](https://unilost.readthedocs.io/)
+
 ## License
 
 Apache License 2.0
