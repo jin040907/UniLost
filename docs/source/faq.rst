@@ -237,6 +237,6 @@ If you have questions not covered in this FAQ:
 1. Check the documentation: :doc:`getting-started`, :doc:`how-to-use`, :doc:`technical-overview`
 2. Review existing GitHub issues
 3. Create a new GitHub issue with your question
-4. Join our Google Group: `unilost@googlegroups.com <mailto:unilost@googlegroups.com>`_ or visit `https://groups.google.com/g/unilost <https://groups.google.com/g/unilost>`_
+4. Join our Google Groups: `unilost@googlegroups.com <mailto:unilost@googlegroups.com>`_ or visit `https://groups.google.com/g/unilost <https://groups.google.com/g/unilost>`_
 5. Join GitHub Discussions: https://github.com/jin040907/UniLost/discussions
 

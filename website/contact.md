@@ -14,7 +14,7 @@ description: Get in touch with the UniLost team
 
   <!-- Contact Methods -->
   <div class="grid md:grid-cols-2 gap-8 mb-16">
-    <!-- Google Group -->
+    <!-- Google Groups -->
     <div class="bg-white rounded-xl shadow-lg p-8 border border-slate-200">
       <div class="flex items-center gap-4 mb-6">
         <svg class="w-12 h-12 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
@@ -24,12 +24,12 @@ description: Get in touch with the UniLost team
           <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
         </svg>
         <div>
-          <h2 class="text-2xl font-bold text-slate-900">Google Group</h2>
+          <h2 class="text-2xl font-bold text-slate-900">Google Groups</h2>
           <p class="text-slate-600">Join our mailing list</p>
         </div>
       </div>
       <p class="text-slate-700 mb-6 leading-relaxed">
-        Join our Google Group mailing list for community discussions, announcements, and general inquiries.
+        Join our Google Groups mailing list for community discussions, announcements, and general inquiries.
       </p>
       <ul class="space-y-2 text-slate-600 mb-6">
         <li class="flex items-start gap-2">
@@ -47,7 +47,7 @@ description: Get in touch with the UniLost team
       </ul>
       <div class="flex flex-col gap-2">
         <a href="https://groups.google.com/g/unilost" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors text-center">
-          Join Google Group →
+          Join Google Groups →
         </a>
         <a href="mailto:unilost@googlegroups.com" class="text-center text-primary-600 hover:text-primary-700 font-semibold">
           unilost@googlegroups.com

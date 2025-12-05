@@ -188,7 +188,7 @@ For deployment instructions, see the [Deployment Guide](https://unilost.readthed
 
 ## Contact & Community
 
-- **Google Group**: [Join our mailing list](https://groups.google.com/g/unilost) or email [unilost@googlegroups.com](mailto:unilost@googlegroups.com)
+- **Google Groups**: [Join our mailing list](https://groups.google.com/g/unilost) or email [unilost@googlegroups.com](mailto:unilost@googlegroups.com)
 - **GitHub Discussions**: [Join discussions](https://github.com/jin040907/UniLost/discussions)
 - **GitHub Issues**: [Report issues](https://github.com/jin040907/UniLost/issues)
 - **Project Website**: [Visit our website](https://jin040907.github.io/UniLost/)

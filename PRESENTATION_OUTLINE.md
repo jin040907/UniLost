@@ -469,7 +469,7 @@
 
 **Contact Information:**
 
-- Google Group: unilost@googlegroups.com / https://groups.google.com/g/unilost
+- Google Groups: unilost@googlegroups.com / https://groups.google.com/g/unilost
 - GitHub Repository: https://github.com/jin040907/UniLost
 - GitHub Discussions: https://github.com/jin040907/UniLost/discussions
 - Live Demo: https://unilost.onrender.com

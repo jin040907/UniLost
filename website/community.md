@@ -98,7 +98,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
         </div>
       </div>
       
-      <!-- Google Group -->
+      <!-- Google Groups -->
       <div class="bg-white rounded-lg p-6 border border-slate-200 mb-6">
         <h3 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
           <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
@@ -107,10 +107,10 @@ description: Join the UniLost community - discussions, support, and collaboratio
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
           </svg>
-          Google Group
+          Google Groups
         </h3>
         <p class="text-slate-600 mb-4">
-          Join our Google Group mailing list for community discussions, announcements, and support.
+          Join our Google Groups mailing list for community discussions, announcements, and support.
         </p>
         <ul class="space-y-2 text-slate-600 mb-4">
           <li class="flex items-start gap-2">
@@ -128,7 +128,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
         </ul>
         <div class="flex flex-col sm:flex-row gap-3">
           <a href="https://groups.google.com/g/unilost" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors text-center">
-            Join Google Group →
+            Join Google Groups →
           </a>
           <a href="mailto:unilost@googlegroups.com" class="inline-block px-6 py-3 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors text-center">
             Email: unilost@googlegroups.com

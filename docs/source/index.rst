@@ -50,7 +50,7 @@ Live Demo
 Contact & Community
 -------------------
 
-* **Google Group**: `unilost@googlegroups.com <mailto:unilost@googlegroups.com>`_ | `Join our mailing list <https://groups.google.com/g/unilost>`_
+* **Google Groups**: `unilost@googlegroups.com <mailto:unilost@googlegroups.com>`_ | `Join our mailing list <https://groups.google.com/g/unilost>`_
 * **GitHub Discussions**: https://github.com/jin040907/UniLost/discussions
 * **GitHub Issues**: https://github.com/jin040907/UniLost/issues
 * **Project Website**: https://jin040907.github.io/UniLost/
