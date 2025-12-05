@@ -459,7 +459,53 @@
 
 ---
 
-## 슬라이드 15: Q&A / 감사 인사 (30초)
+## 슬라이드 15: Key Takeaways (1분)
+
+### 슬라이드 제목 (영어)
+
+**Key Takeaways**
+
+### 슬라이드 본문 내용 (영어)
+
+**Technical Skills:**
+- Full-stack development (Node.js, Express.js, PostgreSQL/SQLite)
+- Real-time communication (Socket.IO)
+- Map integration (Leaflet.js, OpenStreetMap)
+- RESTful API design
+
+**Open Source Practices:**
+- Collaborative development and code review
+- Comprehensive documentation (Sphinx, Jekyll)
+- Community engagement and contribution guidelines
+- Deployment and CI/CD
+
+**Project Management:**
+- Agile development and team collaboration
+- User-centered design approach
+- Problem-solving and iterative improvement
+
+**Lessons Learned:**
+- Importance of clear documentation
+- Value of community feedback
+- Benefits of open-source collaboration
+
+### 시각적 자료
+
+- 핵심 포인트를 나타내는 아이콘 또는 다이어그램
+- 간결한 불릿 포인트 형식
+- 프로젝트 여정을 시각화한 타임라인 (선택사항)
+- 깔끔하고 읽기 쉬운 레이아웃
+
+### 발표 가이드
+
+- 프로젝트를 통해 얻은 주요 학습 내용 요약
+- 기술적 성장과 협업 경험 강조
+- 오픈소스 프로젝트의 가치와 의미 설명
+- 청중에게 영감을 주는 메시지 전달
+
+---
+
+## 슬라이드 16: Q&A / 감사 인사 (30초)
 
 ### 슬라이드 제목 (영어)
 
