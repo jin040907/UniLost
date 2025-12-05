@@ -189,7 +189,7 @@ Frontend Technologies
 Database Technologies
 ~~~~~~~~~~~~~~~~~~~~~
 
-* **PostgreSQL**: Production database (distributed)
+* **PostgreSQL**: Production database
 * **SQLite**: Development database (file-based)
 
 Security Features

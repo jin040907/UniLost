@@ -1,6 +1,6 @@
 {
   "name": "unilost",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "description": "Integrated Lost and Found Management System - Map-based item registration/search and real-time chat features",
   "main": "server.js",
   "scripts": {

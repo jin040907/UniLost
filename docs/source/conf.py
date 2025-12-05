@@ -9,7 +9,7 @@
 project = 'UniLost'
 copyright = '2025, Sejong University Open Source Software Introduction Project'
 author = 'Sejong University Open Source Software Introduction Project'
-release = '1.0.0'
+release = '0.9.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

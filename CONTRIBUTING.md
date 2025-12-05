@@ -99,7 +99,7 @@ Enhancements are also tracked via Issues.
 git clone https://github.com/jin040907/UniLost.git
 cd UniLost
 npm install
-npm run dev
+npm start
 ```
 
 #### Development Workflow

@@ -27,7 +27,7 @@ Key Features
 * 💬 **Real-time Chat**: Socket.IO-based global chat and item-specific threaded chat
 * 👤 **User Authentication**: Session-based login/logout system
 * 🔐 **Administrator Functions**: Lost and found approval/rejection, storage location management
-* 💾 **Permanent Data Storage**: Data preservation via PostgreSQL (distributed) / SQLite (local development) database
+* 💾 **Permanent Data Storage**: Data preservation via PostgreSQL (production) / SQLite (local development) database
 * 📱 **Responsive Design**: Supports both mobile and desktop
 
 Quick Start
