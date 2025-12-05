@@ -387,15 +387,13 @@
 
 ---
 
-## 슬라이드 13: 결과 및 영향 (1분)
+## 슬라이드 13: Current Status (30초)
 
 ### 슬라이드 제목 (영어)
 
-**Project Results**
+**Current Status (v0.9.0)**
 
 ### 슬라이드 본문 내용 (영어)
-
-**Current Status (v0.9.0):**
 
 - Fully functional web application
 - Deployed and accessible online (Render, GitHub Pages)
@@ -403,6 +401,28 @@
 - Active community (GitHub Discussions)
 - Open-source project (Apache License 2.0)
 - Scalable architecture (PostgreSQL/SQLite)
+
+### 시각적 자료
+
+- 배포 상태를 보여주는 스크린샷
+- 통계 또는 지표 (있는 경우)
+- 프로젝트 성과를 나타내는 아이콘
+
+### 발표 가이드
+
+- 현재 버전 (v0.9.0) 달성 내용 요약
+- 배포 상태 및 접근성 강조
+- 커뮤니티 활성화 상태 언급
+
+---
+
+## 슬라이드 14: Limitations & Future Enhancements (1분)
+
+### 슬라이드 제목 (영어)
+
+**Limitations & Future Enhancements**
+
+### 슬라이드 본문 내용 (영어)
 
 **Limitations:**
 
@@ -426,20 +446,20 @@
 
 ### 시각적 자료
 
-- 통계 또는 지표 (있는 경우)
-- Before/After 비교
+- 좌우 또는 상하 분할 레이아웃
+- 제한사항과 향후 계획을 대비하여 표시
 - 향후 로드맵 다이어그램 (선택사항)
 
 ### 발표 가이드
 
-- 현재 버전 (v0.9.0) 달성 내용 요약
-- 배포 상태 및 접근성 강조
-- 커뮤니티 활성화 상태 언급
-- 잠재적 영향 및 향후 로드맵 논의
+- 현재 시스템의 제약사항을 솔직하게 설명
+- 각 제한사항에 대한 간단한 설명
+- 향후 개발 계획과 비전 제시
+- 오픈소스 커뮤니티의 기여 기회 언급
 
 ---
 
-## 슬라이드 14: Q&A / 감사 인사 (30초)
+## 슬라이드 15: Q&A / 감사 인사 (30초)
 
 ### 슬라이드 제목 (영어)
 
