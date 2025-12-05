@@ -75,37 +75,6 @@ node server.js
 
 Once the server is running, you can access it at `http://localhost:3000`.
 
-### Testing
-
-UniLost includes comprehensive unit and integration tests using Jest.
-
-**Run all tests:**
-```bash
-npm test
-```
-
-**Run tests in watch mode:**
-```bash
-npm run test:watch
-```
-
-**Run tests with coverage report:**
-```bash
-npm run test:coverage
-```
-
-**Run only unit tests:**
-```bash
-npm run test:unit
-```
-
-**Run only integration tests:**
-```bash
-npm run test:integration
-```
-
-Tests are automatically run on every push and pull request via GitHub Actions CI/CD pipeline.
-
 ### Default Accounts
 
 - **Student Accounts**: `student1` ~ `student10` / `1234`
@@ -120,8 +89,7 @@ Tests are automatically run on every push and pull request via GitHub Actions CI
 │   │   ├── bug_report.md
 │   │   └── feature_request.md
 │   └── workflows/               # GitHub Actions workflows
-│       ├── pages.yml            # GitHub Pages deployment
-│       └── test.yml             # Test automation (CI/CD)
+│       └── pages.yml            # GitHub Pages deployment
 │
 ├── app/                          # Application source code
 │   ├── server.js                 # Express server main file
@@ -173,13 +141,6 @@ Tests are automatically run on every push and pull request via GitHub Actions CI
 │   ├── DEPLOY.md
 │   ├── PROJECT_STRUCTURE.md
 │   └── UniLost_Deliverable.docx
-│
-├── tests/                        # Test suite
-│   ├── unit/                     # Unit tests
-│   │   └── db.test.js           # Database module tests
-│   ├── integration/              # Integration tests
-│   │   └── api.test.js          # API endpoint tests
-│   └── README.md                 # Test documentation
 │
 ├── server.js                     # Entry point (runs app/server.js)
 ├── package.json                  # Node.js dependencies

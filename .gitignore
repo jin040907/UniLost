@@ -33,11 +33,6 @@ Thumbs.db
 # Test files
 test.html
 
-# Test coverage
-coverage/
-.nyc_output/
-*.lcov
-
 # Documentation (Word files - uncomment if needed)
 # *.docx
 
