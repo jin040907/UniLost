@@ -4,7 +4,11 @@
   "description": "Integrated Lost and Found Management System - Map-based item registration/search and real-time chat features",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest tests/unit",
+    "test:integration": "jest tests/integration",
     "start": "node server.js"
   },
   "keywords": [],
@@ -21,5 +25,28 @@
     "express-session": "^1.18.2",
     "pg": "^8.16.3",
     "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/tests/",
+      "/docs/",
+      "/website/",
+      "/scripts/"
+    ],
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "app/**/*.js",
+      "server.js",
+      "!**/node_modules/**",
+      "!**/tests/**"
+    ]
   }
 }
