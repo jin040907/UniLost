@@ -126,7 +126,7 @@ description: Join the UniLost community - discussions, support, and collaboratio
             <span>Technical support and troubleshooting</span>
           </li>
         </ul>
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2 items-start">
           <a href="https://groups.google.com/g/unilost" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors">
             Join Google Groups →
           </a>
