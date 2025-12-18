@@ -153,8 +153,7 @@ Once the server is running, you can access it at `http://localhost:3000`.
 ├── README.md                     # Project documentation
 ├── SECURITY.md                   # Security policy
 ├── CODE_OF_CONDUCT.md            # Code of conduct
-├── CONTRIBUTING.md               # Contribution guidelines
-└── PRESENTATION_OUTLINE.md       # Presentation guide
+└── CONTRIBUTING.md               # Contribution guidelines 
 ```
 
 ## API Endpoints
